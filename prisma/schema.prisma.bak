@@ -1,0 +1,276 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  phone         String?
+  address       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Subscription information
+  subscriptionType   SubscriptionType @default(FREE_TRIAL)
+  subscriptionStart  DateTime?
+  subscriptionEnd    DateTime?
+  isActive          Boolean          @default(true)
+  
+  accounts          Account[]
+  sessions          Session[]
+  appeals           Appeal[]
+  hpiChecks         HPICheck[]
+  payments          Payment[]
+  vehicles          Vehicle[]
+  apiAnalytics      ApiAnalytics[]
+  systemErrors      SystemErrors[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Vehicle {
+  id            String   @id @default(cuid())
+  userId        String
+  registration  String
+  make          String?
+  model         String?
+  year          Int?
+  color         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appeals       Appeal[]
+  hpiChecks     HPICheck[]
+  
+  @@unique([userId, registration])
+}
+
+model Appeal {
+  id                String      @id @default(cuid())
+  userId            String
+  vehicleId         String?
+  ticketNumber      String
+  fineAmount        Float
+  issueDate         DateTime
+  dueDate           DateTime
+  location          String
+  reason            String
+  description       String
+  evidence          String?    // JSON string of file URLs/paths
+  te7Form           String?    // JSON string of TE7 witness statement data
+  te9Form           String?    // JSON string of TE9 statutory declaration data
+  selectedForms     String?    // JSON string array of selected form types
+  status            AppealStatus @default(SUBMITTED)
+  submissionDate    DateTime    @default(now())
+  responseDate      DateTime?
+  outcome           String?
+  outcomeReason     String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicle           Vehicle?    @relation(fields: [vehicleId], references: [id])
+}
+
+model HPICheck {
+  id            String      @id @default(cuid())
+  userId        String
+  vehicleId     String?
+  registration  String
+  status        HPIStatus   @default(PENDING)
+  requestDate   DateTime    @default(now())
+  completedDate DateTime?
+  results       Json?       // Store HPI check results as JSON
+  cost          Float       @default(5.00)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicle       Vehicle?    @relation(fields: [vehicleId], references: [id])
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  userId            String
+  stripePaymentId   String?       @unique
+  amount            Float
+  currency          String        @default("GBP")
+  status            PaymentStatus @default(PENDING)
+  type              PaymentType
+  description       String
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum SubscriptionType {
+  FREE_TRIAL
+  SINGLE_APPEAL
+  ANNUAL_PLAN
+}
+
+enum AppealStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ADDITIONAL_INFO_REQUIRED
+  APPROVED
+  REJECTED
+  WITHDRAWN
+}
+
+enum HPIStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentType {
+  SINGLE_APPEAL
+  ANNUAL_SUBSCRIPTION
+  HPI_CHECK
+}
+
+// Analytics and Monitoring Models
+model EmailLog {
+  id            String      @id @default(cuid())
+  submissionId  String?     // Reference to appeal ID or submission
+  recipient     String
+  subject       String
+  status        EmailStatus @default(SENT)
+  provider      String?     // SMTP provider used
+  errorMessage  String?
+  retryCount    Int         @default(0)
+  deliveredAt   DateTime?
+  openedAt      DateTime?
+  bouncedAt     DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  @@index([submissionId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ApiAnalytics {
+  id            String      @id @default(cuid())
+  endpoint      String
+  method        String
+  statusCode    Int
+  responseTime  Int         // in milliseconds
+  userAgent     String?
+  ipAddress     String?
+  userId        String?
+  errorMessage  String?
+  timestamp     DateTime    @default(now())
+  
+  user          User?       @relation(fields: [userId], references: [id])
+  
+  @@index([endpoint])
+  @@index([timestamp])
+  @@index([statusCode])
+}
+
+model PerformanceMetrics {
+  id            String      @id @default(cuid())
+  metric        String      // 'response_time', 'memory_usage', 'cpu_usage', etc.
+  value         Float
+  unit          String      // 'ms', 'mb', 'percent', etc.
+  endpoint      String?
+  timestamp     DateTime    @default(now())
+  
+  @@index([metric])
+  @@index([timestamp])
+}
+
+model SystemErrors {
+  id            String      @id @default(cuid())
+  errorType     String      // 'API_ERROR', 'EMAIL_ERROR', 'PDF_ERROR', etc.
+  message       String
+  stack         String?
+  endpoint      String?
+  userId        String?
+  severity      ErrorSeverity @default(LOW)
+  resolved      Boolean     @default(false)
+  timestamp     DateTime    @default(now())
+  
+  user          User?       @relation(fields: [userId], references: [id])
+  
+  @@index([errorType])
+  @@index([severity])
+  @@index([timestamp])
+  @@index([resolved])
+}
+
+enum EmailStatus {
+  SENT
+  DELIVERED
+  OPENED
+  BOUNCED
+  FAILED
+  QUEUED
+}
+
+enum ErrorSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
