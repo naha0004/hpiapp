@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## ClearRideAI - Running Backend Services
 
 ### Web App (Next.js)
@@ -25,3 +26,6 @@ Set `PYTHON_SERVICE_URL=http://localhost:8000` in your `.env.local` for the web 
 - Payments: amounts are enforced server-side.
 - Webhook: idempotency recommended (store Stripe event IDs).
 - Security headers are set via Next config; HSTS only in production.
+=======
+# hpiapp
+>>>>>>> f1272c75b4ccce64c82222779688ac5a906f6ad1
