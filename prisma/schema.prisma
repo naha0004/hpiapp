@@ -127,6 +127,17 @@ model Appeal {
   responseDate      DateTime?
   outcome           String?
   outcomeReason     String?
+  
+  // AI and Outcome Tracking
+  aiGenerated       Boolean     @default(false)
+  aiGeneratedAt     DateTime?
+  userReportedOutcome String?   // "successful", "unsuccessful", "pending"
+  userReportedAt    DateTime?
+  outcomeNotes      String?     // User's notes about the outcome
+  accuracyScore     Float?      // Admin-assigned accuracy score
+  reviewedByAdmin   Boolean     @default(false)
+  adminNotes        String?     // Admin notes about the case
+  
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   

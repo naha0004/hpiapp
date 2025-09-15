@@ -2,14 +2,54 @@ import { NextRequest, NextResponse } from "next/server"
 import { spawn } from "child_process"
 import path from "path"
 import fs from "fs"
+import { PDFService } from '@/lib/pdf-service'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { formType, formData } = body
     
-    // Handle new form structure
+    // Handle new form structure with direct PDF generation
     if (formType && formData) {
+      // Handle new PDF form types (PE2, PE3, N244) directly with PDFService
+      if (['PE2', 'PE3', 'N244'].includes(formType.toUpperCase())) {
+        let pdfBytes: Uint8Array;
+        
+        switch (formType.toUpperCase()) {
+          case 'PE2':
+            pdfBytes = await PDFService.fillPE2Form(formData);
+            break;
+          case 'PE3':
+            pdfBytes = await PDFService.fillPE3Form(formData);
+            break;
+          case 'N244':
+            pdfBytes = await PDFService.fillN244Form(formData);
+            break;
+          default:
+            throw new Error(`Unsupported form type: ${formType}`);
+        }
+        
+        const response = new NextResponse(pdfBytes);
+        response.headers.set('Content-Type', 'application/pdf');
+        response.headers.set('Content-Disposition', `attachment; filename="${formType.toUpperCase()}_Form_${Date.now()}.pdf"`);
+        return response;
+      }
+      
+      // Handle TE7/TE9 forms with existing logic
+      if (['TE7', 'TE9'].includes(formType.toUpperCase())) {
+        let pdfBytes: Uint8Array;
+        
+        if (formType.toUpperCase() === 'TE7') {
+          pdfBytes = await PDFService.fillTE7Form(formData);
+        } else {
+          pdfBytes = await PDFService.fillTE9Form(formData);
+        }
+        
+        const response = new NextResponse(pdfBytes);
+        response.headers.set('Content-Type', 'application/pdf');
+        response.headers.set('Content-Disposition', `attachment; filename="${formType.toUpperCase()}_Form_${Date.now()}.pdf"`);
+        return response;
+      }
       // Convert new form structure to expected format
       const userData = {
         form_type: formType.toLowerCase(),

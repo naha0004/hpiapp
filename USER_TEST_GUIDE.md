@@ -2,12 +2,17 @@
 
 This guide provides test credentials and sample data for regular users to test all main features of the HPI application.
 
-## **🔑 Regular User Test Credentials**
+## **🔑 Test User Credentials**
 
-For testing user features (non-admin):
-
+### **Regular User (Non-Admin)**
 **Email:** `user@test.com`  
 **Password:** `user123`
+**Status:** ✅ **ACTIVE** - User created and ready for testing
+
+### **Admin User**
+**Email:** `test@admin.com`  
+**Password:** `admin123`
+**Status:** ✅ **ACTIVE** - Admin user created and ready for testing
 
 ## **🚗 Test Vehicle Registrations for HPI Checks**
 

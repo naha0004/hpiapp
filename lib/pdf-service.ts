@@ -1,7 +1,7 @@
 import { PDFDocument, PDFForm, PDFTextField, PDFCheckBox, PDFDropdown, PDFImage, rgb } from 'pdf-lib';
 import fs from 'fs';
 import path from 'path';
-import { TE7Data, TE9Data } from '@/types/appeal';
+import { TE7Data, TE9Data, PE2Data, PE3Data, N244Data } from '@/types/appeal';
 
 export class PDFService {
   private static async loadPDFTemplate(templateName: string): Promise<Uint8Array> {
@@ -431,6 +431,163 @@ export class PDFService {
     } catch (error) {
       console.error('Error generating predictor report PDF:', error);
       throw new Error('Failed to generate appeal analysis PDF');
+    }
+  }
+
+  /**
+   * Fill PE2 form (Application for Permission to Appeal)
+   */
+  static async fillPE2Form(data: PE2Data): Promise<Uint8Array> {
+    try {
+      const existingPdfBytes = await this.loadPDFTemplate('pe2.pdf');
+      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      const form = pdfDoc.getForm();
+
+      // Case details
+      this.setFormField(form, 'Case Number', data.caseNumber);
+      this.setFormField(form, 'Court', data.courtName);
+      
+      // Applicant details
+      this.setFormField(form, 'Name of Applicant', data.applicantName);
+      this.setFormField(form, 'Address', data.applicantAddress);
+      this.setFormField(form, 'Postcode', data.applicantPostcode);
+      this.setFormField(form, 'Telephone', data.applicantPhone || '');
+      this.setFormField(form, 'Email', data.applicantEmail || '');
+      
+      // Appeal details
+      this.setFormField(form, 'Date of decision appealed against', data.originalDecisionDate);
+      this.setFormField(form, 'Decision being appealed', data.decisionBeingAppealed);
+      this.setFormField(form, 'Grounds for appeal', data.groundsForAppeal);
+      this.setFormField(form, 'Evidence attached', data.evidenceAttached || '');
+      
+      // Legal representation
+      this.setCheckboxField(form, 'Has legal representation', data.hasLegalRepresentation);
+      if (data.hasLegalRepresentation) {
+        this.setFormField(form, 'Solicitor name', data.solicitorName || '');
+        this.setFormField(form, 'Solicitor address', data.solicitorAddress || '');
+      }
+      
+      // Date and signature
+      this.setFormField(form, 'Date signed', data.signatureDate || new Date().toLocaleDateString('en-GB'));
+      
+      // Embed signature if provided
+      if (data.applicantSignature) {
+        await this.embedSignatureImage(pdfDoc, data.applicantSignature, 'PE2_applicant_signature');
+      }
+
+      return await pdfDoc.save();
+    } catch (error) {
+      console.error('Error filling PE2 form:', error);
+      throw new Error('Failed to fill PE2 form');
+    }
+  }
+
+  /**
+   * Fill PE3 form (Appellant's Notice)
+   */
+  static async fillPE3Form(data: PE3Data): Promise<Uint8Array> {
+    try {
+      const existingPdfBytes = await this.loadPDFTemplate('PE3.pdf');
+      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      const form = pdfDoc.getForm();
+
+      // Case details
+      this.setFormField(form, 'Case Number', data.caseNumber);
+      this.setFormField(form, 'Court', data.courtName);
+      this.setFormField(form, 'Original court', data.originalCourtName);
+      
+      // Appellant details
+      this.setFormField(form, 'Name of Appellant', data.appellantName);
+      this.setFormField(form, 'Address', data.appellantAddress);
+      this.setFormField(form, 'Postcode', data.appellantPostcode);
+      this.setFormField(form, 'Telephone', data.appellantPhone || '');
+      this.setFormField(form, 'Email', data.appellantEmail || '');
+      
+      // Respondent details
+      this.setFormField(form, 'Name of Respondent', data.respondentName);
+      this.setFormField(form, 'Respondent address', data.respondentAddress || '');
+      
+      // Appeal details
+      this.setFormField(form, 'Date of decision', data.dateOfDecision);
+      this.setFormField(form, 'Decision appealed against', data.decisionAppealed);
+      this.setFormField(form, 'Order sought', data.orderSought);
+      this.setFormField(form, 'Grounds of appeal', data.groundsOfAppeal);
+      
+      // Time extension
+      this.setCheckboxField(form, 'Time extension sought', data.timeExtensionSought || false);
+      if (data.timeExtensionSought) {
+        this.setFormField(form, 'Reason for delay', data.reasonForDelay || '');
+      }
+      
+      // Evidence and documents
+      this.setCheckboxField(form, 'Evidence filed separately', data.evidenceFiledSeparately);
+      this.setCheckboxField(form, 'Skeleton argument filed', data.skeletonArgumentFiled);
+      
+      // Date and signature
+      this.setFormField(form, 'Date signed', data.signatureDate || new Date().toLocaleDateString('en-GB'));
+      
+      // Embed signature if provided
+      if (data.appellantSignature) {
+        await this.embedSignatureImage(pdfDoc, data.appellantSignature, 'PE3_appellant_signature');
+      }
+
+      return await pdfDoc.save();
+    } catch (error) {
+      console.error('Error filling PE3 form:', error);
+      throw new Error('Failed to fill PE3 form');
+    }
+  }
+
+  /**
+   * Fill N244 form (Application Notice)
+   */
+  static async fillN244Form(data: N244Data): Promise<Uint8Array> {
+    try {
+      const existingPdfBytes = await this.loadPDFTemplate('n244.pdf');
+      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      const form = pdfDoc.getForm();
+
+      // Case details
+      this.setFormField(form, 'Case Number', data.caseNumber);
+      this.setFormField(form, 'Court', data.courtName);
+      
+      // Applicant details
+      this.setFormField(form, 'Name of Applicant', data.applicantName);
+      this.setFormField(form, 'Capacity', data.applicantCapacity);
+      this.setFormField(form, 'Address', data.applicantAddress);
+      this.setFormField(form, 'Postcode', data.applicantPostcode);
+      this.setFormField(form, 'Telephone', data.applicantPhone || '');
+      this.setFormField(form, 'Email', data.applicantEmail || '');
+      
+      // Application details
+      this.setFormField(form, 'Order sought', data.orderSought);
+      this.setFormField(form, 'Reason for application', data.reasonForApplication);
+      this.setFormField(form, 'Evidence in support', data.evidenceSupport);
+      
+      // Hearing details
+      this.setCheckboxField(form, 'Hearing required', data.hearingRequired);
+      if (data.hearingRequired) {
+        this.setFormField(form, 'Estimated hearing time', data.estimatedHearingTime || '');
+        this.setFormField(form, 'Reasons for hearing', data.reasonsForHearing || '');
+      }
+      
+      // Service details
+      this.setFormField(form, 'Service required on', data.serviceRequiredOn.join(', '));
+      this.setFormField(form, 'Proposed service method', data.proposedServiceMethod);
+      
+      // Fee and signature
+      this.setFormField(form, 'Fee required', data.feeRequired);
+      this.setFormField(form, 'Date signed', data.signatureDate || new Date().toLocaleDateString('en-GB'));
+      
+      // Embed signature if provided
+      if (data.applicantSignature) {
+        await this.embedSignatureImage(pdfDoc, data.applicantSignature, 'N244_applicant_signature');
+      }
+
+      return await pdfDoc.save();
+    } catch (error) {
+      console.error('Error filling N244 form:', error);
+      throw new Error('Failed to fill N244 form');
     }
   }
 

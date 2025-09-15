@@ -1,9 +1,9 @@
 "use client"
 
-import { Home, Car, FileText, Search, Bell, Settings, LogOut, Shield, Scale } from "lucide-react"
+import { Home, Car, FileText, Search, Bell, Settings, LogOut, Shield, Scale, BarChart3, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -42,6 +42,17 @@ const menuItems = [
   },
 ]
 
+// Admin-only menu items
+const adminMenuItems = [
+  {
+    title: "Admin Analytics",
+    icon: Users,
+    url: "/admin/analytics",
+    id: "admin-analytics",
+    adminOnly: true,
+  },
+]
+
 interface AppSidebarProps {
   activeSection: string
   setActiveSection: (section: string) => void
@@ -50,6 +61,19 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ activeSection, setActiveSection, isOpen, onClose }: AppSidebarProps) {
+  const { data: session } = useSession();
+  const isAdmin = session?.user?.email === 'admin@example.com'; // Simple admin check
+
+  const handleNavigation = (item: any) => {
+    if (item.url) {
+      // External navigation
+      window.location.href = item.url;
+    } else {
+      // Internal section change
+      setActiveSection(item.id);
+    }
+  };
+
   return (
     <aside
       className={cn(
@@ -81,7 +105,7 @@ export function AppSidebar({ activeSection, setActiveSection, isOpen, onClose }:
                   "w-full justify-start",
                   item.highlight && "bg-blue-50 text-blue-700 hover:bg-blue-100 border border-blue-200"
                 )}
-                onClick={() => setActiveSection(item.id)}
+                onClick={() => handleNavigation(item)}
               >
                 <item.icon className="h-4 w-4 mr-2" />
                 {item.title}
@@ -92,6 +116,26 @@ export function AppSidebar({ activeSection, setActiveSection, isOpen, onClose }:
                 )}
               </Button>
             ))}
+            
+            {/* Admin-only section */}
+            {isAdmin && (
+              <>
+                <div className="my-4 border-t pt-4">
+                  <p className="text-xs text-muted-foreground mb-2 px-2">Admin</p>
+                  {adminMenuItems.map((item) => (
+                    <Button
+                      key={item.id}
+                      variant={activeSection === item.id ? "secondary" : "ghost"}
+                      className="w-full justify-start"
+                      onClick={() => handleNavigation(item)}
+                    >
+                      <item.icon className="h-4 w-4 mr-2" />
+                      {item.title}
+                    </Button>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </nav>
 

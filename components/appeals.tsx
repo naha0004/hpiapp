@@ -5,9 +5,11 @@ import { useSession } from "next-auth/react"
 import { toast } from "sonner"
 import { api, handleApiError } from "@/lib/api"
 import { UKTrafficLawAssistant } from "@/lib/uk-traffic-law-assistant"
+import { AIAppealGenerator } from "@/lib/ai-appeal-generator"
 import { detectTicketType, validateTicketNumber, validateTicketNumberForType, getAppealGuidance, TICKET_TYPES } from "@/lib/ticket-types"
 import { Button } from "@/components/ui/button"
-import { TE7SignatureForm, TE9SignatureForm, useSignature } from "@/components/signature-canvas"
+import { TE7SignatureForm, TE9SignatureForm, PE2SignatureForm, PE3SignatureForm, N244SignatureForm, useSignature } from "@/components/signature-canvas"
+import { PE2Data, PE3Data, N244Data } from "@/types/appeal"
 
 interface Message {
   id: number
@@ -42,7 +44,7 @@ const initialMessages: Message[] = [
   {
     id: 1,
     type: "bot",
-    content: "🏛️ **Welcome to ClearRideAI Traffic Appeals Assistant!**\n\nI'm your expert AI companion for challenging ALL types of UK traffic penalties using comprehensive UK legal framework integration including:\n\n📋 **Legal Framework Coverage:**\n• Civil Enforcement Regulations 2022\n• Traffic Management Act 2004\n• Traffic Signs Regulations (TSRGD) 2016\n• Road Traffic Acts 1988\n• Key case law (Moses v Barnet, Herron v Sunderland)\n\n⏰ **Deadline Awareness:**\n• 14 days PCN discount period\n• 28 days formal representations\n• 28 days tribunal appeals\n\n🎯 **What Type of Ticket Are You Appealing?**\n\nPlease select your penalty type by clicking one of the buttons below:",
+    content: "🏛️ **Welcome to ClearRideAI Traffic Appeals Assistant!**\n\nI'm your expert AI companion for challenging ALL types of UK traffic penalties using comprehensive UK legal framework integration including:\n\n📋 **Legal Framework Coverage:**\n• Civil Enforcement Regulations 2022\n• Traffic Management Act 2004\n• Traffic Signs Regulations (TSRGD) 2016\n• Road Traffic Acts 1988\n• Key case law (Moses v Barnet, Herron v Sunderland)\n\n⏰ **Deadline Awareness:**\n• 14 days PCN discount period\n• 28 days formal representations\n• 28 days tribunal appeals\n\n📋 **Court Forms Available:**\n• **TE7** - Request more time for court challenges\n• **TE9** - Witness statements for penalty charges\n• **PE2** - Application for permission to appeal\n• **PE3** - Appellant's notice for appeals\n• **N244** - General application notice\n\n🎯 **What Type of Ticket Are You Appealing?**\n\nPlease select your penalty type by clicking one of the buttons below, or simply tell me what form you need:",
     timestamp: new Date(),
   },
 ]
@@ -53,14 +55,24 @@ export function Appeals() {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [appealData, setAppealData] = useState<Partial<AppealData>>({})
-  const [appealStep, setAppealStep] = useState<"ticket_type_selection" | "ticket" | "vehicle_registration" | "amount" | "issue_date" | "due_date" | "location" | "reason" | "description" | "complete" | "te7_details" | "te7_reason" | "te7_signature" | "te7_complete" | "te9_details" | "te9_ground" | "te9_signature" | "te9_complete">("ticket_type_selection")
+  const [appealStep, setAppealStep] = useState<"ticket_type_selection" | "ticket" | "vehicle_registration" | "amount" | "issue_date" | "due_date" | "location" | "reason" | "description" | "complete" | "te7_details" | "te7_reason" | "te7_signature" | "te7_complete" | "te9_details" | "te9_ground" | "te9_signature" | "te9_complete" | "pe2_details" | "pe2_appeal" | "pe2_signature" | "pe2_complete" | "pe3_details" | "pe3_appeal" | "pe3_signature" | "pe3_complete" | "n244_details" | "n244_application" | "n244_signature" | "n244_complete">("ticket_type_selection")
   const [isCreatingAppeal, setIsCreatingAppeal] = useState(false)
   
   // Signature functionality
   const { signatures, addSignature, hasSignature, getSignature } = useSignature()
   const [te7Signatures, setTE7Signatures] = useState<{ applicant?: string; witness?: string }>({})
   const [te9Signatures, setTE9Signatures] = useState<{ declarant?: string; witness?: string }>({})
+  const [pe2Signatures, setPE2Signatures] = useState<{ applicant?: string }>({})
+  const [pe3Signatures, setPE3Signatures] = useState<{ appellant?: string }>({})
+  const [n244Signatures, setN244Signatures] = useState<{ applicant?: string }>({})
   
+  // Form data states
+  const [pe2Data, setPE2Data] = useState<Partial<PE2Data>>({})
+  const [pe3Data, setPE3Data] = useState<Partial<PE3Data>>({})
+  const [n244Data, setN244Data] = useState<Partial<N244Data>>({})
+  const [te7Data, setTE7Data] = useState<any>({})
+  const [te9Data, setTE9Data] = useState<any>({})
+
   const generateFilledTE7Form = (data: any): string => {
     const today = new Date().toLocaleDateString('en-GB')
     
@@ -258,6 +270,51 @@ Vehicle: ${data.vehicleRegistration}`,
     }
   }
 
+  // AI Appeal Generation
+  const generateAIAppeal = async (appealCaseData: any) => {
+    try {
+      setIsLoading(true)
+      
+      const response = await fetch('/api/ai/generate-appeal', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          appealData: {
+            reason: appealCaseData.reason,
+            ticketNumber: appealCaseData.ticketNumber,
+            issueDate: appealCaseData.issueDate,
+            location: appealCaseData.location,
+            vehicleRegistration: appealCaseData.vehicleRegistration,
+            description: appealCaseData.description,
+            evidence: appealCaseData.evidence || []
+          }
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate AI appeal')
+      }
+
+      const result = await response.json()
+      
+      if (result.success) {
+        toast.success('🤖 Unique AI appeal generated successfully!')
+        return result.appeal
+      } else {
+        throw new Error(result.error || 'Failed to generate appeal')
+      }
+    } catch (error) {
+      console.error('AI Appeal Generation Error:', error)
+      toast.error('❌ Failed to generate AI appeal. Using standard template.')
+      // Fallback to standard generation
+      return UKTrafficLawAssistant.generateAppealLetter(appealCaseData)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   // PDF download functions for appeal letters
   const downloadAppealLetterPDF = async (appealData: AppealData) => {
     if (!appealData.ticketNumber) {
@@ -279,7 +336,8 @@ Vehicle: ${data.vehicleRegistration}`,
         evidence: appealData.evidence || []
       }
 
-      const appealLetter = UKTrafficLawAssistant.generateAppealLetter(appealCase)
+      // Generate AI-powered appeal letter (unique for each user/case)
+      const appealLetter = await generateAIAppeal(appealCase)
 
       // Prepare case details for PDF
       const caseDetails = {
@@ -413,6 +471,55 @@ Vehicle: ${data.vehicleRegistration}`,
     setMessages(prev => [...prev, botMessage])
   }
 
+  const handlePE2SignatureComplete = (signatures: { applicant?: string }) => {
+    setPE2Signatures(signatures)
+    // Store signature for later PDF generation
+    setPE2Data(prev => ({ ...prev, applicantSignature: signatures.applicant }))
+    
+    setAppealStep("pe2_complete")
+    
+    const botMessage: Message = {
+      id: messages.length + 1,
+      type: "bot",
+      content: `🎉 **Perfect! Your PE2 Application for Permission to Appeal is Complete!**\n\n✅ **What I've Done for You:**\n• ✍️ Captured your digital signature\n• 📄 Embedded signature into your PE2 PDF\n• 🏛️ Prepared form for court submission\n• 📋 Generated professional legal document\n\n🚀 **Your PE2 Application is Ready!**\n\n**Next Steps:**\n1. **📥 Download** your signed PE2 PDF below\n2. **✉️ Submit** to the original court that made the decision\n3. **📁 Keep** copies for your records\n4. **⏰ Await** the court's decision on permission\n\n📍 **Submit to the court that made the original decision**\n\n💡 **Important:** You must submit within the time limit specified in the court rules (usually 21 days from the decision).`,
+      timestamp: new Date(),
+    }
+    setMessages(prev => [...prev, botMessage])
+  }
+
+  const handlePE3SignatureComplete = (signatures: { appellant?: string }) => {
+    setPE3Signatures(signatures)
+    // Store signature for later PDF generation
+    setPE3Data(prev => ({ ...prev, appellantSignature: signatures.appellant }))
+    
+    setAppealStep("pe3_complete")
+    
+    const botMessage: Message = {
+      id: messages.length + 1,
+      type: "bot",
+      content: `🎉 **Excellent! Your PE3 Appellant's Notice is Complete!**\n\n✅ **What I've Done for You:**\n• ✍️ Captured your digital signature\n• 📄 Embedded signature into your PE3 PDF\n• 🏛️ Prepared form for appeal court submission\n• 📋 Generated professional legal document\n\n🚀 **Your PE3 Appeal Notice is Ready!**\n\n**Next Steps:**\n1. **📥 Download** your signed PE3 PDF below\n2. **✉️ Submit** to the appeal court\n3. **📄 File** any supporting evidence separately\n4. **📁 Keep** copies for your records\n5. **⏰ Prepare** for the appeal hearing\n\n📍 **Submit to the appropriate appeal court (usually Court of Appeal)**\n\n💡 **Important:** Ensure you have permission to appeal before submitting this form.`,
+      timestamp: new Date(),
+    }
+    setMessages(prev => [...prev, botMessage])
+  }
+
+  const handleN244SignatureComplete = (signatures: { applicant?: string }) => {
+    setN244Signatures(signatures)
+    // Store signature for later PDF generation
+    setN244Data(prev => ({ ...prev, applicantSignature: signatures.applicant }))
+    
+    setAppealStep("n244_complete")
+    
+    const botMessage: Message = {
+      id: messages.length + 1,
+      type: "bot",
+      content: `🎉 **Outstanding! Your N244 Application Notice is Complete!**\n\n✅ **What I've Done for You:**\n• ✍️ Captured your digital signature\n• 📄 Embedded signature into your N244 PDF\n• 🏛️ Prepared form for court submission\n• 📋 Generated professional legal document\n\n🚀 **Your N244 Application is Ready!**\n\n**Next Steps:**\n1. **📥 Download** your signed N244 PDF below\n2. **💰 Pay** the application fee (usually £100)\n3. **✉️ Submit** to the relevant court\n4. **📤 Serve** copies on other parties as required\n5. **📁 Keep** copies for your records\n\n📍 **Submit to the court handling your case**\n\n💡 **Important:** Check if you need to serve copies on other parties and whether a hearing is required.`,
+      timestamp: new Date(),
+    }
+    setMessages(prev => [...prev, botMessage])
+  }
+  
+  // PDF download functions
   const downloadTE7WithSignature = async () => {
     try {
       const te7Data = {
@@ -505,6 +612,111 @@ Vehicle: ${data.vehicleRegistration}`,
     }
   }
   
+  const downloadPE2WithSignature = async () => {
+    try {
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formType: 'PE2',
+          formData: pe2Data
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF')
+      }
+
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.style.display = 'none'
+      a.href = url
+      a.download = `PE2_Application_${pe2Data.caseNumber || 'form'}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+      
+      toast.success('PE2 PDF downloaded successfully!')
+    } catch (error) {
+      console.error('Error downloading PE2 PDF:', error)
+      toast.error('Failed to download PDF. Please try again.')
+    }
+  }
+
+  const downloadPE3WithSignature = async () => {
+    try {
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formType: 'PE3',
+          formData: pe3Data
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF')
+      }
+
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.style.display = 'none'
+      a.href = url
+      a.download = `PE3_Appellant_Notice_${pe3Data.caseNumber || 'form'}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+      
+      toast.success('PE3 PDF downloaded successfully!')
+    } catch (error) {
+      console.error('Error downloading PE3 PDF:', error)
+      toast.error('Failed to download PDF. Please try again.')
+    }
+  }
+
+  const downloadN244WithSignature = async () => {
+    try {
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formType: 'N244',
+          formData: n244Data
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF')
+      }
+
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.style.display = 'none'
+      a.href = url
+      a.download = `N244_Application_${n244Data.caseNumber || 'form'}.pdf`
+      document.body.appendChild(a)
+      a.click()
+      window.URL.revokeObjectURL(url)
+      document.body.removeChild(a)
+      
+      toast.success('N244 PDF downloaded successfully!')
+    } catch (error) {
+      console.error('Error downloading N244 PDF:', error)
+      toast.error('Failed to download PDF. Please try again.')
+    }
+  }
+
   const resetConversation = () => {
     setMessages(initialMessages)
     setInputValue("")
@@ -543,6 +755,41 @@ Vehicle: ${data.vehicleRegistration}`,
       return
     }
 
+    // Handle PE2, PE3, N244 forms
+    if (['pe2', 'pe3', 'n244'].includes(ticketTypeId)) {
+      setIsCreatingAppeal(true)
+      
+      if (ticketTypeId === 'pe2') {
+        setAppealStep("pe2_details")
+        const botMessage: Message = {
+          id: messages.length + 1,
+          type: "bot",
+          content: `📋 **PE2 Form Service - Application for Permission to Appeal**\n\n**Form Purpose:** Request permission to appeal a court decision to a higher court\n\n🏛️ **Submission To:** Court that made the original decision\n📝 **Form Type:** Official court form PE2\n\n**This form is used when:**\n• You want to appeal a court decision\n• You need permission to appeal\n• You're challenging a judgment or order\n\n**📝 Required Information to Complete Your PE2 Form:**\n\n1️⃣ **Your Full Name**\n2️⃣ **Your Complete Address** \n3️⃣ **Case Number**\n4️⃣ **Court Name**\n5️⃣ **Date of Original Decision**\n6️⃣ **Decision Being Appealed**\n7️⃣ **Grounds for Appeal**\n\n**Let's start - please provide your full name:**`,
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, botMessage])
+      } else if (ticketTypeId === 'pe3') {
+        setAppealStep("pe3_details")
+        const botMessage: Message = {
+          id: messages.length + 1,
+          type: "bot",
+          content: `📑 **PE3 Form Service - Appellant's Notice**\n\n**Form Purpose:** Formal notice of your intention to appeal to a higher court\n\n🏛️ **Submission To:** Appeal court (usually Court of Appeal)\n📝 **Form Type:** Official court form PE3\n\n**This form is used when:**\n• You have permission to appeal\n• You're formally notifying the court of your appeal\n• You're setting out your case for appeal\n\n**📝 Required Information to Complete Your PE3 Form:**\n\n1️⃣ **Your Full Name (Appellant)**\n2️⃣ **Your Complete Address** \n3️⃣ **Case Number**\n4️⃣ **Original Court Name**\n5️⃣ **Appeal Court Name**\n6️⃣ **Respondent Details**\n7️⃣ **Date of Decision**\n8️⃣ **Grounds of Appeal**\n\n**Let's start - please provide your full name:**`,
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, botMessage])
+      } else { // n244
+        setAppealStep("n244_details")
+        const botMessage: Message = {
+          id: messages.length + 1,
+          type: "bot",
+          content: `📄 **N244 Form Service - Application Notice**\n\n**Form Purpose:** Make an application to the court for a specific order or direction\n\n🏛️ **Submission To:** Relevant court handling your case\n📝 **Form Type:** Official court form N244\n\n**This form is used when:**\n• You need to ask the court for a specific order\n• You want to apply for a hearing\n• You're requesting a procedural direction\n• You need to vary an existing order\n\n**📝 Required Information to Complete Your N244 Form:**\n\n1️⃣ **Your Full Name**\n2️⃣ **Your Capacity** (Claimant/Defendant/Other)\n3️⃣ **Your Complete Address** \n4️⃣ **Case Number**\n5️⃣ **Court Name**\n6️⃣ **Order Sought**\n7️⃣ **Reason for Application**\n8️⃣ **Supporting Evidence**\n\n**Let's start - please provide your full name:**`,
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, botMessage])
+      }
+      return
+    }
+
     // Handle regular ticket types
     const selectedType = TICKET_TYPES[ticketTypeId]
     if (selectedType) {
@@ -557,7 +804,7 @@ Vehicle: ${data.vehicleRegistration}`,
       const botMessage: Message = {
         id: messages.length + 1,
         type: "bot",
-        content: `✅ **${selectedType.name} Selected!**\n\n🎫 **Appeal Type:** ${selectedType.name}\n📋 **Category:** ${selectedType.category}\n🏛️ **Appeals Route:** ${selectedType.authority}\n\n📝 **Enter Your Ticket Number**\n\n${selectedType.description}\n\n🔍 **Expected Format:** ${selectedType.patterns[0].source}\n📝 **Example:** ${selectedType.examples[0]}\n\n**Please enter your ${selectedType.name.toLowerCase()} number:**`,
+        content: `✅ **${selectedType.name} Selected!**\n\n🎫 **Appeal Type:** ${selectedType.name}\n📋 **Category:** ${selectedType.category.charAt(0).toUpperCase() + selectedType.category.slice(1)} penalty\n⚖️ **Appeal Route:** ${selectedType.authority}\n\n📝 **Enter Your Ticket Number**\n\n${selectedType.description}\n\n🔍 **Expected Format:** ${selectedType.patterns[0].source}\n📝 **Example:** ${selectedType.examples[0]}\n\n**Please enter your ${selectedType.name.toLowerCase()} number:**`,
         timestamp: new Date(),
       }
       setMessages(prev => [...prev, botMessage])
@@ -569,7 +816,7 @@ Vehicle: ${data.vehicleRegistration}`,
 
     const userMessage: Message = {
       id: messages.length + 1,
-      type: "user", 
+      type: "user" , 
       content: inputValue,
       timestamp: new Date(),
     }
@@ -581,18 +828,34 @@ Vehicle: ${data.vehicleRegistration}`,
 
     try {
       let botResponse = ""
-      
-      if (userInput.toLowerCase() === "reset" || userInput.toLowerCase() === "restart") {
-        resetConversation()
-        botResponse = "🔄 **Fresh Start - Let's Win This Appeal!**\n\n✅ **Chat has been reset** - all previous information cleared\n\n🚀 **Ready to challenge your penalty?** Please select your penalty type using the buttons above."
-      } else if (!isCreatingAppeal) {
-        // Use the expert UK Traffic Law Assistant for general queries
-        botResponse = UKTrafficLawAssistant.generateResponse(userInput, {
-          appealData,
-          messages,
-          isCreatingAppeal
-        })
-      } else {
+
+      // Check if user is asking for specific forms in natural language
+      const lowerInput = userInput.toLowerCase()
+      if (!isCreatingAppeal) {
+        if (lowerInput.includes('pe2') || (lowerInput.includes('permission') && lowerInput.includes('appeal'))) {
+          handleTicketTypeSelection('pe2')
+          return
+        }
+        if (lowerInput.includes('pe3') || (lowerInput.includes('appellant') && lowerInput.includes('notice'))) {
+          handleTicketTypeSelection('pe3')
+          return
+        }
+        if (lowerInput.includes('n244') || (lowerInput.includes('application') && lowerInput.includes('notice'))) {
+          handleTicketTypeSelection('n244')
+          return
+        }
+        if (lowerInput.includes('te7') || (lowerInput.includes('more time') && lowerInput.includes('court'))) {
+          handleTicketTypeSelection('te7')
+          return
+        }
+        if (lowerInput.includes('te9') || (lowerInput.includes('witness') && lowerInput.includes('statement'))) {
+          handleTicketTypeSelection('te9')
+          return
+        }
+      }
+
+      // Continue with existing form handling logic...
+      if (isCreatingAppeal) {
         // Handle appeal creation steps
         switch (appealStep) {
           case "ticket":
@@ -710,11 +973,20 @@ Vehicle: ${data.vehicleRegistration}`,
                 circumstances: '',
                 evidence: []
               }
-              const generatedDescription = UKTrafficLawAssistant.generateAppealDescription(appealCaseData)
-              setAppealData(prev => ({ ...prev, description: generatedDescription }))
-              setAppealStep("complete")
               
-              botResponse = `🏆 **AI Professional Appeal Description Generated!**\n\n📋 **Your Customized Appeal:**\n"${generatedDescription}"\n\n✅ **Appeal Complete!** Your professional appeal has been generated with:\n• Legal precedents and case law\n• Specific circumstances of your case\n• Professional language that appeals panels respect\n• Strategic arguments for maximum success\n\n📄 **Next Steps:**\n1. Review the generated appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n🎯 **Success Strategy:** This appeal uses proven legal arguments that have helped thousands of drivers successfully challenge their penalties!`
+              // Generate AI-powered unique description
+              try {
+                const aiDescription = await generateAIAppeal(appealCaseData)
+                setAppealData(prev => ({ ...prev, description: aiDescription }))
+                setAppealStep("complete")
+                botResponse = `🤖 **Unique AI Appeal Generated Successfully!**\n\n📋 **Your Personalized Appeal:**\n"${aiDescription.substring(0, 200)}..."\n\n✅ **AI-Powered Appeal Complete!** Your unique appeal includes:\n• 🧠 AI-generated unique content (never templated)\n• ⚖️ Legal precedents specific to your case\n• 📝 Professional language tailored to your circumstances\n• 🎯 Strategic arguments for maximum success\n• 🔒 Completely unique to your case and user ID\n\n📄 **Next Steps:**\n1. Review your AI-generated appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n🚀 **AI Advantage:** This appeal is completely unique and generated specifically for your case using advanced AI!`
+              } catch (error) {
+                console.error('AI generation failed, using fallback:', error)
+                const generatedDescription = UKTrafficLawAssistant.generateAppealDescription(appealCaseData)
+                setAppealData(prev => ({ ...prev, description: generatedDescription }))
+                setAppealStep("complete")
+                botResponse = `📋 **Professional Appeal Generated!**\n\n📋 **Your Appeal:**\n"${generatedDescription}"\n\n✅ **Appeal Complete!** (Note: AI generation temporarily unavailable, used professional template)`
+              }
             } else if (userInput.length >= 20) {
               setAppealData(prev => ({ ...prev, description: userInput }))
               setAppealStep("complete")
@@ -802,6 +1074,109 @@ Vehicle: ${data.vehicleRegistration}`,
             // Automatically move to signature step
             setTimeout(() => {
               setAppealStep("te9_signature")
+            }, 100)
+            break
+
+          // PE2 Form Steps
+          case "pe2_details":
+            setPE2Data(prev => ({ ...prev, applicantName: userInput }))
+            setAppealStep("pe2_appeal")
+            botResponse = `✅ **Name Recorded: ${userInput}**\n\nNow please provide the remaining information:\n\n2️⃣ **Your Complete Address** (including postcode)\n3️⃣ **Case Number**\n4️⃣ **Court Name**\n5️⃣ **Date of Original Decision** (DD/MM/YYYY)\n6️⃣ **Decision Being Appealed** (brief description)\n7️⃣ **Grounds for Appeal** (detailed explanation)\n8️⃣ **Do you have legal representation?** (Yes/No)\n\n**Please provide all details above (use separate lines for each):**`
+            break
+
+          case "pe2_appeal":
+            const pe2Lines = userInput.split('\n').filter(line => line.trim())
+            const hasLegalRep = (pe2Lines[6]?.toLowerCase() || '').includes('yes')
+            
+            const completePE2Data: PE2Data = {
+              caseNumber: pe2Lines[1] || 'Not provided',
+              courtName: pe2Lines[2] || 'Not provided',
+              applicantName: pe2Data.applicantName || 'Not provided',
+              applicantAddress: pe2Lines[0] || 'Not provided',
+              applicantPostcode: pe2Lines[0]?.split(',').pop()?.trim() || 'Not provided',
+              originalDecisionDate: pe2Lines[3] || 'Not provided',
+              decisionBeingAppealed: pe2Lines[4] || 'Not provided',
+              groundsForAppeal: pe2Lines[5] || 'Not provided',
+              hasLegalRepresentation: hasLegalRep,
+              signatureDate: new Date().toLocaleDateString('en-GB')
+            }
+            
+            setPE2Data(completePE2Data)
+            setAppealStep("pe2_signature")
+            botResponse = `📋 **PE2 Form Completed Successfully!**\n\n**Summary of Your Application:**\n• **Applicant:** ${completePE2Data.applicantName}\n• **Case:** ${completePE2Data.caseNumber}\n• **Court:** ${completePE2Data.courtName}\n• **Decision Date:** ${completePE2Data.originalDecisionDate}\n• **Legal Representation:** ${hasLegalRep ? 'Yes' : 'No'}\n\n✍️ **Digital signature required to finalize your PE2 form.**\n\n👇 **Please sign below** 👇`
+            setTimeout(() => {
+              setAppealStep("pe2_signature")
+            }, 100)
+            break
+
+          // PE3 Form Steps
+          case "pe3_details":
+            setPE3Data(prev => ({ ...prev, appellantName: userInput }))
+            setAppealStep("pe3_appeal")
+            botResponse = `✅ **Appellant Name Recorded: ${userInput}**\n\nNow please provide the remaining information:\n\n2️⃣ **Your Complete Address** (including postcode)\n3️⃣ **Case Number**\n4️⃣ **Original Court Name**\n5️⃣ **Appeal Court Name**\n6️⃣ **Respondent Name**\n7️⃣ **Date of Decision** (DD/MM/YYYY)\n8️⃣ **Decision Being Appealed**\n9️⃣ **Order Sought from Appeal Court**\n🔟 **Grounds of Appeal** (detailed explanation)\n\n**Please provide all details above (use separate lines for each):**`
+            break
+
+          case "pe3_appeal":
+            const pe3Lines = userInput.split('\n').filter(line => line.trim())
+            
+            const completePE3Data: PE3Data = {
+              caseNumber: pe3Lines[1] || 'Not provided',
+              originalCourtName: pe3Lines[2] || 'Not provided',
+              courtName: pe3Lines[3] || 'Not provided',
+              appellantName: pe3Data.appellantName || 'Not provided',
+              appellantAddress: pe3Lines[0] || 'Not provided',
+              appellantPostcode: pe3Lines[0]?.split(',').pop()?.trim() || 'Not provided',
+              respondentName: pe3Lines[4] || 'Not provided',
+              dateOfDecision: pe3Lines[5] || 'Not provided',
+              decisionAppealed: pe3Lines[6] || 'Not provided',
+              orderSought: pe3Lines[7] || 'Not provided',
+              groundsOfAppeal: pe3Lines[8] || 'Not provided',
+              evidenceFiledSeparately: false,
+              skeletonArgumentFiled: false,
+              signatureDate: new Date().toLocaleDateString('en-GB')
+            }
+            
+            setPE3Data(completePE3Data)
+            setAppealStep("pe3_signature")
+            botResponse = `📑 **PE3 Appellant's Notice Completed Successfully!**\n\n**Summary of Your Appeal:**\n• **Appellant:** ${completePE3Data.appellantName}\n• **Case:** ${completePE3Data.caseNumber}\n• **From:** ${completePE3Data.originalCourtName}\n• **To:** ${completePE3Data.courtName}\n• **Respondent:** ${completePE3Data.respondentName}\n• **Decision Date:** ${completePE3Data.dateOfDecision}\n\n✍️ **Digital signature required to finalize your PE3 form.**\n\n👇 **Please sign below** 👇`
+            setTimeout(() => {
+              setAppealStep("pe3_signature")
+            }, 100)
+            break
+
+          // N244 Form Steps
+          case "n244_details":
+            setN244Data(prev => ({ ...prev, applicantName: userInput }))
+            setAppealStep("n244_application")
+            botResponse = `✅ **Applicant Name Recorded: ${userInput}**\n\nNow please provide the remaining information:\n\n2️⃣ **Your Capacity** (Claimant/Defendant/Other)\n3️⃣ **Your Complete Address** (including postcode)\n4️⃣ **Case Number**\n5️⃣ **Court Name**\n6️⃣ **Order Sought** (what you want the court to do)\n7️⃣ **Reason for Application** (why you need this order)\n8️⃣ **Supporting Evidence** (evidence for your application)\n9️⃣ **Do you need a hearing?** (Yes/No)\n🔟 **Service Required On** (who needs to be notified)\n\n**Please provide all details above (use separate lines for each):**`
+            break
+
+          case "n244_application":
+            const n244Lines = userInput.split('\n').filter(line => line.trim())
+            const needsHearing = (n244Lines[7]?.toLowerCase() || '').includes('yes')
+            
+            const completeN244Data: N244Data = {
+              caseNumber: n244Lines[2] || 'Not provided',
+              courtName: n244Lines[3] || 'Not provided',
+              applicantName: n244Data.applicantName || 'Not provided',
+              applicantCapacity: (n244Lines[0] as any) || 'Other',
+              applicantAddress: n244Lines[1] || 'Not provided',
+              applicantPostcode: n244Lines[1]?.split(',').pop()?.trim() || 'Not provided',
+              orderSought: n244Lines[4] || 'Not provided',
+              reasonForApplication: n244Lines[5] || 'Not provided',
+              evidenceSupport: n244Lines[6] || 'Not provided',
+              hearingRequired: needsHearing,
+              serviceRequiredOn: [n244Lines[8] || 'Not provided'],
+              proposedServiceMethod: 'By post',
+              feeRequired: '£100',
+              signatureDate: new Date().toLocaleDateString('en-GB')
+            }
+            
+            setN244Data(completeN244Data)
+            setAppealStep("n244_signature")
+            botResponse = `📄 **N244 Application Notice Completed Successfully!**\n\n**Summary of Your Application:**\n• **Applicant:** ${completeN244Data.applicantName}\n• **Capacity:** ${completeN244Data.applicantCapacity}\n• **Case:** ${completeN244Data.caseNumber}\n• **Court:** ${completeN244Data.courtName}\n• **Order Sought:** ${completeN244Data.orderSought}\n• **Hearing Required:** ${needsHearing ? 'Yes' : 'No'}\n\n✍️ **Digital signature required to finalize your N244 form.**\n\n👇 **Please sign below** 👇`
+            setTimeout(() => {
+              setAppealStep("n244_signature")
             }, 100)
             break
 
@@ -911,6 +1286,27 @@ Vehicle: ${data.vehicleRegistration}`,
               >
                 ⚖️ <span className="text-xs">TE9 Witness Form</span>
               </Button>
+              <Button 
+                variant="outline"
+                onClick={() => handleTicketTypeSelection('pe2')}
+                className="h-20 flex flex-col items-center gap-1"
+              >
+                📋 <span className="text-xs">PE2 Appeal Permission</span>
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => handleTicketTypeSelection('pe3')}
+                className="h-20 flex flex-col items-center gap-1"
+              >
+                📑 <span className="text-xs">PE3 Appellant Notice</span>
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => handleTicketTypeSelection('n244')}
+                className="h-20 flex flex-col items-center gap-1"
+              >
+                📄 <span className="text-xs">N244 Application</span>
+              </Button>
             </div>
           )}
           
@@ -984,7 +1380,7 @@ Vehicle: ${data.vehicleRegistration}`,
                 <h3 className="text-xl font-bold text-indigo-800 mb-2">Legal Signature Required</h3>
                 <p className="text-indigo-700">
                   Your TE9 witness statement is complete! Please provide your signature to create the legal document.
-                </p>
+                               </p>
               </div>
               
               <div className="bg-white rounded-lg p-4 border border-indigo-200">
@@ -999,40 +1395,116 @@ Vehicle: ${data.vehicleRegistration}`,
             </div>
           )}
 
+          {appealStep === "pe2_signature" && (
+            <div className="bg-gradient-to-r from-green-50 to-teal-50 border-2 border-green-300 rounded-xl p-6 mb-4 shadow-lg">
+              <div className="text-center mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-green-500 text-white rounded-full mb-3">
+                  ✔️
+                </div>
+                <h3 className="text-xl font-bold text-green-800 mb-2">Signature Required</h3>
+                <p className="text-green-700">
+                  Your PE2 form is ready! Please provide your signature to complete your application.
+                </p>
+              </div>
+              
+              <div className="bg-white rounded-lg p-4 border border-green-200">
+                <PE2SignatureForm onSignatureComplete={handlePE2SignatureComplete} />
+              </div>
+              
+              <div className="mt-4 text-center">
+                <p className="text-sm text-green-600">
+                  🔒 Your signature will be securely embedded in the PDF and is required for court submission.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {appealStep === "pe3_signature" && (
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-300 rounded-xl p-6 mb-4 shadow-lg">
+              <div className="text-center mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500 text-white rounded-full mb-3">
+                  📄
+                </div>
+                <h3 className="text-xl font-bold text-blue-800 mb-2">Signature Required</h3>
+                <p className="text-blue-700">
+                  Your PE3 form is ready! Please provide your signature to complete your appellant's notice.
+                </p>
+              </div>
+              
+              <div className="bg-white rounded-lg p-4 border border-blue-200">
+                <PE3SignatureForm onSignatureComplete={handlePE3SignatureComplete} />
+              </div>
+              
+              <div className="mt-4 text-center">
+                <p className="text-sm text-blue-600">
+                  🔒 Your signature will be securely embedded in the PDF and is required for court submission.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {appealStep === "n244_signature" && (
+            <div className="bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-orange-300 rounded-xl p-6 mb-4 shadow-lg">
+              <div className="text-center mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-500 text-white rounded-full mb-3">
+                  📋
+                </div>
+                <h3 className="text-xl font-bold text-orange-800 mb-2">Signature Required</h3>
+                <p className="text-orange-700">
+                  Your N244 application notice is ready! Please provide your signature to complete your application.
+                </p>
+              </div>
+              
+              <div className="bg-white rounded-lg p-4 border border-orange-200">
+                <N244SignatureForm onSignatureComplete={handleN244SignatureComplete} />
+              </div>
+              
+              <div className="mt-4 text-center">
+                <p className="text-sm text-orange-600">
+                  🔒 Your signature will be securely embedded in the PDF and is required for court submission.
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Updated download buttons for completed forms with signatures */}
-          {(appealStep === "te7_complete" || appealStep === "te9_complete") && (
+          {(appealStep === "te7_complete" || appealStep === "te9_complete" || appealStep === "pe2_complete" || appealStep === "pe3_complete" || appealStep === "n244_complete") && (
             <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
               <h3 className="text-lg font-semibold text-green-800 mb-3">
-                📥 {appealStep === "te7_complete" ? "TE7" : "TE9"} Form Ready for Download
+                📥 {appealStep === "te7_complete" ? "TE7" : appealStep === "te9_complete" ? "TE9" : appealStep === "pe2_complete" ? "PE2" : appealStep === "pe3_complete" ? "PE3" : "N244"} Form Ready for Download
               </h3>
               <p className="text-sm text-green-700 mb-4">
                 Your form has been completed with digital signature and is ready for download.
               </p>
               <div className="flex gap-3 flex-wrap">
                 <Button
-                  onClick={appealStep === "te7_complete" ? downloadTE7WithSignature : downloadTE9WithSignature}
+                  onClick={appealStep === "te7_complete" ? downloadTE7WithSignature : appealStep === "te9_complete" ? downloadTE9WithSignature : appealStep === "pe2_complete" ? downloadPE2WithSignature : appealStep === "pe3_complete" ? downloadPE3WithSignature : downloadN244WithSignature}
                   className="bg-green-600 hover:bg-green-700 text-white"
                 >
                   📄 Download Signed PDF
                 </Button>
                 <Button
                   onClick={() => {
-                    const formText = appealData.te7Form || appealData.te9Form || ''
+                    const formType = appealStep === "te7_complete" ? 'TE7' : 
+                                   appealStep === "te9_complete" ? 'TE9' : 
+                                   appealStep === "pe2_complete" ? 'PE2' : 
+                                   appealStep === "pe3_complete" ? 'PE3' : 'N244'
+                    const formText = `${formType} Form Completed Successfully\n\nForm Type: ${formType}\nCompletion Date: ${new Date().toLocaleDateString('en-GB')}\n\nThis form has been digitally signed and is ready for submission.`
                     const blob = new Blob([formText], { type: 'text/plain' })
                     const url = window.URL.createObjectURL(blob)
                     const a = document.createElement('a')
                     a.href = url
-                    a.download = `${appealStep === "te7_complete" ? 'TE7' : 'TE9'}_Form_Text.txt`
+                    a.download = `${formType}_Form_Summary.txt`
                     document.body.appendChild(a)
                     a.click()
                     document.body.removeChild(a)
                     window.URL.revokeObjectURL(url)
-                    toast.success('Text version downloaded!')
+                    toast.success('Form summary downloaded!')
                   }}
                   variant="outline"
                   className="border-green-500 text-green-600 hover:bg-green-50"
                 >
-                  📝 Download Text Version
+                  📝 Download Summary
                 </Button>
               </div>
             </div>

@@ -484,4 +484,142 @@ export function TE9SignatureForm({ onSignatureComplete }: { onSignatureComplete:
   );
 }
 
+// PE2 Signature Form Component
+export function PE2SignatureForm({ onSignatureComplete }: { onSignatureComplete: (signatures: { applicant?: string }) => void }) {
+  const [applicantSignature, setApplicantSignature] = useState<string>('');
+
+  const handleComplete = () => {
+    if (!applicantSignature) {
+      return;
+    }
+    
+    onSignatureComplete({ applicant: applicantSignature });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-6">
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Applicant Signature (Required)</Label>
+          <SignaturePad
+            isOpen={false}
+            onOpenChange={() => {}}
+            onSignatureComplete={setApplicantSignature}
+            title="Applicant Signature"
+            description="Please sign as the applicant for this PE2 Application for Permission to Appeal"
+          />
+          {applicantSignature && (
+            <div className="p-2 bg-green-50 border border-green-200 rounded-md">
+              <p className="text-sm text-green-600">✓ Applicant signature captured</p>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="flex justify-end gap-3">
+        <Button 
+          onClick={handleComplete}
+          disabled={!applicantSignature}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          <Check className="w-4 h-4 mr-2" />
+          Complete PE2 Form
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// PE3 Signature Form Component
+export function PE3SignatureForm({ onSignatureComplete }: { onSignatureComplete: (signatures: { appellant?: string }) => void }) {
+  const [appellantSignature, setAppellantSignature] = useState<string>('');
+
+  const handleComplete = () => {
+    if (!appellantSignature) {
+      return;
+    }
+    
+    onSignatureComplete({ appellant: appellantSignature });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-6">
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Appellant Signature (Required)</Label>
+          <SignaturePad
+            isOpen={false}
+            onOpenChange={() => {}}
+            onSignatureComplete={setAppellantSignature}
+            title="Appellant Signature"
+            description="Please sign as the appellant for this PE3 Appellant's Notice"
+          />
+          {appellantSignature && (
+            <div className="p-2 bg-green-50 border border-green-200 rounded-md">
+              <p className="text-sm text-green-600">✓ Appellant signature captured</p>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="flex justify-end gap-3">
+        <Button 
+          onClick={handleComplete}
+          disabled={!appellantSignature}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          <Check className="w-4 h-4 mr-2" />
+          Complete PE3 Form
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// N244 Signature Form Component
+export function N244SignatureForm({ onSignatureComplete }: { onSignatureComplete: (signatures: { applicant?: string }) => void }) {
+  const [applicantSignature, setApplicantSignature] = useState<string>('');
+
+  const handleComplete = () => {
+    if (!applicantSignature) {
+      return;
+    }
+    
+    onSignatureComplete({ applicant: applicantSignature });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 gap-6">
+        <div className="space-y-3">
+          <Label className="text-sm font-medium">Applicant Signature (Required)</Label>
+          <SignaturePad
+            isOpen={false}
+            onOpenChange={() => {}}
+            onSignatureComplete={setApplicantSignature}
+            title="Applicant Signature"
+            description="Please sign as the applicant for this N244 Application Notice"
+          />
+          {applicantSignature && (
+            <div className="p-2 bg-green-50 border border-green-200 rounded-md">
+              <p className="text-sm text-green-600">✓ Applicant signature captured</p>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="flex justify-end gap-3">
+        <Button 
+          onClick={handleComplete}
+          disabled={!applicantSignature}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          <Check className="w-4 h-4 mr-2" />
+          Complete N244 Form
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 export default SignatureCanvas;

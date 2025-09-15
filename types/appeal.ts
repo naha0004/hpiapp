@@ -115,3 +115,101 @@ export interface TE9Data {
   witnessQualification?: string; // Solicitor, commissioner for oaths, etc.
   signatureDate?: string;
 }
+
+// PE2 Form Data - Application for Permission to Appeal
+export interface PE2Data {
+  // Case details
+  caseNumber: string;
+  courtName: string;
+  
+  // Applicant details
+  applicantName: string;
+  applicantAddress: string;
+  applicantPostcode: string;
+  applicantPhone?: string;
+  applicantEmail?: string;
+  
+  // Appeal details
+  originalDecisionDate: string;
+  decisionBeingAppealed: string;
+  groundsForAppeal: string;
+  evidenceAttached?: string;
+  
+  // Legal representation
+  hasLegalRepresentation: boolean;
+  solicitorName?: string;
+  solicitorAddress?: string;
+  
+  // Signature data
+  applicantSignature?: string;
+  signatureDate?: string;
+}
+
+// PE3 Form Data - Appellant's Notice
+export interface PE3Data {
+  // Case details
+  caseNumber: string;
+  courtName: string;
+  originalCourtName: string;
+  
+  // Appellant details
+  appellantName: string;
+  appellantAddress: string;
+  appellantPostcode: string;
+  appellantPhone?: string;
+  appellantEmail?: string;
+  
+  // Respondent details
+  respondentName: string;
+  respondentAddress?: string;
+  
+  // Appeal details
+  dateOfDecision: string;
+  decisionAppealed: string;
+  orderSought: string;
+  groundsOfAppeal: string;
+  timeExtensionSought?: boolean;
+  reasonForDelay?: string;
+  
+  // Evidence and documents
+  evidenceFiledSeparately: boolean;
+  skeletonArgumentFiled: boolean;
+  
+  // Signature data
+  appellantSignature?: string;
+  signatureDate?: string;
+}
+
+// N244 Form Data - Application Notice
+export interface N244Data {
+  // Case details
+  caseNumber: string;
+  courtName: string;
+  
+  // Applicant details
+  applicantName: string;
+  applicantCapacity: 'Claimant' | 'Defendant' | 'Part 20 claimant' | 'Other';
+  applicantAddress: string;
+  applicantPostcode: string;
+  applicantPhone?: string;
+  applicantEmail?: string;
+  
+  // Application details
+  orderSought: string;
+  reasonForApplication: string;
+  evidenceSupport: string;
+  
+  // Hearing details
+  hearingRequired: boolean;
+  estimatedHearingTime?: string;
+  reasonsForHearing?: string;
+  
+  // Service details
+  serviceRequiredOn: string[];
+  proposedServiceMethod: string;
+  
+  // Fee and signature
+  feeRequired: string;
+  applicantSignature?: string;
+  signatureDate?: string;
+}

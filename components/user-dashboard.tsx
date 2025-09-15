@@ -6,6 +6,8 @@ import { api, formatCurrency, formatDate } from "@/lib/api"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { toast } from "@/hooks/use-toast"
+import { motion } from "framer-motion"
 import Link from "next/link"
 import { 
   Car, 
@@ -19,7 +21,10 @@ import {
   Shield,
   Crown,
   CreditCard,
-  Star
+  Star,
+  CheckCircle,
+  XCircle,
+  BarChart3
 } from "lucide-react"
 
 interface DashboardData {
@@ -54,12 +59,155 @@ interface UserDashboardProps {
   onNavigate: (section: string) => void
 }
 
+interface OutcomeModalProps {
+  appeal: any;
+  isOpen: boolean;
+  onClose: () => void;
+  onUpdate: (appealId: string, outcome: string, notes?: string) => void;
+}
+
+const OutcomeModal: React.FC<OutcomeModalProps> = ({
+  appeal,
+  isOpen,
+  onClose,
+  onUpdate
+}) => {
+  const [outcome, setOutcome] = useState(appeal?.userReportedOutcome || '');
+  const [notes, setNotes] = useState(appeal?.outcomeNotes || '');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (!isOpen || !appeal) return null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!outcome) {
+      toast({
+        title: "Error",
+        description: "Please select an outcome for your appeal.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      await onUpdate(appeal.id, outcome, notes);
+      onClose();
+    } catch (error) {
+      console.error('Failed to update outcome:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
+      >
+        <h3 className="text-lg font-semibold mb-4">
+          Update Appeal Outcome
+        </h3>
+        
+        <div className="mb-4">
+          <p className="text-sm text-gray-600 mb-2">
+            Fine: {appeal.fineReference}
+          </p>
+          <p className="text-sm text-gray-600">
+            Reason: {appeal.reason}
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">
+              What was the outcome of your appeal?
+            </label>
+            <div className="space-y-2">
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="outcome"
+                  value="successful"
+                  checked={outcome === 'successful'}
+                  onChange={(e) => setOutcome(e.target.value)}
+                  className="mr-2"
+                />
+                <span className="text-green-600">✓ Successful</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="outcome"
+                  value="unsuccessful"
+                  checked={outcome === 'unsuccessful'}
+                  onChange={(e) => setOutcome(e.target.value)}
+                  className="mr-2"
+                />
+                <span className="text-red-600">✗ Unsuccessful</span>
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  name="outcome"
+                  value="pending"
+                  checked={outcome === 'pending'}
+                  onChange={(e) => setOutcome(e.target.value)}
+                  className="mr-2"
+                />
+                <span className="text-yellow-600">⏳ Still Pending</span>
+              </label>
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-2">
+              Additional Notes (Optional)
+            </label>
+            <textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md"
+              rows={3}
+              placeholder="Any additional details about the outcome..."
+            />
+          </div>
+
+          <div className="flex justify-end space-x-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {isSubmitting ? 'Updating...' : 'Update Outcome'}
+            </Button>
+          </div>
+        </form>
+      </motion.div>
+    </div>
+  );
+};
+
 export function UserDashboard({ onNavigate }: UserDashboardProps) {
   const { data: session } = useSession()
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [userUsage, setUserUsage] = useState<any>(null)
   const [hpiCredits, setHpiCredits] = useState<number>(0)
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedAppeal, setSelectedAppeal] = useState<any>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     if (session?.user) {
@@ -105,6 +253,43 @@ export function UserDashboard({ onNavigate }: UserDashboardProps) {
     }
   }
 
+  const updateAppealOutcome = async (appealId: string, outcome: string, notes?: string) => {
+    try {
+      const response = await fetch('/api/appeals/outcome', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          appealId,
+          outcome,
+          notes
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        toast({
+          title: "Success",
+          description: "Appeal outcome updated successfully",
+        });
+        
+        // Refresh the dashboard data
+        await fetchDashboardData();
+      } else {
+        throw new Error(data.error || 'Failed to update outcome');
+      }
+    } catch (error) {
+      console.error('Failed to update appeal outcome:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to update outcome",
+        variant: "destructive"
+      });
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -145,6 +330,22 @@ export function UserDashboard({ onNavigate }: UserDashboardProps) {
       default:
         return <Badge variant="secondary">Draft</Badge>
     }
+  }
+
+  const getOutcomeBadge = (outcome: string | null) => {
+    if (!outcome || outcome === 'pending') {
+      return <Badge className="bg-yellow-100 text-yellow-800">⏳ Pending</Badge>;
+    }
+    
+    if (outcome === 'successful') {
+      return <Badge className="bg-green-100 text-green-800">✓ Successful</Badge>;
+    }
+    
+    if (outcome === 'unsuccessful') {
+      return <Badge className="bg-red-100 text-red-800">✗ Unsuccessful</Badge>;
+    }
+    
+    return <Badge className="bg-gray-100 text-gray-800">{outcome}</Badge>;
   }
 
   return (
@@ -269,19 +470,61 @@ export function UserDashboard({ onNavigate }: UserDashboardProps) {
             ) : (
               <div className="space-y-4">
                 {dashboardData.appeals.recent.map((appeal: any) => (
-                  <div key={appeal.id} className="flex items-center justify-between p-4 border rounded-lg">
-                    <div className="space-y-1">
-                      <p className="font-medium">Fine: {appeal.fineReference}</p>
+                  <motion.div 
+                    key={appeal.id} 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center justify-between p-4 border rounded-lg hover:shadow-md transition-shadow"
+                  >
+                    <div className="space-y-1 flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="font-medium">Fine: {appeal.fineReference}</p>
+                        {appeal.aiGenerated && (
+                          <Badge className="bg-purple-100 text-purple-800 text-xs">
+                            🤖 AI Generated
+                          </Badge>
+                        )}
+                      </div>
                       <p className="text-sm text-gray-600">Amount: {formatCurrency(appeal.fineAmount)}</p>
                       <p className="text-sm text-gray-600">Reason: {appeal.reason}</p>
+                      
+                      {/* Outcome Section */}
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className="text-sm font-medium">Outcome:</span>
+                        {getOutcomeBadge(appeal.userReportedOutcome)}
+                        {appeal.userReportedAt && (
+                          <span className="text-xs text-gray-500">
+                            (Reported {formatDate(appeal.userReportedAt)})
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="text-right">
-                      {getStatusBadge(appeal.status)}
-                      <p className="text-sm text-gray-500 mt-1">
-                        {formatDate(appeal.createdAt)}
-                      </p>
+                    
+                    <div className="text-right space-y-2">
+                      <div>
+                        {getStatusBadge(appeal.status)}
+                        <p className="text-sm text-gray-500 mt-1">
+                          {formatDate(appeal.createdAt)}
+                        </p>
+                      </div>
+                      
+                      {/* Report Outcome Button */}
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setSelectedAppeal(appeal);
+                          setIsModalOpen(true);
+                        }}
+                        className="text-xs"
+                      >
+                        {appeal.userReportedOutcome && appeal.userReportedOutcome !== 'pending' 
+                          ? 'Update Outcome' 
+                          : 'Report Outcome'
+                        }
+                      </Button>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             )}
@@ -313,6 +556,16 @@ export function UserDashboard({ onNavigate }: UserDashboardProps) {
               <Calendar className="h-4 w-4 mr-2" />
               Set Reminders
             </Button>
+            {dashboardData.appeals.total > 0 && (
+              <Button 
+                onClick={() => window.open('/dashboard', '_blank')} 
+                variant="outline" 
+                className="w-full justify-start bg-green-50 text-green-700 hover:bg-green-100 border-green-200"
+              >
+                <BarChart3 className="h-4 w-4 mr-2" />
+                View Appeal Analytics
+              </Button>
+            )}
           </CardContent>
         </Card>
 
@@ -361,6 +614,19 @@ export function UserDashboard({ onNavigate }: UserDashboardProps) {
           </p>
         </div>
       </div>
+
+      {/* Outcome Modal */}
+      {selectedAppeal && (
+        <OutcomeModal
+          appeal={selectedAppeal}
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedAppeal(null);
+          }}
+          onUpdate={updateAppealOutcome}
+        />
+      )}
     </div>
   )
 }
