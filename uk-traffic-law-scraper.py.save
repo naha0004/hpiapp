@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+"""
+uk-traffic-law-scraper.py  – public-domain starter script
+Pulls every UK road-traffic SI + all London TRO PDFs into ./corpus/
+No API keys, no auth, OGL v3.0 compliant (Crown copyright notices add

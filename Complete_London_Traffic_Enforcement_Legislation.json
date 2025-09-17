@@ -1,0 +1,888 @@
+{
+  "primary_acts": [
+    {
+      "title": "Road Traffic Regulation Act 1984",
+      "year": 1984,
+      "chapter": "1984 c. 27",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/1984/27",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1984/27/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/1984/27/data.json",
+      "relevant_sections": {
+        "parking_enforcement": ["Section 32-36", "Section 46", "Section 55", "Section 104-106"],
+        "speeding_offences": ["Section 89"],
+        "traffic_regulation_orders": ["Part IV"],
+        "london_specific": ["Section 46(1A)", "Section 104-105"]
+      },
+      "categories": ["parking_pcn", "speeding_fpn", "tro_tmo_framework", "local_authority_powers"]
+    },
+    {
+      "title": "Road Traffic Act 1988",
+      "year": 1988,
+      "chapter": "1988 c. 52",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/1988/52",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1988/52/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/1988/52/data.json",
+      "relevant_sections": {
+        "section_172": ["Driver identification requirements"],
+        "construction_use": ["Vehicle construction and use"],
+        "driving_offences": ["Dangerous and careless driving"]
+      },
+      "categories": ["speeding_fpn", "driver_identification", "vehicle_offences"]
+    },
+    {
+      "title": "Road Traffic Offenders Act 1988",
+      "year": 1988,
+      "chapter": "1988 c. 53",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/1988/53",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1988/53/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/1988/53/data.json",
+      "relevant_sections": {
+        "fixed_penalty_notices": ["Section 54", "Section 75-77"],
+        "notice_of_intended_prosecution": ["Section 1"],
+        "endorsement_system": ["Section 28-48"],
+        "schedule_1_offences": ["Speeding and other offences"]
+      },
+      "categories": ["speeding_fpn", "fixed_penalties", "criminal_traffic_offences"]
+    },
+    {
+      "title": "Traffic Management Act 2004",
+      "year": 2004,
+      "chapter": "2004 c. 18",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/2004/18",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/2004/18/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/2004/18/data.json",
+      "relevant_sections": {
+        "civil_enforcement": ["Part 6"],
+        "penalty_charges": ["Section 77", "Schedule 9"],
+        "contraventions": ["Schedule 7"],
+        "london_authorities": ["Schedule 7 Part 1-3"],
+        "highways_amendments": ["Parts 9 and 14 amendments"]
+      },
+      "categories": ["parking_pcn", "bus_lane_pcn", "traffic_light_pcn", "moving_traffic"],
+      "recent_amendments": ["31/05/2022", "20/12/2023", "28/02/2024", "05/02/2025"]
+    },
+    {
+      "title": "Highways Act 1980",
+      "year": 1980,
+      "chapter": "1980 c. 66",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/1980/66",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1980/66/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/1980/66/data.json",
+      "relevant_sections": {
+        "highway_management": ["Basic powers"],
+        "fixed_penalty_provisions": ["Updated by TMA 2004"],
+        "enforcement_powers": ["Highway authority powers"]
+      },
+      "categories": ["highway_enforcement", "traffic_regulation"]
+    },
+    {
+      "title": "London Local Authorities Act 1996",
+      "year": 1996,
+      "chapter": "1996 c. ix",
+      "legislation_url": "https://www.legislation.gov.uk/ukla/1996/9",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukla/1996/9/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukla/1996/9/data.json",
+      "relevant_sections": {
+        "bus_lane_enforcement": ["Part II"],
+        "penalty_charge_notices": ["Section 6", "Section 9", "Section 12"],
+        "false_representations": ["Schedule provisions"],
+        "financial_provisions": ["Account management"]
+      },
+      "categories": ["bus_lane_pcn"]
+    },
+    {
+      "title": "London Local Authorities and Transport for London Act 2003",
+      "year": 2003,
+      "chapter": "2003 c. 3",
+      "legislation_url": "https://www.legislation.gov.uk/ukla/2003/3",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukla/2003/3/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukla/2003/3/data.json",
+      "relevant_sections": {
+        "tfl_enforcement": ["Bus lane powers"],
+        "penalty_charges": ["Enhanced powers"],
+        "london_specific": ["Additional enforcement tools"],
+        "joint_committee": ["Coordinated enforcement"]
+      },
+      "categories": ["bus_lane_pcn", "tfl_enforcement", "london_coordination"]
+    },
+    {
+      "title": "Transport Act 2000",
+      "year": 2000,
+      "chapter": "2000 c. 38",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/2000/38",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/2000/38/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/2000/38/data.json",
+      "relevant_sections": {
+        "charging_schemes": ["Part III"],
+        "workplace_parking_levy": ["Section 168-196"],
+        "road_user_charging": ["Section 163-167"]
+      },
+      "categories": ["congestion_charge", "workplace_parking", "road_user_charging"]
+    },
+    {
+      "title": "Greater London Authority Act 1999",
+      "year": 1999,
+      "chapter": "1999 c. 29",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/1999/29",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1999/29/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/1999/29/data.json",
+      "relevant_sections": {
+        "charging_schemes": ["Schedule 23"],
+        "mayor_powers": ["Transport strategy provisions"],
+        "tfl_powers": ["Road charging authorization"]
+      },
+      "categories": ["congestion_charge", "ulez", "lez", "mayor_powers"]
+    },
+    {
+      "title": "Protection of Freedoms Act 2012",
+      "year": 2012,
+      "chapter": "2012 c. 9",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/2012/9",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/2012/9/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/2012/9/data.json",
+      "relevant_sections": {
+        "keeper_liability": ["Schedule 4"],
+        "private_parking": ["Section 56"],
+        "popla_appeals": ["Schedule 4 requirements"],
+        "signage_compliance": ["Schedule 4 conditions"]
+      },
+      "categories": ["private_parking"]
+    },
+    {
+      "title": "Road Traffic Act 1991",
+      "year": 1991,
+      "chapter": "1991 c. 40",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/1991/40",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1991/40/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/1991/40/data.json",
+      "relevant_sections": {
+        "parking_in_london": ["Part II"],
+        "civil_enforcement": ["Section 66-79"],
+        "immobilisation": ["Section 69-71"],
+        "decriminalisation": ["Parking contraventions not criminal offence"]
+      },
+      "categories": ["parking_pcn", "civil_enforcement_framework", "london_parking"]
+    },
+    {
+      "title": "Vehicle Excise and Registration Act 1994",
+      "year": 1994,
+      "chapter": "1994 c. 22",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/1994/22",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1994/22/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/1994/22/data.json",
+      "relevant_sections": {
+        "vehicle_excise_duty": ["Section 1-2"],
+        "civil_penalties": ["Section 7a"],
+        "sorn_requirements": ["Statutory off-road notification"],
+        "enforcement_powers": ["Clamping and impounding"]
+      },
+      "categories": ["dvla_fines", "vehicle_tax", "sorn_penalties"]
+    },
+    {
+      "title": "Police, Crime, Sentencing and Courts Act 2022",
+      "year": 2022,
+      "chapter": "2022 c. 32",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/2022/32",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/2022/32/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/2022/32/data.json",
+      "relevant_sections": {
+        "dangerous_driving": ["Increased penalties to life imprisonment"],
+        "careless_driving": ["Life imprisonment provision"],
+        "serious_injury": ["New offence creation"]
+      },
+      "categories": ["criminal_traffic_offences"],
+      "implementation_date": "28 June 2022"
+    },
+    {
+      "title": "Local Government Act 1972",
+      "year": 1972,
+      "chapter": "1972 c. 70",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/1972/70",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1972/70/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/1972/70/data.json",
+      "relevant_sections": {
+        "local_authority_powers": ["General powers"],
+        "enforcement_functions": ["Local authority functions"]
+      },
+      "categories": ["local_authority_framework"]
+    },
+    {
+      "title": "Crime and Courts Act 2013",
+      "year": 2013,
+      "chapter": "2013 c. 22",
+      "legislation_url": "https://www.legislation.gov.uk/ukpga/2013/22",
+      "xml_endpoint": "https://www.legislation.gov.uk/ukpga/2013/22/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/ukpga/2013/22/data.json",
+      "relevant_sections": {
+        "single_justice_procedure": ["Traffic offence processing"],
+        "court_procedures": ["Streamlined processes"]
+      },
+      "categories": ["court_procedures", "traffic_offence_processing"]
+    }
+  ],
+  "statutory_instruments": [
+    {
+      "title": "The Civil Enforcement of Road Traffic Contraventions (Approved Devices, Charging Guidelines and General Provisions) (England) Regulations 2022",
+      "si_number": "2022 No. 71",
+      "year": 2022,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2022/71",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2022/71/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2022/71/data.json",
+      "relevant_sections": {
+        "penalty_charges": ["Part 2"],
+        "immobilisation": ["Part 3"],
+        "adjudicators": ["Part 4"],
+        "enforcement": ["Part 5"],
+        "approved_devices": ["Schedule 1"],
+        "penalty_notices": ["Schedule 2"],
+        "charging_guidelines": ["Schedule 3"]
+      },
+      "categories": ["parking_pcn", "bus_lane_pcn", "moving_traffic", "device_approval"]
+    },
+    {
+      "title": "The Civil Enforcement of Road Traffic Contraventions (Representations and Appeals) (England) Regulations 2022",
+      "si_number": "2022 No. 576",
+      "year": 2022,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2022/576",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2022/576/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2022/576/data.json",
+      "relevant_sections": {
+        "representations": ["Part 2"],
+        "appeals": ["Part 3"],
+        "tribunal_procedures": ["Part 4"],
+        "debt_recovery": ["Part 5"]
+      },
+      "categories": ["parking_pcn", "bus_lane_pcn", "moving_traffic", "appeals_procedures"]
+    },
+    {
+      "title": "The Traffic Signs Regulations and General Directions 2016",
+      "si_number": "2016 No. 362",
+      "year": 2016,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2016/362",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2016/362/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2016/362/data.json",
+      "relevant_sections": {
+        "parking_signs": ["Schedule 7"],
+        "traffic_signs": ["Part 1"],
+        "general_directions": ["Part 2"],
+        "permitted_parking": ["Schedule 18"]
+      },
+      "categories": ["parking_pcn", "traffic_signs", "yellow_box_junctions", "bus_lane_pcn"]
+    },
+    {
+      "title": "The Traffic Management Act 2004 (Commencement No. 10 and Savings and Transitional Provisions) (England) Order 2022",
+      "si_number": "2022 No. 66",
+      "year": 2022,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2022/66",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2022/66/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2022/66/data.json",
+      "relevant_sections": {
+        "commencement": ["Moving traffic enforcement"],
+        "transitional": ["Implementation provisions"]
+      },
+      "categories": ["moving_traffic", "implementation_order"]
+    },
+    {
+      "title": "The Civil Enforcement of Parking Contraventions (England) General Regulations 2007",
+      "si_number": "2007 No. 3483",
+      "year": 2007,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2007/3483",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2007/3483/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2007/3483/data.json",
+      "relevant_sections": {
+        "penalty_charges": ["Part 2"],
+        "contraventions": ["Schedule 1"],
+        "enforcement_procedures": ["Part 3"]
+      },
+      "categories": ["parking_pcn"]
+    },
+    {
+      "title": "The Civil Enforcement of Parking Contraventions (Guidelines on Levels of Charges) (England) Order 2007",
+      "si_number": "2007 No. 3487",
+      "year": 2007,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2007/3487",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2007/3487/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2007/3487/data.json",
+      "relevant_sections": {
+        "penalty_bands": ["Schedule"],
+        "charging_levels": ["Guidelines"]
+      },
+      "categories": ["parking_pcn", "penalty_bands"]
+    },
+    {
+      "title": "The Civil Enforcement of Parking Contraventions (England) Representations and Appeals Regulations 2007",
+      "si_number": "2007 No. 3482",
+      "year": 2007,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2007/3482",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2007/3482/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2007/3482/data.json",
+      "relevant_sections": {
+        "representations": ["Part 2"],
+        "appeals": ["Part 4"],
+        "tribunal_procedures": ["Part 5"]
+      },
+      "categories": ["parking_pcn", "appeals_procedures"]
+    },
+    {
+      "title": "The Bus Lanes (Approved Devices) (England) Order 2005",
+      "si_number": "2005 No. 2756",
+      "year": 2005,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2005/2756",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2005/2756/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2005/2756/data.json",
+      "relevant_sections": {
+        "approved_devices": ["Device specifications"],
+        "certification": ["Approval procedures"]
+      },
+      "categories": ["bus_lane_pcn", "device_approval"]
+    },
+    {
+      "title": "The Bus Lane Contraventions (Penalty Charges, Adjudication and Enforcement) (England) Regulations 2005",
+      "si_number": "2005 No. 2757",
+      "year": 2005,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2005/2757",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2005/2757/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2005/2757/data.json",
+      "relevant_sections": {
+        "penalty_charges": ["Part 2"],
+        "adjudication": ["Part 3"],
+        "enforcement": ["Part 4"]
+      },
+      "categories": ["bus_lane_pcn"]
+    },
+    {
+      "title": "The Transport for London (Bus Lanes) Order 2001",
+      "si_number": "2001 No. 690",
+      "year": 2001,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2001/690",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2001/690/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2001/690/data.json",
+      "relevant_sections": {
+        "tfl_powers": ["Bus lane enforcement"],
+        "penalty_charges": ["TfL specific provisions"]
+      },
+      "categories": ["bus_lane_pcn", "tfl_enforcement"]
+    },
+    {
+      "title": "The Greater London (Central Zone) Congestion Charging Order 2001",
+      "si_number": "2001 No. 2971",
+      "year": 2001,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2001/2971",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2001/2971/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2001/2971/data.json",
+      "relevant_sections": {
+        "charging_zone": ["Central London boundaries"],
+        "exemptions": ["Eligible vehicles"],
+        "penalties": ["Non-payment charges"]
+      },
+      "categories": ["congestion_charge"]
+    },
+    {
+      "title": "The Greater London Low Emission Zone Charging Order 2007",
+      "si_number": "2007 No. 3510",
+      "year": 2007,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2007/3510",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2007/3510/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2007/3510/data.json",
+      "relevant_sections": {
+        "lez_boundaries": ["Greater London area"],
+        "vehicle_standards": ["Emissions requirements"],
+        "charges": ["Daily charge rates"]
+      },
+      "categories": ["lez"]
+    },
+    {
+      "title": "The Greater London Ultra Low Emission Zone Charging Order 2019",
+      "si_number": "2019 No. 1339",
+      "year": 2019,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2019/1339",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2019/1339/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2019/1339/data.json",
+      "relevant_sections": {
+        "ulez_zone": ["Central London ULEZ"],
+        "emissions_standards": ["Euro standards"],
+        "daily_charges": ["Charge rates"]
+      },
+      "categories": ["ulez"]
+    },
+    {
+      "title": "The Greater London Ultra Low Emission Zone (Amendment) Charging Order 2021",
+      "si_number": "2021 No. 1211",
+      "year": 2021,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2021/1211",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2021/1211/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2021/1211/data.json",
+      "relevant_sections": {
+        "expansion": ["Inner London extension"],
+        "implementation": ["2021 expansion details"]
+      },
+      "categories": ["ulez", "amendments"]
+    },
+    {
+      "title": "The Greater London Ultra Low Emission Zone (Amendment) (No. 2) Charging Order 2023",
+      "si_number": "2023 No. 770",
+      "year": 2023,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2023/770",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2023/770/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2023/770/data.json",
+      "relevant_sections": {
+        "london_wide": ["All boroughs expansion"],
+        "august_2023": ["Implementation date"]
+      },
+      "categories": ["ulez", "amendments"]
+    },
+    {
+      "title": "The Greater London Low Emission Zone (Amendment) Charging Order 2020",
+      "si_number": "2020 No. 1500",
+      "year": 2020,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2020/1500",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2020/1500/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2020/1500/data.json",
+      "relevant_sections": {
+        "amendments": ["LEZ updates"],
+        "standards": ["Updated emissions criteria"]
+      },
+      "categories": ["lez", "amendments"]
+    },
+    {
+      "title": "The Fixed Penalty Offences Order 2000",
+      "si_number": "2000 No. 2792",
+      "year": 2000,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2000/2792",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2000/2792/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2000/2792/data.json",
+      "relevant_sections": {
+        "speeding_offences": ["Schedule 1"],
+        "penalty_amounts": ["Schedule 2"],
+        "endorsement": ["Schedule 3"]
+      },
+      "categories": ["speeding_fpn", "fixed_penalties"]
+    },
+    {
+      "title": "The Vehicle Excise and Registration Act 1994 (Prescribed Sums) Regulations 2023",
+      "si_number": "2023 No. 365",
+      "year": 2023,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2023/365",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2023/365/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2023/365/data.json",
+      "relevant_sections": {
+        "penalty_amounts": ["DVLA fines"],
+        "vehicle_excise": ["Tax penalties"],
+        "registration": ["SORN penalties"]
+      },
+      "categories": ["dvla_fines", "vehicle_tax"]
+    },
+    {
+      "title": "The Motor Vehicles (Driving Licences) Regulations 1999",
+      "si_number": "1999 No. 2864",
+      "year": 1999,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1999/2864",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1999/2864/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1999/2864/data.json",
+      "relevant_sections": {
+        "licence_penalties": ["Driving without licence"],
+        "enforcement": ["DVLA powers"],
+        "sanctions": ["Penalty procedures"]
+      },
+      "categories": ["dvla_fines", "driving_licences"]
+    },
+    {
+      "title": "The Road Vehicles (Registration and Licensing) Regulations 2002",
+      "si_number": "2002 No. 2742",
+      "year": 2002,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2002/2742",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2002/2742/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2002/2742/data.json",
+      "relevant_sections": {
+        "registration_offences": ["Unregistered vehicles"],
+        "sorn_requirements": ["Off-road notifications"],
+        "penalties": ["Non-compliance charges"]
+      },
+      "categories": ["dvla_fines", "vehicle_registration"]
+    },
+    {
+      "title": "The Civil Enforcement of Parking Contraventions (England) General (Amendment) Regulations 2020",
+      "si_number": "2020 No. 548",
+      "year": 2020,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2020/548",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2020/548/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2020/548/data.json",
+      "relevant_sections": {
+        "amendments": ["2007 regulations updates"],
+        "modernisation": ["Procedural updates"]
+      },
+      "categories": ["parking_pcn", "amendments"]
+    },
+    {
+      "title": "The Civil Enforcement of Parking Contraventions (England) General (Amendment) Regulations 2015",
+      "si_number": "2015 No. 561",
+      "year": 2015,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2015/561",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2015/561/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2015/561/data.json",
+      "relevant_sections": {
+        "amendments": ["Procedural updates"],
+        "enforcement": ["Enhanced powers"]
+      },
+      "categories": ["parking_pcn", "amendments"]
+    },
+    {
+      "title": "The Removal, Storage and Disposal of Vehicles (Prescribed Sums and Charges) (England) Regulations 2008",
+      "si_number": "2008 No. 2086",
+      "year": 2008,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2008/2086",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2008/2086/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2008/2086/data.json",
+      "relevant_sections": {
+        "removal_charges": ["Schedule 1"],
+        "storage_fees": ["Schedule 2"],
+        "disposal_costs": ["Schedule 3"]
+      },
+      "categories": ["vehicle_removal", "storage_charges"]
+    },
+    {
+      "title": "The Road Traffic (Special Parking Areas) (London Boroughs of Richmond upon Thames and Southwark) Order 1993",
+      "si_number": "1993 No. 3239",
+      "year": 1993,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1993/3239",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1993/3239/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1993/3239/data.json",
+      "relevant_sections": {
+        "special_parking_areas": ["Richmond", "Southwark"],
+        "designation": ["Area boundaries"]
+      },
+      "categories": ["parking_pcn", "london_specific"]
+    },
+    {
+      "title": "The Road Traffic (Vehicle Emissions) (Fixed Penalty) (England) Regulations 2002",
+      "si_number": "2002 No. 1808",
+      "year": 2002,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2002/1808",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2002/1808/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2002/1808/data.json",
+      "relevant_sections": {
+        "emissions_testing": ["Fixed penalties"],
+        "procedures": ["Notice requirements"]
+      },
+      "categories": ["vehicle_emissions", "fixed_penalties"]
+    },
+    {
+      "title": "The Motor Car (Driving Instruction) Regulations 2005",
+      "si_number": "2005 No. 1902",
+      "year": 2005,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2005/1902",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2005/1902/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2005/1902/data.json",
+      "relevant_sections": {
+        "instructor_penalties": ["Unauthorised instruction"],
+        "enforcement": ["DVSA powers"],
+        "registration": ["Instructor requirements"]
+      },
+      "categories": ["dvla_fines", "driving_instruction"]
+    },
+    {
+      "title": "The Road Traffic (Permitted Parking Area and Special Parking Area) (County of Merseyside) Order 2009",
+      "si_number": "2009 No. 1889",
+      "year": 2009,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2009/1889",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2009/1889/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2009/1889/data.json",
+      "relevant_sections": {
+        "permitted_areas": ["Merseyside designation"],
+        "civil_enforcement": ["Local authority powers"]
+      },
+      "categories": ["parking_pcn", "regional_orders"]
+    },
+    {
+      "title": "The Traffic Signs (Temporary Obstructions) Regulations 1997",
+      "si_number": "1997 No. 3053",
+      "year": 1997,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1997/3053",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1997/3053/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1997/3053/data.json",
+      "relevant_sections": {
+        "temporary_signs": ["Obstruction signage"],
+        "works_traffic": ["Temporary traffic management"]
+      },
+      "categories": ["traffic_signs", "temporary_orders"]
+    },
+    {
+      "title": "The Zebra, Pelican and Puffin Pedestrian Crossings Regulations and General Directions 1997",
+      "si_number": "1997 No. 2400",
+      "year": 1997,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1997/2400",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1997/2400/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1997/2400/data.json",
+      "relevant_sections": {
+        "pedestrian_crossings": ["Crossing regulations"],
+        "enforcement": ["Contravention procedures"]
+      },
+      "categories": ["traffic_light_pcn", "pedestrian_crossings"]
+    },
+    {
+      "title": "The School Crossing Patrol Sign (England and Wales) Regulations 2006",
+      "si_number": "2006 No. 953",
+      "year": 2006,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2006/953",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2006/953/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2006/953/data.json",
+      "relevant_sections": {
+        "school_crossings": ["Patrol signs"],
+        "enforcement": ["School street enforcement"]
+      },
+      "categories": ["school_streets", "traffic_signs"]
+    },
+    {
+      "title": "The Road Traffic (Consequential Provisions) Act 1988 (Commencement No. 1) Order 1988",
+      "si_number": "1988 No. 1793",
+      "year": 1988,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1988/1793",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1988/1793/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1988/1793/data.json",
+      "relevant_sections": {
+        "commencement": ["Implementation provisions"],
+        "transitional": ["Legacy arrangements"]
+      },
+      "categories": ["implementation_order"]
+    },
+    {
+      "title": "The Traffic Management Permit Scheme (England) Regulations 2007",
+      "si_number": "2007 No. 3372",
+      "year": 2007,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2007/3372",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2007/3372/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2007/3372/data.json",
+      "relevant_sections": {
+        "permit_schemes": ["Works coordination"],
+        "enforcement": ["Permit compliance"]
+      },
+      "categories": ["permit_schemes", "works_coordination"]
+    },
+    {
+      "title": "The New Roads and Street Works Act 1991 (Commencement No. 4) Order 1992",
+      "si_number": "1992 No. 1671",
+      "year": 1992,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1992/1671",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1992/1671/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1992/1671/data.json",
+      "relevant_sections": {
+        "commencement": ["Street works provisions"],
+        "implementation": ["Enforcement framework"]
+      },
+      "categories": ["street_works", "implementation_order"]
+    },
+    {
+      "title": "The Road Traffic (Driver Licensing and Information Systems) Act 1989 (Commencement No. 4) Order 1990",
+      "si_number": "1990 No. 144",
+      "year": 1990,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1990/144",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1990/144/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1990/144/data.json",
+      "relevant_sections": {
+        "licensing_systems": ["Driver information"],
+        "enforcement": ["Licensing compliance"]
+      },
+      "categories": ["driving_licences", "implementation_order"]
+    },
+    {
+      "title": "The Traffic Regulation Orders Procedure Regulations 1996",
+      "si_number": "1996 No. 2489",
+      "year": 1996,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1996/2489",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1996/2489/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1996/2489/data.json",
+      "relevant_sections": {
+        "tro_procedures": ["Order making procedures"],
+        "consultation": ["Public consultation requirements"]
+      },
+      "categories": ["tro_procedures", "consultation_requirements"]
+    },
+    {
+      "title": "The Local Authorities' Traffic Orders (Procedure) (England and Wales) Regulations 1996",
+      "si_number": "1996 No. 2489",
+      "year": 1996,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1996/2489",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1996/2489/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1996/2489/data.json",
+      "relevant_sections": {
+        "traffic_orders": ["Local authority procedures"],
+        "objections": ["Objection procedures"]
+      },
+      "categories": ["tro_procedures", "local_authority_orders"]
+    },
+    {
+      "title": "The Road Traffic (New Drivers) Act 1995 (Commencement) Order 1997",
+      "si_number": "1997 No. 267",
+      "year": 1997,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1997/267",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1997/267/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1997/267/data.json",
+      "relevant_sections": {
+        "new_drivers": ["Probationary period"],
+        "revocation": ["Licence revocation procedures"]
+      },
+      "categories": ["driving_licences", "new_driver_provisions"]
+    },
+    {
+      "title": "The Traffic Orders (Exemption for Disabled Persons) (England and Wales) Regulations 2000",
+      "si_number": "2000 No. 683",
+      "year": 2000,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2000/683",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2000/683/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2000/683/data.json",
+      "relevant_sections": {
+        "disabled_exemptions": ["Blue badge provisions"],
+        "parking_exemptions": ["Disabled parking rights"]
+      },
+      "categories": ["disabled_exemptions", "blue_badge_parking"]
+    },
+    {
+      "title": "The Greater London Authority Elections Rules 2007",
+      "si_number": "2007 No. 3541",
+      "year": 2007,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2007/3541",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2007/3541/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2007/3541/data.json",
+      "relevant_sections": {
+        "election_procedures": ["Mayoral elections"],
+        "voting": ["GLA electoral framework"]
+      },
+      "categories": ["gla_framework", "mayoral_powers"]
+    },
+    {
+      "title": "The Road Safety Act 2006 (Commencement No. 7) Order 2009",
+      "si_number": "2009 No. 471",
+      "year": 2009,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2009/471",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2009/471/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2009/471/data.json",
+      "relevant_sections": {
+        "road_safety": ["Safety provisions"],
+        "enforcement": ["Enhanced powers"]
+      },
+      "categories": ["road_safety", "implementation_order"]
+    },
+    {
+      "title": "The Criminal Justice Act 2003 (Commencement No. 8 and Transitional and Saving Provisions) Order 2005",
+      "si_number": "2005 No. 950",
+      "year": 2005,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2005/950",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2005/950/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2005/950/data.json",
+      "relevant_sections": {
+        "criminal_justice": ["Court procedures"],
+        "sentencing": ["Traffic offence sentencing"]
+      },
+      "categories": ["court_procedures", "sentencing_framework"]
+    },
+    {
+      "title": "The Transport Act 1985 (Commencement No. 10) Order 1986",
+      "si_number": "1986 No. 1794",
+      "year": 1986,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1986/1794",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1986/1794/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1986/1794/data.json",
+      "relevant_sections": {
+        "transport_deregulation": ["Bus deregulation"],
+        "enforcement": ["Transport enforcement"]
+      },
+      "categories": ["transport_framework", "implementation_order"]
+    },
+    {
+      "title": "The Road Traffic (Courses for Drink-Drive Offenders) Regulations 1992",
+      "si_number": "1992 No. 3013",
+      "year": 1992,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1992/3013",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1992/3013/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1992/3013/data.json",
+      "relevant_sections": {
+        "drink_drive_courses": ["Rehabilitation courses"],
+        "alternatives": ["Alternative penalties"]
+      },
+      "categories": ["drink_drive_offences", "rehabilitation"]
+    },
+    {
+      "title": "The Goods Vehicles (Licensing of Operators) Act 1995 (Commencement) Order 1995",
+      "si_number": "1995 No. 2181",
+      "year": 1995,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1995/2181",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1995/2181/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1995/2181/data.json",
+      "relevant_sections": {
+        "operator_licensing": ["Goods vehicle operators"],
+        "enforcement": ["Operator compliance"]
+      },
+      "categories": ["goods_vehicles", "operator_licensing"]
+    },
+    {
+      "title": "The Public Service Vehicles (Conduct of Drivers, Inspectors, Conductors and Passengers) Regulations 1990",
+      "si_number": "1990 No. 1020",
+      "year": 1990,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/1990/1020",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/1990/1020/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/1990/1020/data.json",
+      "relevant_sections": {
+        "psv_conduct": ["Driver conduct"],
+        "enforcement": ["PSV compliance"]
+      },
+      "categories": ["public_service_vehicles", "driver_conduct"]
+    },
+    {
+      "title": "The Transport Act 2000 (Commencement No. 1) Order 2000",
+      "si_number": "2000 No. 3229",
+      "year": 2000,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2000/3229",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2000/3229/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2000/3229/data.json",
+      "relevant_sections": {
+        "transport_provisions": ["Implementation schedule"],
+        "charging_schemes": ["Road user charging commencement"]
+      },
+      "categories": ["implementation_order", "road_user_charging"]
+    },
+    {
+      "title": "The Deregulation Act 2015 (Commencement No. 3 and Transitional and Saving Provisions) Order 2015",
+      "si_number": "2015 No. 1732",
+      "year": 2015,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2015/1732",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2015/1732/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2015/1732/data.json",
+      "relevant_sections": {
+        "deregulation": ["Reduced bureaucracy"],
+        "transport": ["Transport deregulation measures"]
+      },
+      "categories": ["deregulation", "implementation_order"]
+    },
+    {
+      "title": "The Localism Act 2011 (Commencement No. 4 and Transitional, Transitory and Saving Provisions) Order 2012",
+      "si_number": "2012 No. 628",
+      "year": 2012,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2012/628",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2012/628/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2012/628/data.json",
+      "relevant_sections": {
+        "localism": ["Local authority powers"],
+        "community_rights": ["Local enforcement powers"]
+      },
+      "categories": ["localism", "local_authority_powers"]
+    },
+    {
+      "title": "The Infrastructure Act 2015 (Commencement No. 7) Regulations 2016",
+      "si_number": "2016 No. 362",
+      "year": 2016,
+      "legislation_url": "https://www.legislation.gov.uk/uksi/2016/362",
+      "xml_endpoint": "https://www.legislation.gov.uk/uksi/2016/362/data.xml",
+      "json_endpoint": "https://www.legislation.gov.uk/uksi/2016/362/data.json",
+      "relevant_sections": {
+        "infrastructure": ["Transport infrastructure"],
+        "enforcement": ["Infrastructure enforcement"]
+      },
+      "categories": ["infrastructure", "implementation_order"]
+    }
+  ],
+  "total_count": {
+    "primary_acts": 15,
+    "statutory_instruments": 50,
+    "total_legislation": 65
+  }
+}

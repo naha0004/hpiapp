@@ -1,0 +1,515 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  phone         String?
+  address       String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Subscription information
+  subscriptionType   SubscriptionType @default(FREE_TRIAL)
+  subscriptionStart  DateTime?
+  subscriptionEnd    DateTime?
+  isActive          Boolean          @default(true)
+  
+  // Usage tracking for free trials
+  appealTrialUsed    Boolean          @default(false)
+  appealTrialUsedAt  DateTime?
+  appealTrialReg     String?          // Track which registration was used for trial
+  
+  // HPI Credits system
+  hpiCredits         Int              @default(0)
+  
+  accounts          Account[]
+  sessions          Session[]
+  appeals           Appeal[]
+  hpiChecks         HPICheck[]
+  payments          Payment[]
+  vehicles          Vehicle[]
+  apiAnalytics      ApiAnalytics[]
+  systemErrors      SystemErrors[]
+  promoUsages       PromoUsage[]
+  
+  // Reminder relationships
+  vehicleReminders  VehicleReminder[]
+  vehicleSuggestions VehicleSuggestion[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Vehicle {
+  id            String   @id @default(cuid())
+  userId        String
+  registration  String
+  make          String?
+  model         String?
+  year          Int?
+  color         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appeals       Appeal[]
+  hpiChecks     HPICheck[]
+  
+  @@unique([userId, registration])
+}
+
+model Appeal {
+  id                String      @id @default(cuid())
+  userId            String
+  vehicleId         String?
+  ticketNumber      String
+  fineAmount        Float
+  issueDate         DateTime
+  dueDate           DateTime
+  location          String
+  reason            String
+  description       String
+  evidence          String?    // JSON string of file URLs/paths
+  te7Form           String?    // JSON string of TE7 witness statement data
+  te9Form           String?    // JSON string of TE9 statutory declaration data
+  selectedForms     String?    // JSON string array of selected form types
+  status            AppealStatus @default(SUBMITTED)
+  submissionDate    DateTime    @default(now())
+  responseDate      DateTime?
+  outcome           String?
+  outcomeReason     String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicle           Vehicle?    @relation(fields: [vehicleId], references: [id])
+}
+
+model HPICheck {
+  id            String      @id @default(cuid())
+  userId        String
+  vehicleId     String?
+  registration  String
+  status        HPIStatus   @default(PENDING)
+  requestDate   DateTime    @default(now())
+  completedDate DateTime?
+  results       Json?       // Store HPI check results as JSON
+  cost          Float       @default(5.00)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicle       Vehicle?    @relation(fields: [vehicleId], references: [id])
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  userId            String
+  stripePaymentId   String?       @unique
+  amount            Float         // Original amount before discount
+  discountAmount    Float         @default(0) // Amount discounted via promo codes
+  finalAmount       Float?        // Final amount charged (amount - discountAmount) - nullable for backwards compatibility
+  currency          String        @default("GBP")
+  status            PaymentStatus @default(PENDING)
+  type              PaymentType
+  description       String
+  quantity          Int           @default(1) // For bulk purchases (e.g., multiple HPI checks)
+  promoCodeUsed     String?       // Promo code that was applied
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  
+  user              User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  promoUsages       PromoUsage[]
+}
+
+enum SubscriptionType {
+  FREE_TRIAL
+  SINGLE_APPEAL
+  ANNUAL_PLAN
+}
+
+enum AppealStatus {
+  SUBMITTED
+  UNDER_REVIEW
+  ADDITIONAL_INFO_REQUIRED
+  APPROVED
+  REJECTED
+  WITHDRAWN
+}
+
+enum HPIStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+enum PaymentType {
+  SINGLE_APPEAL
+  ANNUAL_SUBSCRIPTION
+  HPI_CHECK
+  BULK_HPI
+}
+
+// Analytics and Monitoring Models
+model EmailLog {
+  id            String      @id @default(cuid())
+  submissionId  String?     // Reference to appeal ID or submission
+  recipient     String
+  subject       String
+  status        EmailStatus @default(SENT)
+  provider      String?     // SMTP provider used
+  errorMessage  String?
+  retryCount    Int         @default(0)
+  deliveredAt   DateTime?
+  openedAt      DateTime?
+  bouncedAt     DateTime?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  @@index([submissionId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ApiAnalytics {
+  id            String      @id @default(cuid())
+  endpoint      String
+  method        String
+  statusCode    Int
+  responseTime  Int         // in milliseconds
+  userAgent     String?
+  ipAddress     String?
+  userId        String?
+  errorMessage  String?
+  timestamp     DateTime    @default(now())
+  
+  user          User?       @relation(fields: [userId], references: [id])
+  
+  @@index([endpoint])
+  @@index([timestamp])
+  @@index([statusCode])
+}
+
+model PerformanceMetrics {
+  id            String      @id @default(cuid())
+  metric        String      // 'response_time', 'memory_usage', 'cpu_usage', etc.
+  value         Float
+  unit          String      // 'ms', 'mb', 'percent', etc.
+  endpoint      String?
+  timestamp     DateTime    @default(now())
+  
+  @@index([metric])
+  @@index([timestamp])
+}
+
+model SystemErrors {
+  id            String      @id @default(cuid())
+  errorType     String      // 'API_ERROR', 'EMAIL_ERROR', 'PDF_ERROR', etc.
+  message       String
+  stack         String?
+  endpoint      String?
+  userId        String?
+  severity      ErrorSeverity @default(LOW)
+  resolved      Boolean     @default(false)
+  timestamp     DateTime    @default(now())
+  
+  user          User?       @relation(fields: [userId], references: [id])
+  
+  @@index([errorType])
+  @@index([severity])
+  @@index([timestamp])
+  @@index([resolved])
+}
+
+enum EmailStatus {
+  SENT
+  DELIVERED
+  OPENED
+  BOUNCED
+  FAILED
+  QUEUED
+}
+
+enum ErrorSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+// Vehicle Reminder Models
+model VehicleReminder {
+  id            String      @id @default(cuid())
+  userId        String
+  vehicleReg    String
+  reminderType  ReminderType
+  title         String
+  description   String?
+  dueDate       DateTime
+  notifyDays    Int         @default(30)  // How many days before to notify
+  isActive      Boolean     @default(true)
+  isCompleted   Boolean     @default(false)
+  completedAt   DateTime?
+  
+  // Vehicle information
+  make          String?
+  model         String?
+  year          Int?
+  
+  // Auto-renewal for recurring reminders (like annual MOT)
+  isRecurring   Boolean     @default(false)
+  recurringInterval Int?    // Days between renewals (365 for annual)
+  
+  // Notification tracking
+  notifications VehicleReminderNotification[]
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([vehicleReg])
+  @@index([dueDate])
+  @@index([reminderType])
+  @@index([isActive])
+}
+
+model VehicleReminderNotification {
+  id          String          @id @default(cuid())
+  reminderId  String
+  
+  // Notification details
+  notifyDate  DateTime        // When to send the notification
+  sentAt      DateTime?       // When it was actually sent
+  method      NotificationMethod @default(EMAIL)
+  status      NotificationStatus @default(PENDING)
+  
+  // Content
+  subject     String?
+  message     String?
+  
+  // Email specific
+  emailTo     String?
+  emailSent   Boolean         @default(false)
+  emailError  String?
+  
+  // System notification specific
+  isRead      Boolean         @default(false)
+  readAt      DateTime?
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  
+  reminder    VehicleReminder @relation(fields: [reminderId], references: [id], onDelete: Cascade)
+  
+  @@index([reminderId])
+  @@index([notifyDate])
+  @@index([status])
+  @@index([method])
+}
+
+// Smart reminder suggestions based on DVLA/DVSA data
+model VehicleSuggestion {
+  id            String      @id @default(cuid())
+  userId        String
+  vehicleReg    String
+  suggestionType SuggestionType
+  
+  // Suggestion content
+  title         String
+  message       String
+  priority      Priority    @default(MEDIUM)
+  
+  // Data sources
+  dvlaData      Json?       // Stored DVLA data that triggered suggestion
+  dvsaData      Json?       // Stored DVSA data that triggered suggestion
+  
+  // User interaction
+  isDismissed   Boolean     @default(false)
+  isAccepted    Boolean     @default(false)
+  dismissedAt   DateTime?
+  acceptedAt    DateTime?
+  
+  // Created reminder (if user accepts suggestion) - nullable reference
+  createdReminderId String?
+  
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([vehicleReg])
+  @@index([suggestionType])
+  @@index([priority])
+  @@index([isDismissed])
+}
+
+enum ReminderType {
+  MOT_TEST
+  VEHICLE_TAX
+  INSURANCE
+  SERVICE
+  FINE_PAYMENT
+  APPEAL_DEADLINE
+  OTHER
+}
+
+enum NotificationMethod {
+  EMAIL
+  SYSTEM
+  SMS  // Future implementation
+  PUSH // Future implementation
+}
+
+enum NotificationStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+  CANCELLED
+}
+
+enum SuggestionType {
+  MOT_EXPIRING
+  TAX_EXPIRING
+  MOT_OVERDUE
+  TAX_OVERDUE
+  INSURANCE_DUE
+  SERVICE_DUE
+  APPEAL_OPPORTUNITY
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+// Free Trial Tracking for AI Appeal Predictions
+model FreeTrialUsage {
+  id            String   @id @default(cuid())
+  registration  String   // Vehicle registration number
+  userId        String?  // Optional - for logged in users
+  usedAt        DateTime @default(now())
+  ipAddress     String?  // For tracking anonymous users
+  userAgent     String?  // Browser fingerprinting
+  createdAt     DateTime @default(now())
+  
+  // Index for fast lookups
+  @@index([registration])
+  @@index([userId])
+  @@unique([registration]) // Each registration can only be used once for free trial
+}
+
+// Promo Code Management
+model PromoCode {
+  id              String   @id @default(cuid())
+  code            String   @unique // The promo code itself (e.g., "SAVE20")
+  name            String   // Display name for admin
+  description     String?  // Description of what the promo offers
+  discountType    DiscountType // PERCENTAGE or FIXED_AMOUNT
+  discountValue   Float    // Percentage (e.g., 20 for 20%) or fixed amount (e.g., 5.00 for £5)
+  minOrderValue   Float?   // Minimum order value to apply promo
+  maxDiscount     Float?   // Maximum discount amount (for percentage discounts)
+  usageLimit      Int?     // How many times this code can be used (null = unlimited)
+  usageCount      Int      @default(0) // How many times it has been used
+  perUserLimit    Int?     // How many times each user can use it (null = unlimited)
+  validFrom       DateTime // When the promo becomes valid
+  validUntil      DateTime // When the promo expires
+  isActive        Boolean  @default(true) // Can be disabled without deleting
+  applicableFor   String   @default("ALL") // Services this applies to: "ALL", "HPI_CHECK", "SINGLE_APPEAL", "BULK_HPI" (comma-separated)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  createdBy       String   // Admin user who created it
+  
+  // Relations
+  promoUsages     PromoUsage[]
+  
+  @@index([code])
+  @@index([validFrom, validUntil])
+  @@index([isActive])
+}
+
+model PromoUsage {
+  id          String    @id @default(cuid())
+  promoCodeId String
+  userId      String
+  paymentId   String?   // Link to the payment where this was used
+  orderValue  Float     // Total order value before discount
+  discountAmount Float  // Amount discounted
+  usedAt      DateTime  @default(now())
+  
+  // Relations
+  promoCode   PromoCode @relation(fields: [promoCodeId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payment     Payment?  @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  
+  @@index([promoCodeId])
+  @@index([userId])
+  @@index([paymentId])
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+}

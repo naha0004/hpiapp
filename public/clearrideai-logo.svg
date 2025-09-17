@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Red car with checkmark -->
+  <g transform="translate(50, 80)">
+    <!-- Car body -->
+    <path d="M15 40 C15 25, 25 15, 40 15 L75 15 C90 15, 100 25, 100 40 L100 55 C100 70, 90 80, 75 80 L40 80 C25 80, 15 70, 15 55 Z" fill="#E53E3E"/>
+    
+    <!-- Windshield -->
+    <path d="M25 25 C25 20, 30 15, 35 15 L80 15 C85 15, 90 20, 90 25 L90 35 C90 40, 85 45, 80 45 L35 45 C30 45, 25 40, 25 35 Z" fill="#FFF"/>
+    
+    <!-- Headlights -->
+    <circle cx="25" cy="55" r="8" fill="#FFF"/>
+    <circle cx="90" cy="55" r="8" fill="#FFF"/>
+    
+    <!-- Checkmark in windshield -->
+    <path d="M45 28 L55 35 L70 22" stroke="#E53E3E" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

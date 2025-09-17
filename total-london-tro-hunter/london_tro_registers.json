@@ -1,0 +1,716 @@
+{
+  "barking and dagenham": {
+    "main_registers": [
+      "https://www.lbbd.gov.uk/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "barnet": {
+    "main_registers": [
+      "https://www.barnet.gov.uk/roads-and-pavements/traffic-management/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "bexley": {
+    "main_registers": [
+      "https://www.bexley.gov.uk/services/roads-and-transport/traffic-management/traffic-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "brent": {
+    "main_registers": [
+      "https://www.brent.gov.uk/services-for-residents/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "bromley": {
+    "main_registers": [
+      "https://www.bromley.gov.uk/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "camden": {
+    "main_registers": [
+      "https://www.camden.gov.uk/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "city of london": {
+    "main_registers": [
+      "https://www.cityoflondon.gov.uk/services/streets/traffic-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "croydon": {
+    "main_registers": [
+      "https://www.croydon.gov.uk/parking-streets-and-transport/roads-and-highways/traffic-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "ealing": {
+    "main_registers": [
+      "https://www.ealing.gov.uk/info/201033/traffic_orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "enfield": {
+    "main_registers": [
+      "https://new.enfield.gov.uk/services/roads-and-transport/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "greenwich": {
+    "main_registers": [
+      "https://www.royalgreenwich.gov.uk/info/200259/roads_and_pavements/2336/traffic_management_orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "hackney": {
+    "main_registers": [
+      "https://hackney.gov.uk/traffic-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "hammersmith and fulham": {
+    "main_registers": [
+      "https://www.lbhf.gov.uk/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "haringey": {
+    "main_registers": [
+      "https://www.haringey.gov.uk/roads-and-travel/traffic-management/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "harrow": {
+    "main_registers": [
+      "https://www.harrow.gov.uk/parking-roads-and-travel/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "havering": {
+    "main_registers": [
+      "https://www.havering.gov.uk/info/20037/parking/261/traffic_management_orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "hillingdon": {
+    "main_registers": [
+      "https://www.hillingdon.gov.uk/traffic-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "hounslow": {
+    "main_registers": [
+      "https://www.hounslow.gov.uk/info/20053/parking/1200/traffic_management_orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "islington": {
+    "main_registers": [
+      "https://www.islington.gov.uk/roads/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "kensington and chelsea": {
+    "main_registers": [
+      "https://www.rbkc.gov.uk/parking-transport-and-streets/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "kingston upon thames": {
+    "main_registers": [
+      "https://www.kingston.gov.uk/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "lambeth": {
+    "main_registers": [
+      "https://www.lambeth.gov.uk/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "lewisham": {
+    "main_registers": [
+      "https://lewisham.gov.uk/myservices/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "merton": {
+    "main_registers": [
+      "https://www.merton.gov.uk/streets-parking-transport/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "newham": {
+    "main_registers": [
+      "https://www.newham.gov.uk/parking-transport-streets/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "redbridge": {
+    "main_registers": [
+      "https://www.redbridge.gov.uk/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "richmond upon thames": {
+    "main_registers": [
+      "https://www.richmond.gov.uk/services/roads_and_transport/traffic_management_orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "southwark": {
+    "main_registers": [
+      "https://www.southwark.gov.uk/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "sutton": {
+    "main_registers": [
+      "https://www.sutton.gov.uk/parking-roads-and-travel/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "tower hamlets": {
+    "main_registers": [
+      "https://www.towerhamlets.gov.uk/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "waltham forest": {
+    "main_registers": [
+      "https://www.walthamforest.gov.uk/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "wandsworth": {
+    "main_registers": [
+      "https://www.wandsworth.gov.uk/roads-and-transport/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "westminster": {
+    "main_registers": [
+      "https://www.westminster.gov.uk/parking/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  },
+  "tfl": {
+    "main_registers": [
+      "https://tfl.gov.uk/corporate/publications-and-reports/traffic-management-orders"
+    ],
+    "sub_categories": {
+      "parking_places": [],
+      "waiting_loading": [],
+      "cpz_zones": [],
+      "bus_lanes": [],
+      "red_routes": [],
+      "cycle_lanes": [],
+      "pedestrian_zones": [],
+      "school_streets": [],
+      "low_traffic_neighbourhoods": [],
+      "speed_limits": [],
+      "experimental_orders": [],
+      "temporary_orders": [],
+      "special_events": [],
+      "permit_schemes": []
+    }
+  }
+}

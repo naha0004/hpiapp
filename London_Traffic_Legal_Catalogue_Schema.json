@@ -1,0 +1,743 @@
+{
+  "metadata": {
+    "title": "London Traffic Enforcement Legal Catalogue - Solicitor Grade",
+    "description": "Comprehensive catalogue of laws, regulations, TROs/TMOs, statutory instruments, and tribunal precedents for London traffic enforcement",
+    "version": "1.0.0",
+    "created": "2025-09-16",
+    "jurisdiction": "England & Wales (London focus)",
+    "coverage": "All 33 London boroughs + City of London + TfL + London Councils",
+    "legal_disclaimer": "For legal reference only. Professional legal advice required for specific cases.",
+    "update_frequency": "Monthly with real-time TRO/TMO monitoring"
+  },
+  "enforcement_categories": {
+    "parking_pcn_on_street": {
+      "category_id": "PCN_PARKING_ON",
+      "description": "On-street parking penalty charge notices",
+      "issuing_authorities": ["london_boroughs", "city_of_london"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "parking_pcn_off_street": {
+      "category_id": "PCN_PARKING_OFF",
+      "description": "Off-street parking penalty charge notices (car parks)",
+      "issuing_authorities": ["london_boroughs", "city_of_london", "private_operators"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "speeding_fpn": {
+      "category_id": "SPEED_FPN",
+      "description": "Speeding Fixed Penalty Notices and NIPs",
+      "issuing_authorities": ["metropolitan_police", "london_safety_camera_partnership", "tfl_contractors"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "bus_lane_pcn": {
+      "category_id": "BUS_LANE_PCN",
+      "description": "Bus lane penalty charge notices",
+      "issuing_authorities": ["london_boroughs", "tfl"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "traffic_light_pcn": {
+      "category_id": "TRAFFIC_LIGHT_PCN",
+      "description": "Traffic light, yellow box junction, and moving traffic PCNs",
+      "issuing_authorities": ["london_boroughs", "tfl"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "congestion_ulez_lez_pcn": {
+      "category_id": "CHARGE_ZONE_PCN",
+      "description": "Congestion Charge, ULEZ, and LEZ penalty charge notices",
+      "issuing_authorities": ["tfl"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "tec_court_fines": {
+      "category_id": "TEC_COURT",
+      "description": "Traffic Enforcement Centre court fines, bailiff escalation, charge certificates",
+      "issuing_authorities": ["northampton_tec", "bailiff_companies"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "dvla_fines": {
+      "category_id": "DVLA_FINES",
+      "description": "DVLA fines for SORN, untaxed vehicles, no MOT/insurance",
+      "issuing_authorities": ["dvla", "dvsa"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "private_parking": {
+      "category_id": "PRIVATE_PARKING",
+      "description": "Private parking charges under POFA 2012, BPA/IPC codes, POPLA appeals",
+      "issuing_authorities": ["private_parking_companies", "property_owners"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "te7_court_forms": {
+      "category_id": "TE7_WITNESS",
+      "description": "TE7 Court Forms for out of time witness statements",
+      "issuing_authorities": ["northampton_tec", "local_courts"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    },
+    "te9_witness_forms": {
+      "category_id": "TE9_WITNESS",
+      "description": "TE9 Witness Forms for statutory declarations",
+      "issuing_authorities": ["northampton_tec", "local_courts"],
+      "primary_legislation": [],
+      "statutory_instruments": [],
+      "local_orders": [],
+      "tribunal_precedents": [],
+      "enforcement_contracts": [],
+      "operational_guidelines": [],
+      "defence_grounds": [],
+      "appeal_routes": [],
+      "time_limits": {},
+      "penalty_amounts": {},
+      "escalation_routes": []
+    }
+  },
+  "authorities": {
+    "london_boroughs": [
+      {
+        "authority_id": "barking_dagenham",
+        "name": "London Borough of Barking and Dagenham",
+        "website": "https://www.lbbd.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "barnet",
+        "name": "London Borough of Barnet",
+        "website": "https://www.barnet.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "bexley",
+        "name": "London Borough of Bexley",
+        "website": "https://www.bexley.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "brent",
+        "name": "London Borough of Brent",
+        "website": "https://www.brent.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "bromley",
+        "name": "London Borough of Bromley",
+        "website": "https://www.bromley.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "camden",
+        "name": "London Borough of Camden",
+        "website": "https://www.camden.gov.uk",
+        "tro_tmo_sources": ["https://www.camden.gov.uk/traffic-management-orders"],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "croydon",
+        "name": "London Borough of Croydon",
+        "website": "https://www.croydon.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "ealing",
+        "name": "London Borough of Ealing",
+        "website": "https://www.ealing.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "enfield",
+        "name": "London Borough of Enfield",
+        "website": "https://www.enfield.gov.uk",
+        "tro_tmo_sources": ["https://www.enfield.gov.uk/services/roads-and-transport/traffic-management-orders"],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "greenwich",
+        "name": "Royal Borough of Greenwich",
+        "website": "https://www.royalgreenwich.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "hackney",
+        "name": "London Borough of Hackney",
+        "website": "https://www.hackney.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "hammersmith_fulham",
+        "name": "London Borough of Hammersmith and Fulham",
+        "website": "https://www.lbhf.gov.uk",
+        "tro_tmo_sources": ["https://www.lbhf.gov.uk/transport-and-roads/roads-bridges-and-pavements/traffic-management/traffic-management-orders"],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "haringey",
+        "name": "London Borough of Haringey",
+        "website": "https://www.haringey.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "harrow",
+        "name": "London Borough of Harrow",
+        "website": "https://www.harrow.gov.uk",
+        "tro_tmo_sources": ["https://www.harrow.gov.uk/road-maintenance-travel/traffic-management-orders"],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "havering",
+        "name": "London Borough of Havering",
+        "website": "https://www.havering.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "hillingdon",
+        "name": "London Borough of Hillingdon",
+        "website": "https://www.hillingdon.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "hounslow",
+        "name": "London Borough of Hounslow",
+        "website": "https://www.hounslow.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "islington",
+        "name": "London Borough of Islington",
+        "website": "https://www.islington.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "kensington_chelsea",
+        "name": "Royal Borough of Kensington and Chelsea",
+        "website": "https://www.rbkc.gov.uk",
+        "tro_tmo_sources": ["https://www.rbkc.gov.uk/streets-and-transport/managing-traffic-and-transport/traffic-management-orders"],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "kingston_thames",
+        "name": "Royal Borough of Kingston upon Thames",
+        "website": "https://www.kingston.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "lambeth",
+        "name": "London Borough of Lambeth",
+        "website": "https://www.lambeth.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "lewisham",
+        "name": "London Borough of Lewisham",
+        "website": "https://www.lewisham.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "merton",
+        "name": "London Borough of Merton",
+        "website": "https://www.merton.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "newham",
+        "name": "London Borough of Newham",
+        "website": "https://www.newham.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "redbridge",
+        "name": "London Borough of Redbridge",
+        "website": "https://www.redbridge.gov.uk",
+        "tro_tmo_sources": ["https://www.redbridge.gov.uk/parking/traffic-management-orders/"],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "richmond_thames",
+        "name": "London Borough of Richmond upon Thames",
+        "website": "https://www.richmond.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "southwark",
+        "name": "London Borough of Southwark",
+        "website": "https://www.southwark.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "sutton",
+        "name": "London Borough of Sutton",
+        "website": "https://www.sutton.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "tower_hamlets",
+        "name": "London Borough of Tower Hamlets",
+        "website": "https://www.towerhamlets.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "waltham_forest",
+        "name": "London Borough of Waltham Forest",
+        "website": "https://www.walthamforest.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "wandsworth",
+        "name": "London Borough of Wandsworth",
+        "website": "https://www.wandsworth.gov.uk",
+        "tro_tmo_sources": ["https://www.wandsworth.gov.uk/roads-and-transport/road-safety/traffic-management-orders-tmos/"],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      },
+      {
+        "authority_id": "westminster",
+        "name": "City of Westminster",
+        "website": "https://www.westminster.gov.uk",
+        "tro_tmo_sources": [],
+        "parking_enforcement": {},
+        "traffic_enforcement": {},
+        "appeal_procedures": {},
+        "contact_details": {}
+      }
+    ],
+    "city_of_london": {
+      "authority_id": "city_of_london",
+      "name": "City of London Corporation",
+      "website": "https://www.cityoflondon.gov.uk",
+      "tro_tmo_sources": [],
+      "parking_enforcement": {},
+      "traffic_enforcement": {},
+      "appeal_procedures": {},
+      "contact_details": {}
+    },
+    "transport_for_london": {
+      "authority_id": "tfl",
+      "name": "Transport for London",
+      "website": "https://tfl.gov.uk",
+      "tro_hub": "https://haveyoursay.tfl.gov.uk/tro",
+      "api_base": "https://api.tfl.gov.uk",
+      "enforcement_areas": ["red_routes", "congestion_charge", "ulez", "lez", "bus_lanes"],
+      "tro_tmo_sources": ["https://haveyoursay.tfl.gov.uk/tro"],
+      "parking_enforcement": {},
+      "traffic_enforcement": {},
+      "appeal_procedures": {},
+      "contact_details": {}
+    },
+    "london_councils": {
+      "authority_id": "london_councils",
+      "name": "London Councils",
+      "website": "https://www.londoncouncils.gov.uk",
+      "services": ["llcs_parking", "trucking_schemes", "joint_committee"],
+      "tro_tmo_sources": [],
+      "parking_enforcement": {},
+      "traffic_enforcement": {},
+      "appeal_procedures": {},
+      "contact_details": {}
+    }
+  },
+  "legislation_sources": {
+    "primary_acts": {
+      "road_traffic_regulation_act_1984": {
+        "act_id": "rtra_1984",
+        "title": "Road Traffic Regulation Act 1984",
+        "chapter": "1984 c. 27",
+        "url": "https://www.legislation.gov.uk/ukpga/1984/27",
+        "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1984/27/data.xml",
+        "relevant_sections": [],
+        "applies_to": ["parking_pcn", "speeding_fpn", "bus_lane_pcn", "traffic_light_pcn"],
+        "amendments": []
+      },
+      "transport_act_2000": {
+        "act_id": "transport_2000",
+        "title": "Transport Act 2000",
+        "chapter": "2000 c. 38",
+        "url": "https://www.legislation.gov.uk/ukpga/2000/38",
+        "xml_endpoint": "https://www.legislation.gov.uk/ukpga/2000/38/data.xml",
+        "relevant_sections": [],
+        "applies_to": ["congestion_charge"],
+        "amendments": []
+      },
+      "greater_london_authority_act_1999": {
+        "act_id": "gla_1999",
+        "title": "Greater London Authority Act 1999",
+        "chapter": "1999 c. 29",
+        "url": "https://www.legislation.gov.uk/ukpga/1999/29",
+        "xml_endpoint": "https://www.legislation.gov.uk/ukpga/1999/29/data.xml",
+        "relevant_sections": [],
+        "applies_to": ["congestion_charge", "ulez", "lez"],
+        "amendments": []
+      },
+      "london_local_authorities_act_1996": {
+        "act_id": "lla_1996",
+        "title": "London Local Authorities Act 1996",
+        "chapter": "1996 c. ix",
+        "url": "https://www.legislation.gov.uk/ukla/1996/9",
+        "xml_endpoint": "https://www.legislation.gov.uk/ukla/1996/9/data.xml",
+        "relevant_sections": [],
+        "applies_to": ["bus_lane_pcn"],
+        "amendments": []
+      },
+      "protection_of_freedoms_act_2012": {
+        "act_id": "pofa_2012",
+        "title": "Protection of Freedoms Act 2012",
+        "chapter": "2012 c. 9",
+        "url": "https://www.legislation.gov.uk/ukpga/2012/9",
+        "xml_endpoint": "https://www.legislation.gov.uk/ukpga/2012/9/data.xml",
+        "relevant_sections": [],
+        "applies_to": ["private_parking"],
+        "amendments": []
+      },
+      "traffic_management_act_2004": {
+        "act_id": "tma_2004",
+        "title": "Traffic Management Act 2004",
+        "chapter": "2004 c. 18",
+        "url": "https://www.legislation.gov.uk/ukpga/2004/18",
+        "xml_endpoint": "https://www.legislation.gov.uk/ukpga/2004/18/data.xml",
+        "relevant_sections": [],
+        "applies_to": ["parking_pcn", "traffic_light_pcn"],
+        "amendments": []
+      }
+    },
+    "statutory_instruments": {
+      "traffic_signs_regulations_2016": {
+        "si_id": "tsrgd_2016",
+        "title": "Traffic Signs Regulations and General Directions 2016",
+        "si_number": "2016 No. 362",
+        "url": "https://www.legislation.gov.uk/uksi/2016/362",
+        "xml_endpoint": "https://www.legislation.gov.uk/uksi/2016/362/data.xml",
+        "applies_to": ["traffic_light_pcn", "speed_limits"],
+        "relevant_schedules": []
+      },
+      "civil_enforcement_parking_contraventions_regulations_2007": {
+        "si_id": "cepcr_2007",
+        "title": "Civil Enforcement of Parking Contraventions (England) General Regulations 2007",
+        "si_number": "2007 No. 3483",
+        "url": "https://www.legislation.gov.uk/uksi/2007/3483",
+        "xml_endpoint": "https://www.legislation.gov.uk/uksi/2007/3483/data.xml",
+        "applies_to": ["parking_pcn"],
+        "relevant_schedules": []
+      }
+    }
+  },
+  "tribunal_and_court_systems": {
+    "traffic_penalty_tribunal": {
+      "name": "Traffic Penalty Tribunal",
+      "website": "https://www.trafficpenaltytribunal.gov.uk",
+      "jurisdiction": "London parking and traffic PCNs",
+      "appeal_types": ["parking_pcn", "bus_lane_pcn", "traffic_light_pcn"],
+      "precedent_database": [],
+      "adjudicator_decisions": []
+    },
+    "patas": {
+      "name": "Parking and Traffic Appeals Service",
+      "website": "https://www.patas.gov.uk",
+      "jurisdiction": "TfL PCNs and some borough appeals",
+      "appeal_types": ["congestion_charge", "ulez", "lez", "red_routes"],
+      "precedent_database": [],
+      "adjudicator_decisions": []
+    },
+    "northampton_tec": {
+      "name": "Traffic Enforcement Centre (Northampton)",
+      "website": "https://www.gov.uk/traffic-enforcement-centre",
+      "jurisdiction": "Debt recovery, charge certificates",
+      "court_forms": ["te7", "te9"],
+      "bailiff_procedures": [],
+      "warrant_processes": []
+    },
+    "popla": {
+      "name": "Parking on Private Land Appeals",
+      "website": "https://www.popla.co.uk",
+      "jurisdiction": "Private parking appeals",
+      "appeal_types": ["private_parking"],
+      "precedent_database": [],
+      "adjudicator_decisions": []
+    }
+  },
+  "enforcement_guidelines": {
+    "acpo_speed_enforcement": {
+      "title": "ACPO Speed Enforcement Policy Guidelines",
+      "current_version": "2013",
+      "tolerance_guidelines": "+10% + 2mph",
+      "applies_to": ["speeding_fpn"],
+      "document_source": ""
+    },
+    "london_safety_camera_partnership": {
+      "title": "London Safety Camera Partnership Guidelines",
+      "website": "https://www.londonscp.co.uk",
+      "enforcement_criteria": [],
+      "camera_locations": [],
+      "appeals_process": []
+    },
+    "bpa_code_of_practice": {
+      "title": "British Parking Association Code of Practice",
+      "current_version": "2025",
+      "applies_to": ["private_parking"],
+      "compliance_requirements": [],
+      "document_source": "https://www.britishparking.co.uk"
+    },
+    "ipc_code_of_practice": {
+      "title": "International Parking Community Code of Practice",
+      "current_version": "2025",
+      "applies_to": ["private_parking"],
+      "compliance_requirements": [],
+      "document_source": "https://www.theipc.info"
+    }
+  },
+  "search_and_reference": {
+    "cross_references": {
+      "by_authority": {},
+      "by_legislation": {},
+      "by_penalty_type": {},
+      "by_appeal_route": {},
+      "by_time_limit": {}
+    },
+    "legal_precedents": {
+      "landmark_cases": [],
+      "recent_decisions": [],
+      "appeal_success_rates": {}
+    },
+    "practical_guidance": {
+      "defence_strategies": {},
+      "evidence_requirements": {},
+      "procedural_compliance": {},
+      "time_limit_calculations": {}
+    }
+  },
+  "data_sources": {
+    "api_endpoints": {
+      "legislation_gov_uk": {
+        "base_url": "https://www.legislation.gov.uk",
+        "xml_api": "/data.xml",
+        "rdf_api": "/data.rdf",
+        "feed_api": "/data.feed"
+      },
+      "tfl_api": {
+        "base_url": "https://api.tfl.gov.uk",
+        "tro_hub": "https://haveyoursay.tfl.gov.uk/tro",
+        "rate_limit": "500 requests/minute (registered)"
+      }
+    },
+    "manual_sources": {
+      "borough_websites": "Individual borough .gov.uk sites",
+      "traffweb_instances": "Borough-specific *.traffweb.app instances",
+      "tribunal_databases": "Manual extraction from tribunal websites",
+      "court_records": "Public court records and published decisions"
+    },
+    "update_monitoring": {
+      "legislation_changes": "Monthly scan of legislation.gov.uk",
+      "tro_tmo_updates": "Weekly monitoring of borough TRO pages",
+      "tribunal_decisions": "Monthly review of tribunal precedents",
+      "operational_changes": "Quarterly review of enforcement guidelines"
+    }
+  }
+}
