@@ -115,3 +115,119 @@ export interface TE9Data {
   witnessQualification?: string; // Solicitor, commissioner for oaths, etc.
   signatureDate?: string;
 }
+
+// PE2 Form Data (Application to file a Statutory Declaration Out of Time)
+export interface PE2Data {
+  // Court/Authority details
+  courtName: string; // Traffic Enforcement Centre
+  courtAddress: string;
+  
+  // Penalty details
+  penaltyChargeNumber: string;
+  vehicleRegistration: string;
+  
+  // Applicant details
+  applicantName: string;
+  applicantAddress: string;
+  applicantPostcode: string;
+  
+  // Contravention details
+  locationOfContravention: string;
+  dateOfContravention: string;
+  
+  // Respondent details (to be completed in BLOCK CAPITALS)
+  respondentName: string;
+  respondentAddress: string;
+  
+  // Application details
+  reasonsForLateFiling: string; // Why filing the declaration out of time
+  
+  // Signature details
+  applicantSignature?: string;
+  signatureDate?: string;
+  declarationLocation?: string; // Where declaration was made
+  
+  // Witness details (Commissioner for Oaths/Solicitor/Justice of Peace)
+  witnessType?: string; // Commissioner for Oaths, Solicitor, Justice of Peace
+  witnessName?: string;
+  witnessAddress?: string;
+}
+
+// PE3 Form Data (Statutory Declaration – unpaid penalty charge)
+export interface PE3Data {
+  // Penalty details
+  penaltyChargeNumber: string;
+  vehicleRegistration: string;
+  
+  // Applicant details
+  applicantName: string;
+  applicantAddress: string;
+  applicantPostcode: string;
+  
+  // Contravention details
+  locationOfContravention: string;
+  dateOfContravention: string;
+  
+  // Respondent details (required by government form - in BLOCK CAPITALS)
+  respondentName: string; // Full name of respondent
+  respondentAddress: string; // Full address including postcode
+  
+  // Declaration checkboxes (tick which applies)
+  didNotReceiveNotice: boolean; // Notice to Owner/Enforcement Notice/Penalty Charge Notice
+  madeRepresentationsNoResponse: boolean; // Made representations but did not receive rejection notice
+  appealedNoResponse: boolean; // Appealed to Parking/Traffic Adjudicator but no response
+  
+  // Reasons
+  reasonForDeclaration: string; // Full reasons in text area
+  
+  // Signature details
+  applicantSignature?: string;
+  signatureDate?: string;
+  declarationLocation?: string; // Where declaration was made
+  
+  // Witness details (Commissioner for Oaths/Solicitor/Justice of Peace)
+  witnessType?: string; // Commissioner for Oaths, Solicitor, Justice of Peace
+  witnessName?: string;
+  witnessAddress?: string;
+}
+
+// N244 Form Data (Application notice)
+export interface N244Data {
+  // Court details
+  courtName: string;
+  claimNumber: string;
+  courtAddress: string;
+  
+  // Applicant details
+  applicantName: string;
+  applicantAddress: string;
+  applicantPostcode: string;
+  applicantPhone?: string;
+  applicantEmail?: string;
+  isClaimant: boolean;
+  isDefendant: boolean;
+  
+  // Application details
+  applicationFor: string;
+  orderSought: string;
+  reasonsForApplication: string;
+  legalAuthorityReliedOn: string;
+  
+  // Hearing details
+  hearingRequired: boolean;
+  estimatedHearingTime: string;
+  dateNotAvailable?: string;
+  
+  // Evidence and costs
+  evidenceInSupport: string;
+  costsClaimed: boolean;
+  costsAmount?: string;
+  
+  // Declaration
+  believeFactsTrue: boolean;
+  understandContempt: boolean;
+  
+  // Signature data
+  applicantSignature?: string;
+  signatureDate?: string;
+}

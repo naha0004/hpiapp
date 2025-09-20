@@ -121,6 +121,9 @@ model Appeal {
   evidence          String?    // JSON string of file URLs/paths
   te7Form           String?    // JSON string of TE7 witness statement data
   te9Form           String?    // JSON string of TE9 statutory declaration data
+  pe2Form           String?    // JSON string of PE2 setting aside judgment data
+  pe3Form           String?    // JSON string of PE3 statutory declaration data
+  n244Form          String?    // JSON string of N244 application notice data
   selectedForms     String?    // JSON string array of selected form types
   status            AppealStatus @default(SUBMITTED)
   submissionDate    DateTime    @default(now())

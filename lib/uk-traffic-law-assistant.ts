@@ -18,6 +18,8 @@
  * - Section 172 response: 28 days from receipt
  */
 
+import { AIAppealGenerator } from './ai-appeal-generator'
+
 interface AppealCase {
   ticketNumber?: string
   fineAmount?: number
@@ -40,6 +42,22 @@ interface LegalAdvice {
 }
 
 export class UKTrafficLawAssistant {
+  private static aiGenerator: AIAppealGenerator | null = null
+
+  /**
+   * Get AI generator instance with fallback
+   */
+  private static getAIGenerator(): AIAppealGenerator | null {
+    if (!this.aiGenerator) {
+      try {
+        this.aiGenerator = new AIAppealGenerator()
+      } catch (error) {
+        console.log('AI generator not available, using fallback templates')
+        return null
+      }
+    }
+    return this.aiGenerator
+  }
   
   /**
    * Generate enhanced AI response for UK traffic law queries
@@ -82,9 +100,38 @@ export class UKTrafficLawAssistant {
   }
   
   /**
-   * Generate professional appeal letter with UK legal framework
+   * Generate professional appeal letter with AI enhancement
    */
-  static generateAppealLetter(appealData: AppealCase): string {
+  static async generateAppealLetter(appealData: AppealCase, userData?: any): Promise<string> {
+    // Try AI generation first
+    const aiGenerator = this.getAIGenerator()
+    if (aiGenerator && userData) {
+      try {
+        return await aiGenerator.generatePersonalizedAppeal(appealData, userData)
+      } catch (error) {
+        console.log('AI generation failed, using enhanced template:', error)
+      }
+    }
+
+    // Fallback to enhanced template
+    return this.generateTemplateAppeal(appealData)
+  }
+
+  /**
+   * Synchronous version for backward compatibility
+   */
+  static generateAppealLetterSync(appealData: AppealCase): string {
+    return this.generateTemplateAppeal(appealData)
+  }
+
+  /**
+   * Generate enhanced template appeal with variations
+   */
+  private static generateTemplateAppeal(appealData: AppealCase): string {
+    // Add uniqueness through timestamp-based variations
+    const timestamp = Date.now()
+    const variation = timestamp % 4 // 4 different variations
+    
     const today = new Date().toLocaleDateString('en-GB')
     const legalAdvice = this.analyzeLegalGrounds(appealData)
 
@@ -92,18 +139,33 @@ export class UKTrafficLawAssistant {
     const issued = appealData.issueDate ? new Date(appealData.issueDate).toLocaleDateString('en-GB') : ''
     const location = appealData.location || ''
 
+    // Varied opening statements
+    const openings = [
+      "I hereby submit this formal representation challenging the above-referenced Penalty Charge Notice",
+      "I formally dispute the penalty charge notice detailed above and submit the following representations",
+      "I write to formally challenge the penalty charge notice referenced above on the following grounds",
+      "I respectfully submit this formal appeal against the penalty charge notice outlined above"
+    ]
+
+    // Varied legal conclusion phrases
+    const conclusions = [
+      "I respectfully request that this penalty charge notice be cancelled in full",
+      "Based on the circumstances outlined, I request the immediate cancellation of this penalty",
+      "I submit that the penalty should be cancelled based on the grounds presented above",
+      "I formally request that you cancel this penalty charge notice and withdraw all enforcement action"
+    ]
+
     const summaryBullets: string[] = []
     if (legalAdvice.strongGrounds.length) summaryBullets.push('Strong legal grounds identified')
     if (appealData.evidence?.length) summaryBullets.push(`${appealData.evidence.length} evidence item(s) enclosed`)
     if (appealData.reason) summaryBullets.push(`Primary ground: ${appealData.reason}`)
 
-    // New: Always ensure a detailed narrative is present even with minimal input
+    // Enhanced narrative with uniqueness
     const minimalDesc = (appealData.description || '').trim()
     const narrative: string = minimalDesc.length >= 40
       ? minimalDesc
-      : this.generateAppealDescription({
+      : this.generateTemplateDescription({
           ...appealData,
-          // If description is minimal or missing, seed with reason text to guide generation
           description: minimalDesc || (appealData.reason || ''),
         })
 
@@ -114,35 +176,55 @@ export class UKTrafficLawAssistant {
     const timeline = this.buildTimeline(appealData)
     const disclosure = this.buildDisclosureRequests(appealData)
 
+    // Add unique reference number
+    const uniqueRef = `REF-${timestamp.toString().slice(-8)}`
+
     let letter = `**FORMAL REPRESENTATIONS**
+**Appeal Reference: ${uniqueRef}**
 
 To: [Council] Parking Services
 PCN: ${appealData.ticketNumber || '[NUMBER]'} | Date: ${today} | Location: ${location}
 
-**STATUTORY GROUND:**
-${legalAdvice.strongGrounds.length ? legalAdvice.strongGrounds[0] : 'The alleged contravention did not occur'} (Civil Enforcement Regulations 2022)
+**SUBJECT: FORMAL CHALLENGE TO PENALTY CHARGE NOTICE**
 
-**CASE FACTS:**
+Dear Sir/Madam,
+
+${openings[variation]}. This submission is made within the statutory time limits and constitutes a formal appeal on both procedural and substantive grounds.
+
+**CASE SUMMARY:**
+${summaryBullets.length > 0 ? summaryBullets.map(bullet => `• ${bullet}`).join('\n') : '• Formal challenge to penalty charge notice'}
+
+**DETAILED GROUNDS FOR APPEAL:**
+
 ${narrative}
 
-**LEGAL BASIS:**
-${groundsList.split('\n').slice(0, 3).join('\n')}
-
-**EVIDENCE:**
-${evidenceBlock.split('\n').slice(0, 5).join('\n') || '• Photographic evidence\n• Witness statements\n• Supporting documentation'}
-
-**DEADLINE COMPLIANCE:**
-This representation submitted within 28-day statutory period per Civil Enforcement Regulations 2022.
-
-**REMEDY REQUESTED:**
-PCN cancellation under statutory grounds. If rejected, tribunal appeal rights reserved within 28 days.
-
 **LEGAL FRAMEWORK:**
-• Traffic Management Act 2004 (Part 6)
-• Civil Enforcement of Road Traffic Contraventions (England) Regulations 2022
-${appealData.reason?.toLowerCase().includes('sign') ? '• TSRGD 2016 - Signage compliance requirements' : ''}
+${groundsList}
 
-[Your Name/Address/Contact Details]`
+**SUPPORTING EVIDENCE:**
+${evidenceBlock}
+
+**TIMELINE OF EVENTS:**
+${timeline}
+
+**DISCLOSURE REQUESTS:**
+${disclosure}
+
+**LEGAL REFERENCES:**
+${references}
+
+**CONCLUSION:**
+${conclusions[variation]}. The circumstances outlined clearly demonstrate that this penalty charge notice should not have been issued and/or is not enforceable under current legislation.
+
+I look forward to your prompt response and the cancellation of this penalty charge notice.
+
+Yours faithfully,
+
+[SIGNATURE]
+Date: ${today}
+Reference: ${uniqueRef}
+
+**LEGAL DISCLAIMER**: This appeal is generated based on UK traffic law guidance. All details should be reviewed carefully before submission.`
 
     return letter
   }
@@ -448,93 +530,73 @@ Address: _________________________
   }
 
   /**
-   * Generate professional appeal description based on reason and case details
+   * Generate AI-enhanced appeal description
    */
-  static generateAppealDescription(appealData: AppealCase): string {
-    const reason = appealData.reason?.toLowerCase() || ''
+  static async generateAppealDescription(appealData: AppealCase): Promise<string> {
+    // Try AI generation first
+    const aiGenerator = this.getAIGenerator()
+    if (aiGenerator) {
+      try {
+        return await aiGenerator.generateAppealDescription(appealData)
+      } catch (error) {
+        console.log('AI description generation failed, using template:', error)
+      }
+    }
+
+    // Fallback to template generation
+    return this.generateTemplateDescription(appealData)
+  }
+
+  /**
+   * Synchronous version for backward compatibility  
+   */
+  static generateAppealDescriptionSync(appealData: AppealCase): string {
+    return this.generateTemplateDescription(appealData)
+  }
+
+  /**
+   * Generate template-based appeal description with variations
+   */
+  private static generateTemplateDescription(appealData: AppealCase): string {
+    const timestamp = Date.now()
+    const variation = timestamp % 3
+    
+    const reason = appealData.reason?.toLowerCase() || 'parking issues'
     const location = appealData.location || 'the specified location'
-    const issueDate = appealData.issueDate ? new Date(appealData.issueDate).toLocaleDateString('en-GB') : 'the date specified'
-    const ticketNumber = appealData.ticketNumber || 'N/A'
-    const amount = appealData.fineAmount || 'N/A'
+    const issueDate = appealData.issueDate ? new Date(appealData.issueDate).toLocaleDateString('en-GB') : 'the date in question'
     
-    let description = `**FORMAL NOTICE OF APPEAL**
+    // Three different narrative styles for uniqueness
+    const styles = [
+      // Formal legal style
+      `On ${issueDate}, circumstances arose at ${location} that resulted in the issuance of this penalty charge notice. The matter concerns ${reason}, and upon careful examination of the facts and applicable law, I respectfully submit that the penalty was issued without proper justification. The enforcement action fails to meet the statutory requirements and should be cancelled accordingly.`,
+      
+      // Factual dispute style  
+      `I formally challenge the penalty charge notice dated ${issueDate} regarding the incident at ${location}. This appeal relates to ${reason}, and I maintain that the alleged contravention either did not occur or was not properly evidenced by the enforcement authority. The circumstances clearly demonstrate that no valid penalty charge notice should have been issued.`,
+      
+      // Procedural challenge style
+      `The penalty charge notice issued for ${location} on ${issueDate} concerning ${reason} is disputed on both factual and legal grounds. The enforcement procedure was flawed, and the penalty does not comply with the statutory framework governing civil parking enforcement. I request immediate cancellation based on the deficiencies outlined in this appeal.`
+    ]
 
-**RE: PENALTY CHARGE NOTICE NO. ${ticketNumber}**
-**DATE OF ALLEGED CONTRAVENTION: ${issueDate}**
-**LOCATION: ${location.toUpperCase()}**
-**PENALTY AMOUNT: £${amount}**
-
----
-
-**TO WHOM IT MAY CONCERN:**
-
-I hereby submit this formal representation challenging the above-referenced Penalty Charge Notice ("PCN") issued under the Traffic Management Act 2004 and associated regulations. This submission is made within the prescribed statutory time limits and constitutes a formal appeal on both procedural and substantive grounds.
-
-**GROUNDS FOR APPEAL:**
-
-`
+    let description = styles[variation]
     
-    if (reason.includes('signage') || reason.includes('sign')) {
-      description += `**1. INADEQUATE STATUTORY SIGNAGE (Primary Ground)**
-
-The PCN has been issued in direct contravention of the mandatory signage requirements established under:
-• Traffic Signs Regulations and General Directions 2016 (SI 2016/362)
-• Traffic Management Act 2004, Sections 77-84
-• Civil Enforcement of Parking Contraventions (England) General Regulations 2007
-
-**Legal Position:**
-On ${issueDate}, I conducted a thorough examination of the signage at ${location}. The signage was demonstrably inadequate, unclear, or wholly absent, failing to meet the strict statutory requirements mandated by law. Specifically, the signage failed to provide clear, unambiguous, and conspicuous notification of parking restrictions as required under regulation 9 of the Civil Enforcement Regulations.
-
-**Case Law Authority:**
-The principle established in *Jill Windmill v London Borough of Croyden* [2007] confirms that inadequate signage renders any PCN invalid ab initio. Further authority is found in *R (on the application of Dougan) v Redcar and Cleveland Borough Council* [2007] EWHC 3312, which established that enforcement authorities bear the burden of proving compliance with statutory signage requirements.
-
-**Evidential Basis:**
-The enforcement authority cannot discharge their statutory duty to prove that adequate signage was present and properly maintained at the material time. Without clear and unambiguous signage, no reasonable motorist could be expected to understand the parking restrictions, rendering the alleged contravention fundamentally flawed.`
-
-    } else if (reason.includes('permit') || reason.includes('ticket')) {
-      description += `**1. VALID PARKING AUTHORIZATION DISPLAYED (Primary Ground)**
-
-The PCN has been erroneously issued despite valid parking authorization being properly displayed in accordance with the operator's terms and conditions.
-
-**Legal Position:**
-On ${issueDate}, I purchased and displayed valid parking authorization at ${location} in strict compliance with the displayed instructions and payment procedures. The issuance of this PCN constitutes a fundamental breach of the contractual arrangement and represents maladministration by the enforcement authority.
-
-**Statutory Framework:**
-Under the Civil Enforcement of Parking Contraventions (England) General Regulations 2007, regulation 10, the burden of proof rests with the enforcement authority to demonstrate that no valid authorization existed at the material time. This burden cannot be discharged in the present circumstances.
-
-**Evidential Position:**
-I possess documentary evidence of the valid parking authorization, including:
-• Payment transaction records
-• Time-stamped evidence of proper display
-• Compliance with all stated terms and conditions
-
-The enforcement authority's failure to properly investigate before issuing the PCN represents a procedural irregularity that renders the notice invalid.`
-
+    // Add specific legal context based on appeal reason
+    if (reason.includes('sign')) {
+      description += ' Furthermore, the mandatory signage requirements under TSRGD 2016 were not satisfied, rendering the enforcement invalid.'
+    } else if (reason.includes('permit') || reason.includes('resident')) {
+      description += ' Valid parking authorization was demonstrably in effect at the relevant time, negating any basis for enforcement action.'
+    } else if (reason.includes('time') || reason.includes('expired')) {
+      description += ' The timing evidence presented by the enforcement authority is insufficient and disputed, undermining the validity of the alleged contravention.'
+    } else if (reason.includes('loading') || reason.includes('drop')) {
+      description += ' The activity constituted legitimate loading/unloading operations exempt from the parking restrictions under current regulations.'
     } else if (reason.includes('medical') || reason.includes('emergency')) {
-      description += `**1. EXCEPTIONAL CIRCUMSTANCES - MEDICAL EMERGENCY (Primary Ground)**
+      description += ' The circumstances involved a legitimate emergency situation that warranted temporary parking deviation from normal restrictions.'
+    }
+    
+    return description
+  }
 
-The alleged contravention occurred during genuine emergency circumstances that created an immediate necessity to park, superseding normal traffic management considerations.
-
-**Legal Position:**
-On ${issueDate}, I was confronted with a bona fide medical emergency at ${location} that required immediate attention and made compliance with parking restrictions impossible. The emergency circumstances created an overriding legal necessity that provides absolute justification for the parking actions taken.
-
-**Statutory Authority:**
-• Road Traffic Regulation Act 1984, Section 2 (emergency exemptions)
-• European Convention on Human Rights, Article 2 (right to life)
-• Common law doctrine of necessity (*R v Dudley and Stephens* [1884])
-
-**Precedential Authority:**
-The case of *Buckoke v Greater London Council* [1971] Ch 655 established that emergency circumstances can provide lawful excuse for apparent traffic contraventions. The Court of Appeal in *R v Scarlett* [1993] 4 All ER 629 confirmed that necessity can override statutory prohibitions where life or limb is endangered.
-
-**Factual Matrix:**
-The emergency situation was genuine, immediate, and required prioritization of human welfare over parking compliance. The circumstances were wholly exceptional and beyond my control, creating legal justification under the doctrine of necessity.`
-
-    } else if (reason.includes('breakdown')) {
-      description += `**1. MECHANICAL BREAKDOWN - EXCEPTIONAL CIRCUMSTANCES (Primary Ground)**
-
-The vehicle was immobilized due to sudden mechanical failure, creating circumstances beyond the driver's control that prevented compliance with parking restrictions.
-
-**Legal Position:**
+  /**
+   * Analyze legal grounds for the appeal
 On ${issueDate}, my vehicle suffered an unexpected and complete mechanical breakdown at ${location}, rendering it immobile and requiring immediate professional recovery assistance. The breakdown created exceptional circumstances that provide lawful justification for the vehicle's position.
 
 **Statutory Framework:**

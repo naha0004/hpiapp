@@ -1,0 +1,124 @@
+{
+  "form_info": {
+    "name": "PE3 - Statutory Declaration",
+    "page_size": "A4",
+    "width": 595.28,
+    "height": 841.89
+  },
+  "text_fields": {
+    "penalty_charge_number": {
+      "x": 450,
+      "y": 742,
+      "width": 140,
+      "height": 12,
+      "font_size": 10,
+      "required": true
+    },
+    "vehicle_registration": {
+      "x": 450,
+      "y": 730,
+      "width": 140,
+      "height": 12,
+      "font_size": 10,
+      "required": true
+    },
+    "applicant_name": {
+      "x": 450,
+      "y": 718,
+      "width": 140,
+      "height": 12,
+      "font_size": 10,
+      "required": true
+    },
+    "location_of_contravention": {
+      "x": 450,
+      "y": 706,
+      "width": 140,
+      "height": 12,
+      "font_size": 10,
+      "required": true
+    },
+    "date_of_contravention": {
+      "x": 450,
+      "y": 694,
+      "width": 140,
+      "height": 12,
+      "font_size": 10,
+      "required": true
+    },
+    "respondent_details": {
+      "x": 85,
+      "y": 520,
+      "width": 440,
+      "height": 80,
+      "font_size": 10,
+      "multiline": true,
+      "required": true,
+      "style": "uppercase"
+    },
+    "reasons_for_declaration": {
+      "x": 390,
+      "y": 350,
+      "width": 200,
+      "height": 60,
+      "font_size": 9,
+      "multiline": true,
+      "required": true
+    },
+    "signature_name": {
+      "x": 110,
+      "y": 300,
+      "width": 150,
+      "height": 12,
+      "font_size": 10,
+      "required": true
+    },
+    "signature_date": {
+      "x": 580,
+      "y": 300,
+      "width": 80,
+      "height": 12,
+      "font_size": 10,
+      "required": true
+    },
+    "declared_at": {
+      "x": 200,
+      "y": 286,
+      "width": 150,
+      "height": 12,
+      "font_size": 9,
+      "required": false
+    },
+    "witness_name": {
+      "x": 150,
+      "y": 201,
+      "width": 200,
+      "height": 12,
+      "font_size": 9,
+      "required": false
+    }
+  },
+  "checkboxes": {
+    "did_not_receive_notice": {
+      "x": 378,
+      "y": 517,
+      "width": 12,
+      "height": 12,
+      "required": false
+    },
+    "made_representations_no_response": {
+      "x": 378,
+      "y": 475,
+      "width": 12,
+      "height": 12,
+      "required": false
+    },
+    "appealed_no_response": {
+      "x": 378,
+      "y": 442,
+      "width": 12,
+      "height": 12,
+      "required": false
+    }
+  }
+}

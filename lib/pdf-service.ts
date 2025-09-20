@@ -1,7 +1,7 @@
-import { PDFDocument, PDFForm, PDFTextField, PDFCheckBox, PDFDropdown, PDFImage, rgb } from 'pdf-lib';
+import { PDFDocument, PDFForm, PDFTextField, PDFCheckBox, PDFDropdown, PDFImage, rgb, StandardFonts } from 'pdf-lib';
 import fs from 'fs';
 import path from 'path';
-import { TE7Data, TE9Data } from '@/types/appeal';
+import { TE7Data, TE9Data, PE2Data, PE3Data, N244Data } from '@/types/appeal';
 
 export class PDFService {
   private static async loadPDFTemplate(templateName: string): Promise<Uint8Array> {
@@ -548,5 +548,418 @@ export class PDFService {
       console.error(`Error reading form fields from ${templateName}:`, error);
       return [];
     }
+  }
+
+    /**
+   * Fill PE2 Form (Application to file a Statutory Declaration Out of Time) - Using text overlay
+   */
+  static async fillPE2Form(data: PE2Data): Promise<Uint8Array> {
+    try {
+      // Load the PE2 template - use original government form
+      const existingPdfBytes = await this.loadPDFTemplate('form-pe2-eng.pdf');
+      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      
+      // Get the first page and add text overlays
+      const pages = pdfDoc.getPages();
+      const firstPage = pages[0];
+      const { width, height } = firstPage.getSize();
+      
+      // Embed fonts
+      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+      // Add form title
+      firstPage.drawText('PE2 - Application to file a Statutory Declaration Out of Time', {
+        x: 50, y: height - 50, size: 14, font: boldFont
+      });
+
+      // Court details
+      if (data.courtName) {
+        firstPage.drawText(`Court: ${data.courtName}`, {
+          x: 50, y: height - 100, size: 10, font
+        });
+      }
+      
+      if (data.courtAddress) {
+        const addressLines = data.courtAddress.split('\n');
+        addressLines.forEach((line, index) => {
+          firstPage.drawText(line, {
+            x: 50, y: height - 130 - (index * 15), size: 9, font
+          });
+        });
+      }
+
+      // Penalty details
+      if (data.penaltyChargeNumber) {
+        firstPage.drawText(`Penalty Charge Number: ${data.penaltyChargeNumber}`, {
+          x: 50, y: height - 200, size: 10, font
+        });
+      }
+      
+      if (data.vehicleRegistration) {
+        firstPage.drawText(`Vehicle Registration: ${data.vehicleRegistration}`, {
+          x: 300, y: height - 200, size: 10, font
+        });
+      }
+
+      // Applicant details
+      if (data.applicantName) {
+        firstPage.drawText(`Applicant: ${data.applicantName}`, {
+          x: 50, y: height - 230, size: 10, font
+        });
+      }
+      
+      if (data.applicantAddress) {
+        const addressLines = data.applicantAddress.split('\n');
+        addressLines.forEach((line, index) => {
+          firstPage.drawText(line, {
+            x: 50, y: height - 260 - (index * 15), size: 9, font
+          });
+        });
+      }
+      
+      if (data.applicantPostcode) {
+        firstPage.drawText(`Postcode: ${data.applicantPostcode}`, {
+          x: 50, y: height - 320, size: 10, font
+        });
+      }
+
+      // Contravention details
+      if (data.locationOfContravention) {
+        firstPage.drawText(`Location: ${data.locationOfContravention}`, {
+          x: 50, y: height - 350, size: 10, font
+        });
+      }
+      
+      if (data.dateOfContravention) {
+        firstPage.drawText(`Date: ${data.dateOfContravention}`, {
+          x: 300, y: height - 350, size: 10, font
+        });
+      }
+
+      // Respondent details
+      if (data.respondentName) {
+        firstPage.drawText(`Respondent: ${data.respondentName}`, {
+          x: 50, y: height - 380, size: 10, font
+        });
+      }
+      
+      if (data.respondentAddress) {
+        const addressLines = data.respondentAddress.split('\n');
+        addressLines.forEach((line, index) => {
+          firstPage.drawText(line, {
+            x: 50, y: height - 410 - (index * 15), size: 9, font
+          });
+        });
+      }
+
+      // Reasons for late filing
+      if (data.reasonsForLateFiling) {
+        firstPage.drawText('Reasons for Late Filing:', {
+          x: 50, y: height - 480, size: 10, font: boldFont
+        });
+        
+        const reasonLines = this.splitTextIntoLines(data.reasonsForLateFiling, 70);
+        reasonLines.forEach((line, index) => {
+          if (height - 510 - (index * 12) > 150) {
+            firstPage.drawText(line, {
+              x: 50, y: height - 510 - (index * 12), size: 9, font
+            });
+          }
+        });
+      }
+
+      // Declaration details
+      if (data.declarationLocation) {
+        firstPage.drawText(`Declared at: ${data.declarationLocation}`, {
+          x: 50, y: 200, size: 9, font
+        });
+      }
+      
+      if (data.witnessType) {
+        firstPage.drawText(`Before me: ${data.witnessType}`, {
+          x: 50, y: 180, size: 9, font
+        });
+      }
+      
+      if (data.witnessName) {
+        firstPage.drawText(`Witness: ${data.witnessName}`, {
+          x: 50, y: 160, size: 9, font
+        });
+      }
+
+      // Signature and date
+      if (data.applicantName) {
+        firstPage.drawText(data.applicantName, {
+          x: 150, y: 120, size: 10, font
+        });
+      }
+      
+      const signatureDate = data.signatureDate || new Date().toLocaleDateString('en-GB');
+      firstPage.drawText(signatureDate, {
+        x: 350, y: 120, size: 10, font
+      });
+
+      // Embed signature if provided
+      if (data.applicantSignature) {
+        await this.embedSignatureImage(pdfDoc, data.applicantSignature, 'PE2_applicant_signature');
+      }
+
+      return await pdfDoc.save();
+    } catch (error) {
+      console.error('Error filling PE2 form:', error);
+      throw new Error(`Failed to generate PE2 form: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Fill PE3 Form (Statutory Declaration – unpaid penalty charge) - Using form fields like TE7
+   */
+  static async fillPE3Form(data: PE3Data): Promise<Uint8Array> {
+    try {
+      // Try to load PE3 with form fields first, fallback to text overlay
+      const existingPdfBytes = await this.loadPDFTemplate('PE3.pdf');
+      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      
+      // Check if this PDF has form fields (like TE7 does)
+      let form;
+      try {
+        form = pdfDoc.getForm();
+        const fields = form.getFields();
+        
+        if (fields.length > 0) {
+          console.log(`PE3 PDF has ${fields.length} form fields - using form field approach`);
+          
+          // Use form fields (like TE7) - much more reliable
+          this.setFormField(form, 'Penalty Charge Number', data.penaltyChargeNumber);
+          this.setFormField(form, 'Vehicle Registration Number', data.vehicleRegistration);
+          this.setFormField(form, 'Applicant', data.applicantName);
+          this.setFormField(form, 'Location of Contravention', data.locationOfContravention);
+          this.setFormField(form, 'Date of Contravention', data.dateOfContravention);
+          this.setFormField(form, 'Respondent Name', data.respondentName);
+          this.setFormField(form, 'Respondent Address', data.respondentAddress);
+          this.setFormField(form, 'Reasons', data.reasonForDeclaration);
+          this.setFormField(form, 'Signature', data.applicantName);
+          this.setFormField(form, 'Date', data.signatureDate || new Date().toLocaleDateString('en-GB'));
+          this.setFormField(form, 'Witness', data.witnessName || '');
+          
+          // Set checkboxes
+          this.setCheckboxField(form, 'Did not receive notice', data.didNotReceiveNotice);
+          this.setCheckboxField(form, 'Made representations', data.madeRepresentationsNoResponse);
+          this.setCheckboxField(form, 'Appealed', data.appealedNoResponse);
+          
+          // Embed signature if provided
+          if (data.applicantSignature) {
+            await this.embedSignatureImage(pdfDoc, data.applicantSignature, 'PE3_applicant_signature');
+          }
+          
+          return await pdfDoc.save();
+        }
+      } catch (formError) {
+        console.log('PE3 PDF has no form fields - falling back to text overlay');
+      }
+      
+      // Fallback to text overlay (current approach) if no form fields
+      const pages = pdfDoc.getPages();
+      const firstPage = pages[0];
+      const { width, height } = firstPage.getSize();
+      
+      // Embed fonts
+      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+      // ⚠️ TEXT OVERLAY APPROACH - LESS RELIABLE
+      // Based on visual analysis but still imprecise
+      
+      // Right side header fields (from screenshot analysis)
+      if (data.penaltyChargeNumber) {
+        firstPage.drawText(data.penaltyChargeNumber, {
+          x: 450, y: height - 99, size: 10, font
+        });
+      }
+      
+      if (data.vehicleRegistration) {
+        firstPage.drawText(data.vehicleRegistration, {
+          x: 450, y: height - 111, size: 10, font
+        });
+      }
+
+      if (data.applicantName) {
+        firstPage.drawText(data.applicantName, {
+          x: 450, y: height - 123, size: 10, font
+        });
+      }
+      
+      if (data.locationOfContravention) {
+        firstPage.drawText(data.locationOfContravention, {
+          x: 450, y: height - 135, size: 10, font
+        });
+      }
+      
+      if (data.dateOfContravention) {
+        firstPage.drawText(data.dateOfContravention, {
+          x: 450, y: height - 147, size: 10, font
+        });
+      }
+
+      // Respondent details (large center box)
+      if (data.respondentName && data.respondentAddress) {
+        const respondentText = `${data.respondentName.toUpperCase()}\n${data.respondentAddress.toUpperCase()}`;
+        const respondentLines = respondentText.split('\n');
+        let startY = height - 290;
+        
+        respondentLines.forEach((line, index) => {
+          if (line.trim()) {
+            firstPage.drawText(line, {
+              x: 85, y: startY - (index * 12), size: 10, font: boldFont
+            });
+          }
+        });
+      }
+
+      // Checkboxes
+      if (data.didNotReceiveNotice) {
+        firstPage.drawText('X', { x: 378, y: height - 324, size: 12, font: boldFont });
+      }
+      if (data.madeRepresentationsNoResponse) {
+        firstPage.drawText('X', { x: 378, y: height - 366, size: 12, font: boldFont });
+      }
+      if (data.appealedNoResponse) {
+        firstPage.drawText('X', { x: 378, y: height - 399, size: 12, font: boldFont });
+      }
+
+      // Reasons
+      if (data.reasonForDeclaration) {
+        const reasonLines = this.splitTextIntoLines(data.reasonForDeclaration, 70);
+        let reasonY = height - 460;
+        
+        reasonLines.forEach((line, index) => {
+          if (reasonY - (index * 12) > height - 520) {
+            firstPage.drawText(line, {
+              x: 390, y: reasonY - (index * 12), size: 9, font
+            });
+          }
+        });
+      }
+
+      // Signature section
+      if (data.applicantName) {
+        firstPage.drawText(data.applicantName, {
+          x: 110, y: height - 541, size: 10, font
+        });
+      }
+      
+      const signatureDate = data.signatureDate || new Date().toLocaleDateString('en-GB');
+      firstPage.drawText(signatureDate, {
+        x: 580, y: height - 541, size: 10, font
+      });
+
+      if (data.declarationLocation) {
+        firstPage.drawText(data.declarationLocation, {
+          x: 200, y: height - 555, size: 9, font
+        });
+      }
+
+      if (data.witnessName) {
+        firstPage.drawText(data.witnessName, {
+          x: 150, y: height - 640, size: 9, font
+        });
+      }
+
+      // Embed signature if provided
+      if (data.applicantSignature) {
+        await this.embedSignatureImage(pdfDoc, data.applicantSignature, 'PE3_applicant_signature');
+      }
+
+      return await pdfDoc.save();
+    } catch (error) {
+      console.error('Error filling PE3 form:', error);
+      throw new Error(`Failed to generate PE3 form: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
+   * Fill N244 Form (Application notice) - Using correct field names from actual form
+   */
+  static async fillN244Form(data: N244Data): Promise<Uint8Array> {
+    try {
+      // Load the N244 template
+      const existingPdfBytes = await this.loadPDFTemplate('n244.pdf');
+      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      const form = pdfDoc.getForm();
+
+      // Fill form fields using actual field names from the PDF inspection
+      this.setFormField(form, 'Name of Court', data.courtName);
+      this.setFormField(form, 'Claim Number', data.claimNumber);
+      
+      // Claimant and defendant details
+      this.setFormField(form, 'Claimant\'s name including reference', data.applicantName);
+      this.setFormField(form, 'Defendant\'s name, including reference', data.isDefendant ? data.applicantName : '');
+      
+      // Application date
+      this.setFormField(form, 'Date of the the application', new Date().toLocaleDateString('en-GB'));
+      
+      // Evidence/reason for application (main content area)
+      this.setFormField(form, 'evidence set out in the box below', data.reasonsForApplication);
+      
+      // Contact details
+      this.setFormField(form, 'Building and street', data.applicantAddress);
+      this.setFormField(form, 'postcode for the applicant\'s address', data.applicantPostcode);
+      this.setFormField(form, 'phone number', data.applicantPhone || '');
+      this.setFormField(form, 'email address', data.applicantEmail || '');
+      
+      // Statement of truth
+      this.setCheckboxField(form, 'I believe that the facts stated in section 10 (and any continuation sheets) are true', data.believeFactsTrue);
+      
+      // Signature details
+      this.setCheckboxField(form, 'Signed by - Applicant', true);
+      this.setFormField(form, 'Full name of person signing the Statement of Truth', data.applicantName);
+      
+      // Signature date
+      const today = new Date();
+      this.setFormField(form, 'Date of signature - day', today.getDate().toString().padStart(2, '0'));
+      this.setFormField(form, 'Date of signature - month', (today.getMonth() + 1).toString().padStart(2, '0'));
+      this.setFormField(form, 'Date of signature - year', today.getFullYear().toString());
+      
+      // Vulnerability assessment
+      this.setCheckboxField(form, '11  Do you believe you, or a witness who will give evidence on your behalf, are vulnerable No', true);
+      
+      // Embed signature if provided
+      if (data.applicantSignature) {
+        this.setFormField(form, 'Signature box', '[Signature Applied]');
+        await this.embedSignatureImage(pdfDoc, data.applicantSignature, 'N244_applicant_signature');
+      }
+
+      return await pdfDoc.save();
+    } catch (error) {
+      console.error('Error filling N244 form:', error);
+      throw new Error('Failed to fill N244 form');
+    }
+  }
+
+  /**
+   * Split text into lines of specified character width
+   */
+  private static splitTextIntoLines(text: string, maxWidth: number): string[] {
+    const words = text.split(' ');
+    const lines: string[] = [];
+    let currentLine = '';
+    
+    for (const word of words) {
+      if ((currentLine + word).length <= maxWidth) {
+        currentLine += (currentLine ? ' ' : '') + word;
+      } else {
+        if (currentLine) {
+          lines.push(currentLine);
+        }
+        currentLine = word;
+      }
+    }
+    
+    if (currentLine) {
+      lines.push(currentLine);
+    }
+    
+    return lines;
   }
 }

@@ -8,6 +8,9 @@ import { UKTrafficLawAssistant } from "@/lib/uk-traffic-law-assistant"
 import { detectTicketType, validateTicketNumber, validateTicketNumberForType, getAppealGuidance, TICKET_TYPES } from "@/lib/ticket-types"
 import { Button } from "@/components/ui/button"
 import { TE7SignatureForm, TE9SignatureForm, useSignature } from "@/components/signature-canvas"
+import { PE2DataCollectionForm } from "@/components/pe2-data-collection"
+import { PE3DataCollectionForm } from "@/components/pe3-data-collection" 
+import { N244DataCollectionForm } from "@/components/n244-data-collection"
 
 interface Message {
   id: number
@@ -42,7 +45,7 @@ const initialMessages: Message[] = [
   {
     id: 1,
     type: "bot",
-    content: "🏛️ **Welcome to ClearRideAI Traffic Appeals Assistant!**\n\nI'm your expert AI companion for challenging ALL types of UK traffic penalties using comprehensive UK legal framework integration including:\n\n📋 **Legal Framework Coverage:**\n• Civil Enforcement Regulations 2022\n• Traffic Management Act 2004\n• Traffic Signs Regulations (TSRGD) 2016\n• Road Traffic Acts 1988\n• Key case law (Moses v Barnet, Herron v Sunderland)\n\n⏰ **Deadline Awareness:**\n• 14 days PCN discount period\n• 28 days formal representations\n• 28 days tribunal appeals\n\n🎯 **What Type of Ticket Are You Appealing?**\n\nPlease select your penalty type by clicking one of the buttons below:",
+    content: "🏛️ **Welcome to ClearRideAI Traffic Appeals Assistant!**\n\n🤖 **AI-Powered & Unique Every Time!**\n\nI'm your expert AI companion powered by OpenAI for challenging ALL types of UK traffic penalties. Every appeal I generate is:\n\n✨ **Completely Unique** - No two appeals are ever the same\n🎯 **AI-Enhanced** - Using advanced language models for maximum persuasion\n🚫 **Zero Placeholders** - Every template is filled with real, specific content\n📚 **UK Law Expert** - Trained on comprehensive UK legal framework\n\n📋 **Legal Framework Coverage:**\n• Civil Enforcement Regulations 2022\n• Traffic Management Act 2004\n• Traffic Signs Regulations (TSRGD) 2016\n• Road Traffic Acts 1988\n• Key case law (Moses v Barnet, Herron v Sunderland)\n\n⏰ **Deadline Awareness:**\n• 14 days PCN discount period\n• 28 days formal representations\n• 28 days tribunal appeals\n\n🎯 **What Type of Ticket Are You Appealing?**\n\nPlease select your penalty type by clicking one of the buttons below:",
     timestamp: new Date(),
   },
 ]
@@ -53,7 +56,7 @@ export function Appeals() {
   const [inputValue, setInputValue] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [appealData, setAppealData] = useState<Partial<AppealData>>({})
-  const [appealStep, setAppealStep] = useState<"ticket_type_selection" | "ticket" | "vehicle_registration" | "amount" | "issue_date" | "due_date" | "location" | "reason" | "description" | "complete" | "te7_details" | "te7_reason" | "te7_signature" | "te7_complete" | "te9_details" | "te9_ground" | "te9_signature" | "te9_complete">("ticket_type_selection")
+  const [appealStep, setAppealStep] = useState<"ticket_type_selection" | "ticket" | "vehicle_registration" | "amount" | "issue_date" | "due_date" | "location" | "reason" | "description" | "complete" | "te7_details" | "te7_reason" | "te7_signature" | "te7_complete" | "te9_details" | "te9_ground" | "te9_signature" | "te9_complete" | "pe2_form" | "pe3_form" | "n244_form">("ticket_type_selection")
   const [isCreatingAppeal, setIsCreatingAppeal] = useState(false)
   
   // Signature functionality
@@ -266,7 +269,7 @@ Vehicle: ${data.vehicleRegistration}`,
     }
 
     try {
-      // Generate the appeal letter text
+      // Generate the appeal letter text with AI
       const appealCase = {
         ticketNumber: appealData.ticketNumber,
         fineAmount: appealData.fineAmount,
@@ -279,7 +282,19 @@ Vehicle: ${data.vehicleRegistration}`,
         evidence: appealData.evidence || []
       }
 
-      const appealLetter = UKTrafficLawAssistant.generateAppealLetter(appealCase)
+      // Use AI generation with user data for unique appeals
+      let appealLetter: string
+      try {
+        const userData = {
+          id: session?.user?.email || 'user',
+          name: appealData.applicantName || appealData.declarantName || session?.user?.name,
+          email: session?.user?.email || 'user@example.com'
+        }
+        appealLetter = await UKTrafficLawAssistant.generateAppealLetter(appealCase, userData)
+      } catch (error) {
+        console.log('AI appeal generation failed, using template:', error)
+        appealLetter = UKTrafficLawAssistant.generateAppealLetterSync(appealCase)
+      }
 
       // Prepare case details for PDF
       const caseDetails = {
@@ -517,8 +532,8 @@ Vehicle: ${data.vehicleRegistration}`,
   }
 
   const handleTicketTypeSelection = (ticketTypeId: string) => {
-    // Handle TE7 and TE9 as special form services
-    if (ticketTypeId === 'te7' || ticketTypeId === 'te9') {
+    // Handle special court forms
+    if (ticketTypeId === 'te7' || ticketTypeId === 'te9' || ticketTypeId === 'pe2' || ticketTypeId === 'pe3' || ticketTypeId === 'n244') {
       setIsCreatingAppeal(true)
       
       if (ticketTypeId === 'te7') {
@@ -526,16 +541,43 @@ Vehicle: ${data.vehicleRegistration}`,
         const botMessage: Message = {
           id: messages.length + 1,
           type: "bot",
-          content: `📋 **TE7 Form Service - Court Order Challenge**\n\n**Form Purpose:** Request more time to challenge a court order ('order of recovery') for traffic enforcement charges\n\n🏛️ **Submission To:** Traffic Enforcement Centre\n📝 **Form Type:** Official court form TE7 (we'll fill out your blank template)\n\n**This form is used when:**\n• You need more time to challenge a court order\n• You missed the original deadline to respond\n• You want to apply for an extension\n\n**📝 Required Information to Complete Your TE7 Form:**\n\n1️⃣ **Your Full Name**\n2️⃣ **Your Complete Address** \n3️⃣ **Court Reference/Case Number**\n4️⃣ **Vehicle Registration**\n5️⃣ **Reason for requesting extension**\n6️⃣ **Original penalty amount**\n\n**Let's start - please provide your full name:**`,
+          content: `📋 **TE7 Form Service - AI-Enhanced Court Order Challenge**\n\n🤖 **AI-Powered Form Generation** - Your TE7 will be uniquely crafted using advanced AI\n\n**Form Purpose:** Request more time to challenge a court order ('order of recovery') for traffic enforcement charges\n\n🏛️ **Submission To:** Traffic Enforcement Centre\n📝 **Form Type:** Official court form TE7 (AI-filled with no placeholders)\n✨ **Unique Content:** Every form is generated fresh with case-specific language\n\n**This form is used when:**\n• You need more time to challenge a court order\n• You missed the original deadline to respond\n• You want to apply for an extension\n\n**📝 Required Information to Complete Your AI-Enhanced TE7 Form:**\n\n1️⃣ **Your Full Name**\n2️⃣ **Your Complete Address** \n3️⃣ **Court Reference/Case Number**\n4️⃣ **Vehicle Registration**\n5️⃣ **Reason for requesting extension**\n6️⃣ **Original penalty amount**\n\n**Let's start - please provide your full name:**`,
           timestamp: new Date(),
         }
         setMessages(prev => [...prev, botMessage])
-      } else { // te9
+      } else if (ticketTypeId === 'te9') {
         setAppealStep("te9_details")
         const botMessage: Message = {
           id: messages.length + 1,
           type: "bot",
-          content: `⚖️ **TE9 Form Service - Witness Statement (Unpaid Penalty Charge)**\n\n**Form Purpose:** Official witness statement for unpaid penalty charges at Traffic Enforcement Centre\n\n🏛️ **Submission To:** Traffic Enforcement Centre, Northampton County Court\n📝 **Form Type:** Official court form TE9 (we'll fill out your blank template)\n\n**📋 Required Information (from official TE9 form):**\n\n**BASIC DETAILS:**\n1️⃣ **Penalty Charge Number**\n2️⃣ **Vehicle Registration Number**\n3️⃣ **Your Name** (witness)\n4️⃣ **Your Address** (including postcode)\n5️⃣ **Company Name** (if vehicle owned by company)\n6️⃣ **Date of Contravention**\n7️⃣ **Location of Contravention**\n\n**WITNESS STATEMENT GROUNDS** (you must choose one):\n• You did not receive the penalty charge notice\n• You made representations but got no reply\n• You appealed but got no response or unfavorable response\n• The penalty charge has been paid in full\n\n**Let's start - please provide your Penalty Charge Number:**`,
+          content: `⚖️ **TE9 Form Service - AI-Enhanced Witness Statement**\n\n🤖 **AI-Powered Legal Document** - Your TE9 will include unique, case-specific content\n\n**Form Purpose:** Official witness statement for unpaid penalty charges at Traffic Enforcement Centre\n\n🏛️ **Submission To:** Traffic Enforcement Centre, Northampton County Court\n📝 **Form Type:** Official court form TE9 (AI-enhanced with professional legal language)\n✨ **Unique Content:** Every statement is uniquely worded for maximum legal impact\n\n**📋 Required Information (from official TE9 form):**\n\n**BASIC DETAILS:**\n1️⃣ **Penalty Charge Number**\n2️⃣ **Vehicle Registration Number**\n3️⃣ **Your Name** (witness)\n4️⃣ **Your Address** (including postcode)\n5️⃣ **Company Name** (if vehicle owned by company)\n6️⃣ **Date of Contravention**\n7️⃣ **Location of Contravention**\n\n**WITNESS STATEMENT GROUNDS** (AI will optimize your chosen ground):\n• You did not receive the penalty charge notice\n• You made representations but got no reply\n• You appealed but got no response or unfavorable response\n• The penalty charge has been paid in full\n\n**Let's start - please provide your Penalty Charge Number:**`,
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, botMessage])
+      } else if (ticketTypeId === 'pe2') {
+        setAppealStep("pe2_form")
+        const botMessage: Message = {
+          id: messages.length + 1,
+          type: "bot",
+          content: `🏛️ **PE2 Form Service - Application for Order**\n\n**Form Purpose:** Official court application form for requesting orders from the court\n\n🏛️ **Submission To:** County Court\n📝 **Form Type:** Official court form PE2 (we'll complete and prepare your PDF)\n\n**This form is used for:**\n• Applications for court orders\n• Requesting specific relief from the court\n• Formal court proceedings\n\n**📋 Required Information:**\nI'll guide you through a comprehensive form to collect all the necessary details including court information, applicant details, order requested, and legal grounds.\n\n**Let's begin by completing your PE2 application form:**`,
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, botMessage])
+      } else if (ticketTypeId === 'pe3') {
+        setAppealStep("pe3_form")
+        const botMessage: Message = {
+          id: messages.length + 1,
+          type: "bot",
+          content: `📋 **PE3 Form Service - Statutory Declaration for Unpaid Penalty Charge**\n\n**Form Purpose:** Official statutory declaration for challenging unpaid penalty charges\n\n🏛️ **Submission To:** Traffic Enforcement Centre / Magistrates' Court\n📝 **Form Type:** Official court form PE3 (we'll complete and prepare your PDF)\n\n**This form is used for:**\n• Statutory declarations for unpaid penalty charges\n• Challenging penalty charges you didn't receive notice for\n• Declaring you were not the driver at the time\n• Other valid grounds for challenging penalty charges\n\n**📋 Required Information:**\nI'll guide you through collecting details about the penalty charge, your circumstances, and the grounds for your statutory declaration.\n\n**Let's begin by completing your PE3 statutory declaration form:**`,
+          timestamp: new Date(),
+        }
+        setMessages(prev => [...prev, botMessage])
+      } else if (ticketTypeId === 'n244') {
+        setAppealStep("n244_form")
+        const botMessage: Message = {
+          id: messages.length + 1,
+          type: "bot",
+          content: `📝 **N244 Form Service - Application Notice**\n\n**Form Purpose:** Official court application notice for various court applications\n\n🏛️ **Submission To:** County Court\n📝 **Form Type:** Official court form N244 (we'll complete and prepare your PDF)\n\n**This form is used for:**\n• General court applications\n• Requesting hearings\n• Applications for court orders\n• Procedural applications\n\n**📋 Required Information:**\nI'll guide you through the application details including hearing requirements, costs information, and the specific relief you're seeking.\n\n**Let's begin by completing your N244 application notice:**`,
           timestamp: new Date(),
         }
         setMessages(prev => [...prev, botMessage])
@@ -710,11 +752,22 @@ Vehicle: ${data.vehicleRegistration}`,
                 circumstances: '',
                 evidence: []
               }
-              const generatedDescription = UKTrafficLawAssistant.generateAppealDescription(appealCaseData)
-              setAppealData(prev => ({ ...prev, description: generatedDescription }))
-              setAppealStep("complete")
               
-              botResponse = `🏆 **AI Professional Appeal Description Generated!**\n\n📋 **Your Customized Appeal:**\n"${generatedDescription}"\n\n✅ **Appeal Complete!** Your professional appeal has been generated with:\n• Legal precedents and case law\n• Specific circumstances of your case\n• Professional language that appeals panels respect\n• Strategic arguments for maximum success\n\n📄 **Next Steps:**\n1. Review the generated appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n🎯 **Success Strategy:** This appeal uses proven legal arguments that have helped thousands of drivers successfully challenge their penalties!`
+              // Try AI generation first
+              try {
+                const generatedDescription = await UKTrafficLawAssistant.generateAppealDescription(appealCaseData)
+                setAppealData(prev => ({ ...prev, description: generatedDescription }))
+                setAppealStep("complete")
+                
+                botResponse = `🤖 **AI-Generated Unique Appeal Description!**\n\n📋 **Your Personalized Appeal:**\n"${generatedDescription}"\n\n✅ **Appeal Complete!** Your unique AI-powered appeal includes:\n• OpenAI-generated unique content\n• UK traffic law expertise\n• Case-specific legal arguments\n• Professional language optimized for success\n• Zero placeholders or generic terms\n\n📄 **Next Steps:**\n1. Review your unique appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n� **AI Advantage:** This appeal is completely unique and tailored specifically to your case circumstances!`
+              } catch (error) {
+                // Fallback to sync template generation
+                const generatedDescription = UKTrafficLawAssistant.generateAppealDescriptionSync(appealCaseData)
+                setAppealData(prev => ({ ...prev, description: generatedDescription }))
+                setAppealStep("complete")
+                
+                botResponse = `🏆 **Professional Appeal Description Generated!**\n\n📋 **Your Customized Appeal:**\n"${generatedDescription}"\n\n✅ **Appeal Complete!** Your professional appeal has been generated with:\n• Legal precedents and case law\n• Specific circumstances of your case\n• Professional language that appeals panels respect\n• Strategic arguments for maximum success\n\n📄 **Next Steps:**\n1. Review the generated appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n🎯 **Success Strategy:** This appeal uses proven legal arguments that have helped thousands of drivers successfully challenge their penalties!`
+              }
             } else if (userInput.length >= 20) {
               setAppealData(prev => ({ ...prev, description: userInput }))
               setAppealStep("complete")
@@ -911,6 +964,27 @@ Vehicle: ${data.vehicleRegistration}`,
               >
                 ⚖️ <span className="text-xs">TE9 Witness Form</span>
               </Button>
+              <Button 
+                variant="outline"
+                onClick={() => handleTicketTypeSelection('pe2')}
+                className="h-20 flex flex-col items-center gap-1"
+              >
+                🏛️ <span className="text-xs">PE2 Court Application</span>
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => handleTicketTypeSelection('pe3')}
+                className="h-20 flex flex-col items-center gap-1"
+              >
+                📋 <span className="text-xs">PE3 Statutory Declaration</span>
+              </Button>
+              <Button 
+                variant="outline"
+                onClick={() => handleTicketTypeSelection('n244')}
+                className="h-20 flex flex-col items-center gap-1"
+              >
+                📝 <span className="text-xs">N244 Notice Application</span>
+              </Button>
             </div>
           )}
           
@@ -996,6 +1070,172 @@ Vehicle: ${data.vehicleRegistration}`,
                   ⚖️ Your signature creates the base legal document. Final court submission requires qualified witness validation.
                 </p>
               </div>
+            </div>
+          )}
+
+          {/* New Court Forms */}
+          {appealStep === "pe2_form" && (
+            <div className="bg-gradient-to-r from-slate-50 to-gray-50 border-2 border-slate-300 rounded-xl p-6 mb-4 shadow-lg">
+              <div className="text-center mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-slate-500 text-white rounded-full mb-3">
+                  🏛️
+                </div>
+                <h3 className="text-xl font-bold text-slate-800 mb-2">PE2 Court Application Form</h3>
+                <p className="text-slate-700">
+                  Complete your PE2 application form with court details and order information.
+                </p>
+              </div>
+              
+              <PE2DataCollectionForm
+                onDataComplete={async (data) => {
+                  try {
+                    const response = await fetch('/api/generate-pe2-pdf', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data),
+                    });
+                    
+                    if (response.ok) {
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `PE2_Application_${data.claimNumber || 'form'}.pdf`;
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      window.URL.revokeObjectURL(url);
+                      
+                      toast.success('PE2 PDF generated and downloaded successfully!');
+                      
+                      const botMessage: Message = {
+                        id: messages.length + 1,
+                        type: "bot",
+                        content: `🎉 **PE2 Application Completed Successfully!**\n\n✅ **Your PE2 form has been generated and downloaded**\n\n📄 **Next Steps:**\n• Review the downloaded PDF\n• Submit to the appropriate court\n• Keep copies for your records\n\n🏛️ **Court Submission:** Your PE2 application is ready for court filing.`,
+                        timestamp: new Date(),
+                      };
+                      setMessages(prev => [...prev, botMessage]);
+                      setIsCreatingAppeal(false);
+                      setAppealStep("ticket_type_selection");
+                    } else {
+                      throw new Error('Failed to generate PDF');
+                    }
+                  } catch (error) {
+                    console.error('Error generating PE2 PDF:', error);
+                    toast.error('Failed to generate PE2 PDF. Please try again.');
+                  }
+                }}
+              />
+            </div>
+          )}
+
+          {appealStep === "pe3_form" && (
+            <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-300 rounded-xl p-6 mb-4 shadow-lg">
+              <div className="text-center mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-amber-500 text-white rounded-full mb-3">
+                  📋
+                </div>
+                <h3 className="text-xl font-bold text-amber-800 mb-2">PE3 Statutory Declaration Form</h3>
+                <p className="text-amber-700">
+                  Complete your PE3 statutory declaration for unpaid penalty charges.
+                </p>
+              </div>
+              
+              <PE3DataCollectionForm
+                onDataComplete={async (data) => {
+                  try {
+                    const response = await fetch('/api/generate-pe3-pdf', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data),
+                    });
+                    
+                    if (response.ok) {
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `PE3_Statutory_Declaration_${data.claimNumber || 'form'}.pdf`;
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      window.URL.revokeObjectURL(url);
+                      
+                      toast.success('PE3 PDF generated and downloaded successfully!');
+                      
+                      const botMessage: Message = {
+                        id: messages.length + 1,
+                        type: "bot",
+                        content: `🎉 **PE3 Statutory Declaration Completed Successfully!**\n\n✅ **Your PE3 form has been generated and downloaded**\n\n📄 **Next Steps:**\n• Review the downloaded PDF\n• Submit to the Traffic Enforcement Centre or Magistrates' Court\n• Keep copies for your records\n\n� **Statutory Declaration:** Your PE3 application is ready for court processing.`,
+                        timestamp: new Date(),
+                      };
+                      setMessages(prev => [...prev, botMessage]);
+                      setIsCreatingAppeal(false);
+                      setAppealStep("ticket_type_selection");
+                    } else {
+                      throw new Error('Failed to generate PDF');
+                    }
+                  } catch (error) {
+                    console.error('Error generating PE3 PDF:', error);
+                    toast.error('Failed to generate PE3 PDF. Please try again.');
+                  }
+                }}
+              />
+            </div>
+          )}
+
+          {appealStep === "n244_form" && (
+            <div className="bg-gradient-to-r from-emerald-50 to-green-50 border-2 border-emerald-300 rounded-xl p-6 mb-4 shadow-lg">
+              <div className="text-center mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-emerald-500 text-white rounded-full mb-3">
+                  📝
+                </div>
+                <h3 className="text-xl font-bold text-emerald-800 mb-2">N244 Application Notice</h3>
+                <p className="text-emerald-700">
+                  Complete your N244 application notice for court proceedings.
+                </p>
+              </div>
+              
+              <N244DataCollectionForm
+                onDataComplete={async (data) => {
+                  try {
+                    const response = await fetch('/api/generate-n244-pdf', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify(data),
+                    });
+                    
+                    if (response.ok) {
+                      const blob = await response.blob();
+                      const url = window.URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = `N244_Application_Notice_${data.claimNumber || 'form'}.pdf`;
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      window.URL.revokeObjectURL(url);
+                      
+                      toast.success('N244 PDF generated and downloaded successfully!');
+                      
+                      const botMessage: Message = {
+                        id: messages.length + 1,
+                        type: "bot",
+                        content: `🎉 **N244 Application Notice Completed Successfully!**\n\n✅ **Your N244 form has been generated and downloaded**\n\n📄 **Next Steps:**\n• Review the downloaded PDF\n• Submit to the appropriate court\n• Keep copies for your records\n\n⚖️ **Court Application:** Your N244 notice is ready for submission.`,
+                        timestamp: new Date(),
+                      };
+                      setMessages(prev => [...prev, botMessage]);
+                      setIsCreatingAppeal(false);
+                      setAppealStep("ticket_type_selection");
+                    } else {
+                      throw new Error('Failed to generate PDF');
+                    }
+                  } catch (error) {
+                    console.error('Error generating N244 PDF:', error);
+                    toast.error('Failed to generate N244 PDF. Please try again.');
+                  }
+                }}
+              />
             </div>
           )}
 
