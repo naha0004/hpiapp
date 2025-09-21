@@ -257,7 +257,7 @@ export function useSignature() {
     witness?: string;
   }>({});
 
-  const addSignature = (type: 'te7' | 'te9' | 'witness', signatureData: string) => {
+  const addSignature = (type: 'te7' | 'te9' | 'pe2' | 'pe3' | 'n244' | 'witness', signatureData: string) => {
     setSignatures(prev => ({
       ...prev,
       [type]: signatureData

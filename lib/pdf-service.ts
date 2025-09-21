@@ -2,6 +2,7 @@ import { PDFDocument, PDFForm, PDFTextField, PDFCheckBox, PDFDropdown, PDFImage,
 import fs from 'fs';
 import path from 'path';
 import { TE7Data, TE9Data, PE2Data, PE3Data, N244Data } from '@/types/appeal';
+import { WordDocumentService } from './word-service';
 
 export class PDFService {
   private static async loadPDFTemplate(templateName: string): Promise<Uint8Array> {
@@ -717,163 +718,14 @@ export class PDFService {
    */
   static async fillPE3Form(data: PE3Data): Promise<Uint8Array> {
     try {
-      // Try to load PE3 with form fields first, fallback to text overlay
-      const existingPdfBytes = await this.loadPDFTemplate('PE3.pdf');
-      const pdfDoc = await PDFDocument.load(existingPdfBytes);
+      console.log('Generating PE3 form using Word document template (professional approach)');
       
-      // Check if this PDF has form fields (like TE7 does)
-      let form;
-      try {
-        form = pdfDoc.getForm();
-        const fields = form.getFields();
-        
-        if (fields.length > 0) {
-          console.log(`PE3 PDF has ${fields.length} form fields - using form field approach`);
-          
-          // Use form fields (like TE7) - much more reliable
-          this.setFormField(form, 'Penalty Charge Number', data.penaltyChargeNumber);
-          this.setFormField(form, 'Vehicle Registration Number', data.vehicleRegistration);
-          this.setFormField(form, 'Applicant', data.applicantName);
-          this.setFormField(form, 'Location of Contravention', data.locationOfContravention);
-          this.setFormField(form, 'Date of Contravention', data.dateOfContravention);
-          this.setFormField(form, 'Respondent Name', data.respondentName);
-          this.setFormField(form, 'Respondent Address', data.respondentAddress);
-          this.setFormField(form, 'Reasons', data.reasonForDeclaration);
-          this.setFormField(form, 'Signature', data.applicantName);
-          this.setFormField(form, 'Date', data.signatureDate || new Date().toLocaleDateString('en-GB'));
-          this.setFormField(form, 'Witness', data.witnessName || '');
-          
-          // Set checkboxes
-          this.setCheckboxField(form, 'Did not receive notice', data.didNotReceiveNotice);
-          this.setCheckboxField(form, 'Made representations', data.madeRepresentationsNoResponse);
-          this.setCheckboxField(form, 'Appealed', data.appealedNoResponse);
-          
-          // Embed signature if provided
-          if (data.applicantSignature) {
-            await this.embedSignatureImage(pdfDoc, data.applicantSignature, 'PE3_applicant_signature');
-          }
-          
-          return await pdfDoc.save();
-        }
-      } catch (formError) {
-        console.log('PE3 PDF has no form fields - falling back to text overlay');
-      }
+      // Use the superior Word document approach instead of problematic text overlay
+      const pdfBuffer = await WordDocumentService.generatePE3PDF(data);
       
-      // Fallback to text overlay (current approach) if no form fields
-      const pages = pdfDoc.getPages();
-      const firstPage = pages[0];
-      const { width, height } = firstPage.getSize();
-      
-      // Embed fonts
-      const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-      const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-
-      // ⚠️ TEXT OVERLAY APPROACH - LESS RELIABLE
-      // Based on visual analysis but still imprecise
-      
-      // Right side header fields (from screenshot analysis)
-      if (data.penaltyChargeNumber) {
-        firstPage.drawText(data.penaltyChargeNumber, {
-          x: 450, y: height - 99, size: 10, font
-        });
-      }
-      
-      if (data.vehicleRegistration) {
-        firstPage.drawText(data.vehicleRegistration, {
-          x: 450, y: height - 111, size: 10, font
-        });
-      }
-
-      if (data.applicantName) {
-        firstPage.drawText(data.applicantName, {
-          x: 450, y: height - 123, size: 10, font
-        });
-      }
-      
-      if (data.locationOfContravention) {
-        firstPage.drawText(data.locationOfContravention, {
-          x: 450, y: height - 135, size: 10, font
-        });
-      }
-      
-      if (data.dateOfContravention) {
-        firstPage.drawText(data.dateOfContravention, {
-          x: 450, y: height - 147, size: 10, font
-        });
-      }
-
-      // Respondent details (large center box)
-      if (data.respondentName && data.respondentAddress) {
-        const respondentText = `${data.respondentName.toUpperCase()}\n${data.respondentAddress.toUpperCase()}`;
-        const respondentLines = respondentText.split('\n');
-        let startY = height - 290;
-        
-        respondentLines.forEach((line, index) => {
-          if (line.trim()) {
-            firstPage.drawText(line, {
-              x: 85, y: startY - (index * 12), size: 10, font: boldFont
-            });
-          }
-        });
-      }
-
-      // Checkboxes
-      if (data.didNotReceiveNotice) {
-        firstPage.drawText('X', { x: 378, y: height - 324, size: 12, font: boldFont });
-      }
-      if (data.madeRepresentationsNoResponse) {
-        firstPage.drawText('X', { x: 378, y: height - 366, size: 12, font: boldFont });
-      }
-      if (data.appealedNoResponse) {
-        firstPage.drawText('X', { x: 378, y: height - 399, size: 12, font: boldFont });
-      }
-
-      // Reasons
-      if (data.reasonForDeclaration) {
-        const reasonLines = this.splitTextIntoLines(data.reasonForDeclaration, 70);
-        let reasonY = height - 460;
-        
-        reasonLines.forEach((line, index) => {
-          if (reasonY - (index * 12) > height - 520) {
-            firstPage.drawText(line, {
-              x: 390, y: reasonY - (index * 12), size: 9, font
-            });
-          }
-        });
-      }
-
-      // Signature section
-      if (data.applicantName) {
-        firstPage.drawText(data.applicantName, {
-          x: 110, y: height - 541, size: 10, font
-        });
-      }
-      
-      const signatureDate = data.signatureDate || new Date().toLocaleDateString('en-GB');
-      firstPage.drawText(signatureDate, {
-        x: 580, y: height - 541, size: 10, font
-      });
-
-      if (data.declarationLocation) {
-        firstPage.drawText(data.declarationLocation, {
-          x: 200, y: height - 555, size: 9, font
-        });
-      }
-
-      if (data.witnessName) {
-        firstPage.drawText(data.witnessName, {
-          x: 150, y: height - 640, size: 9, font
-        });
-      }
-
-      // Embed signature if provided
-      if (data.applicantSignature) {
-        await this.embedSignatureImage(pdfDoc, data.applicantSignature, 'PE3_applicant_signature');
-      }
-
-      return await pdfDoc.save();
+      return new Uint8Array(pdfBuffer);
     } catch (error) {
-      console.error('Error filling PE3 form:', error);
+      console.error('Error generating PE3 form with Word service:', error);
       throw new Error(`Failed to generate PE3 form: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }

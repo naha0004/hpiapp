@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { PDFService } from '@/lib/pdf-service';
+import { WordDocumentService } from '@/lib/word-service';
 import { AIAppealGenerator } from '@/lib/ai-appeal-generator';
 import { PE3Data } from '@/types/appeal';
 
@@ -38,22 +39,40 @@ export async function POST(request: NextRequest) {
       // Continue with original data if AI fails
     }
 
-    // Generate the PDF with enhanced content
-    const pdfBytes = await PDFService.fillPE3Form(enhancedData);
+    // Check for format preference in query params
+    const url = new URL(request.url);
+    const format = url.searchParams.get('format') || 'pdf';
 
-    // Return the PDF as a blob
-    return new NextResponse(pdfBytes, {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="PE3_Statutory_Declaration_${enhancedData.penaltyChargeNumber || 'form'}.pdf"`,
-      },
-    });
+    if (format === 'word') {
+      // Generate Word document (professional approach)
+      console.log('Generating PE3 as Word document (professional format)');
+      const wordBuffer = await WordDocumentService.generatePE3Document(enhancedData);
+      
+      return new NextResponse(wordBuffer, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'Content-Disposition': `attachment; filename="PE3_Statutory_Declaration_${enhancedData.penaltyChargeNumber || 'form'}.docx"`,
+        },
+      });
+    } else {
+      // Generate PDF (using Word service internally for better results)
+      console.log('Generating PE3 as PDF (Word-to-PDF approach)');
+      const pdfBytes = await PDFService.fillPE3Form(enhancedData);
+
+      return new NextResponse(pdfBytes, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/pdf',
+          'Content-Disposition': `attachment; filename="PE3_Statutory_Declaration_${enhancedData.penaltyChargeNumber || 'form'}.pdf"`,
+        },
+      });
+    }
 
   } catch (error) {
-    console.error('PE3 PDF generation error:', error);
+    console.error('PE3 form generation error:', error);
     return NextResponse.json(
-      { error: 'Failed to generate PE3 PDF form' },
+      { error: 'Failed to generate PE3 form' },
       { status: 500 }
     );
   }

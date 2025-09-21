@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     const n244Data: N244Data = await request.json();
 
     // Validate required fields
-    if (!n244Data.courtName || !n244Data.claimNumber || !n244Data.applicantName || !n244Data.orderOrDirectionSought) {
+    if (!n244Data.courtName || !n244Data.claimNumber || !n244Data.applicantName || !n244Data.orderSought) {
       return NextResponse.json(
         { error: 'Missing required fields for N244 form' },
         { status: 400 }
@@ -25,9 +25,9 @@ export async function POST(request: NextRequest) {
       const aiGenerator = new AIAppealGenerator();
       
       // Generate AI-enhanced content for key fields
-      if (n244Data.reasonForApplication && n244Data.reasonForApplication.length < 100) {
+      if (n244Data.reasonsForApplication && n244Data.reasonsForApplication.length < 100) {
         const aiContent = await aiGenerator.generateCourtFormContent('N244', n244Data);
-        enhancedData.reasonForApplication = aiContent;
+        enhancedData.reasonsForApplication = aiContent;
       }
       
       // Add unique reference
