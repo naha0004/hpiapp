@@ -51,7 +51,7 @@ const initialMessages: Message[] = [
   {
     id: 1,
     type: "bot",
-    content: "🏛️ **Welcome to ClearRideAI Traffic Appeals Assistant!**\n\n🤖 **AI-Powered & Unique Every Time!**\n\nI'm your expert AI companion powered by OpenAI for challenging ALL types of UK traffic penalties. Every appeal I generate is:\n\n✨ **Completely Unique** - No two appeals are ever the same\n🎯 **AI-Enhanced** - Using advanced language models for maximum persuasion\n🚫 **Zero Placeholders** - Every template is filled with real, specific content\n📚 **UK Law Expert** - Trained on comprehensive UK legal framework\n\n📋 **Legal Framework Coverage:**\n• Civil Enforcement Regulations 2022\n• Traffic Management Act 2004\n• Traffic Signs Regulations (TSRGD) 2016\n• Road Traffic Acts 1988\n• Key case law (Moses v Barnet, Herron v Sunderland)\n\n⏰ **Deadline Awareness:**\n• 14 days PCN discount period\n• 28 days formal representations\n• 28 days tribunal appeals\n\n🎯 **What Type of Ticket Are You Appealing?**\n\nPlease select your penalty type by clicking one of the buttons below:",
+    content: "**Welcome to ClearRideAI Traffic Appeals Assistant!**\n\n**AI-Powered & Unique Every Time!**\n\nI'm your expert AI companion powered by OpenAI for challenging ALL types of UK traffic penalties. Every appeal I generate is:\n\n**Completely Unique** - No two appeals are ever the same\n**AI-Enhanced** - Using advanced language models for maximum persuasion\n**Zero Placeholders** - Every template is filled with real, specific content\n**UK Law Expert** - Trained on comprehensive UK legal framework\n\n**Legal Framework Coverage:**\n• Civil Enforcement Regulations 2022\n• Traffic Management Act 2004\n• Traffic Signs Regulations (TSRGD) 2016\n• Road Traffic Acts 1988\n• Key case law (Moses v Barnet, Herron v Sunderland)\n\n**Deadline Awareness:**\n• 14 days PCN discount period\n• 28 days formal representations\n• 28 days tribunal appeals\n\n**What Type of Ticket Are You Appealing?**\n\nPlease select your penalty type by clicking one of the buttons below:",
     timestamp: new Date(),
   },
 ]
@@ -619,7 +619,7 @@ Vehicle: ${data.vehicleRegistration}`,
     const botMessage: Message = {
       id: messages.length + 1,
       type: "bot",
-      content: `🎉 **Excellent! Your TE7 Form is Now Digitally Signed and Complete!**\n\n✅ **What I've Done for You:**\n• ✍️ Captured your digital signature\n• 📄 Embedded signature into your TE7 PDF\n• 🏛️ Prepared form for Traffic Enforcement Centre submission\n• 📋 Generated professional legal document\n\n🚀 **Your TE7 Application is Ready!**\n\n**Next Steps:**\n1. **📥 Download** your signed TE7 PDF using the button below\n2. **✉️ Submit** to Traffic Enforcement Centre immediately\n3. **📁 Keep** digital copies for your records\n4. **⏰ Track** your application status\n\n📍 **Submit to:**\nTraffic Enforcement Centre\nNorthampton County Court\nSt Katharine's House, 21-27 St Katharine's Street\nNorthampton NN1 2LZ\n\n💡 **Pro Tip:** Your digitally signed PDF is legally valid and ready for immediate court submission - no printing or manual signing required!`,
+      content: `**Excellent! Your TE7 Form is Now Digitally Signed and Complete!**\n\n**What I've Done for You:**\n• Captured your digital signature\n• Embedded signature into your TE7 PDF\n• Prepared form for Traffic Enforcement Centre submission\n• Generated professional legal document\n\n**Your TE7 Application is Ready!**\n\n**Next Steps:**\n1. **Download** your signed TE7 PDF using the button below\n2. **Submit** to Traffic Enforcement Centre immediately\n3. **Keep** digital copies for your records\n4. **Track** your application status\n\n**Submit to:**\nTraffic Enforcement Centre\nNorthampton County Court\nSt Katharine's House, 21-27 St Katharine's Street\nNorthampton NN1 2LZ\n\n**Pro Tip:** Your digitally signed PDF is legally valid and ready for immediate court submission - no printing or manual signing required!`,
       timestamp: new Date(),
     }
     setMessages(prev => [...prev, botMessage])
@@ -637,7 +637,7 @@ Vehicle: ${data.vehicleRegistration}`,
     const botMessage: Message = {
       id: messages.length + 1,
       type: "bot",
-      content: `🎉 **Outstanding! Your TE9 Witness Statement is Now Digitally Signed!**\n\n✅ **What I've Accomplished for You:**\n• ✍️ Captured your digital signature\n• ⚖️ Created a sworn legal document\n• 📄 Embedded signature into your TE9 PDF\n• 🏛️ Prepared form for legal witnessing and court submission\n\n📋 **Your TE9 Statement is Ready for Final Steps!**\n\n**Immediate Actions:**\n1. **📥 Download** your signed TE9 PDF using the button below\n2. **🔍 Review** all details carefully\n3. **📁 Keep** digital copies for your records\n\n**For Court Submission:**\n4. **🏛️ Take to a qualified witness:**\n   • Solicitor\n   • Commissioner for Oaths\n   • Justice of the Peace\n   • Notary Public\n5. **✍️ Have them witness and sign** the printed form\n6. **📤 Submit** to Traffic Enforcement Centre\n\n📍 **Submit to:**\nTraffic Enforcement Centre\nNorthampton County Court\nSt Katharine's House, 21-27 St Katharine's Street\nNorthampton NN1 2LZ\n\n⚖️ **Legal Reminder:** Your digital signature creates the base document, but TE9 forms require qualified witness validation for court acceptance.`,
+      content: `**Outstanding! Your TE9 Witness Statement is Now Digitally Signed!**\n\n**What I've Accomplished for You:**\n• Captured your digital signature\n• Created a sworn legal document\n• Embedded signature into your TE9 PDF\n• Prepared form for legal witnessing and court submission\n\n**Your TE9 Statement is Ready for Final Steps!**\n\n**Immediate Actions:**\n1. **Download** your signed TE9 PDF using the button below\n2. **Review** all details carefully\n3. **Keep** digital copies for your records\n\n**For Court Submission:**\n4. **Take to a qualified witness:**\n   • Solicitor\n   • Commissioner for Oaths\n   • Justice of the Peace\n   • Notary Public\n5. **Have them witness and sign** the printed form\n6. **Submit** to Traffic Enforcement Centre\n\n**Submit to:**\nTraffic Enforcement Centre\nNorthampton County Court\nSt Katharine's House, 21-27 St Katharine's Street\nNorthampton NN1 2LZ\n\n**Legal Reminder:** Your digital signature creates the base document, but TE9 forms require qualified witness validation for court acceptance.`,
       timestamp: new Date(),
     }
     setMessages(prev => [...prev, botMessage])
@@ -655,7 +655,7 @@ Vehicle: ${data.vehicleRegistration}`,
     const botMessage: Message = {
       id: messages.length + 1,
       type: "bot",
-      content: `🎉 **Perfect! Your PE2 Application is Now Digitally Signed and Complete!**\n\n✅ **What I've Completed for You:**\n• ✍️ Captured your digital signature\n• 📄 Embedded signature into your PE2 PDF\n• 🏛️ Prepared application for County Court submission\n• 📋 Generated professional legal document\n\n🚀 **Your PE2 Application is Ready!**\n\n**Next Steps:**\n1. **📥 Download** your signed PE2 PDF using the button below\n2. **✉️ Submit** to the appropriate County Court\n3. **📁 Keep** digital copies for your records\n4. **⏰ Track** your application status\n\n📍 **Submit to:**\nCounty Court Business Centre\nor your local County Court\n\n💡 **Pro Tip:** Your digitally signed PDF is court-ready and saves you time compared to manual form completion!`,
+      content: `**Perfect! Your PE2 Application is Now Digitally Signed and Complete!**\n\n**What I've Completed for You:**\n• Captured your digital signature\n• Embedded signature into your PE2 PDF\n• Prepared application for County Court submission\n• Generated professional legal document\n\n**Your PE2 Application is Ready!**\n\n**Next Steps:**\n1. **Download** your signed PE2 PDF using the button below\n2. **Submit** to the appropriate County Court\n3. **Keep** digital copies for your records\n4. **Track** your application status\n\n**Submit to:**\nCounty Court Business Centre\nor your local County Court\n\n**Pro Tip:** Your digitally signed PDF is court-ready and saves you time compared to manual form completion!`,
       timestamp: new Date(),
     }
     setMessages(prev => [...prev, botMessage])
@@ -673,7 +673,7 @@ Vehicle: ${data.vehicleRegistration}`,
     const botMessage: Message = {
       id: messages.length + 1,
       type: "bot",
-      content: `🎉 **Excellent! Your PE3 Statutory Declaration is Now Digitally Signed!**\n\n✅ **What I've Accomplished for You:**\n• ✍️ Captured your digital signature\n• ⚖️ Created a statutory declaration document\n• 📄 Embedded signature into your PE3 PDF\n• 🏛️ Prepared form for legal witnessing and court submission\n\n📋 **Your PE3 Declaration is Ready for Final Steps!**\n\n**Immediate Actions:**\n1. **📥 Download** your signed PE3 PDF using the button below\n2. **🔍 Review** all details carefully\n3. **📁 Keep** digital copies for your records\n\n**For Court Submission:**\n4. **🏛️ Take to a qualified witness:**\n   • Solicitor\n   • Commissioner for Oaths\n   • Justice of the Peace\n   • Notary Public\n5. **✍️ Have them witness and sign** the printed form\n6. **📤 Submit** to Traffic Enforcement Centre or Magistrates' Court\n\n📍 **Submit to:**\nTraffic Enforcement Centre or\nMagistrates' Court (depending on your case)\n\n⚖️ **Legal Reminder:** Your digital signature creates the base document, but PE3 forms require qualified witness validation for court acceptance.`,
+      content: `**Excellent! Your PE3 Statutory Declaration is Now Digitally Signed!**\n\n**What I've Accomplished for You:**\n• Captured your digital signature\n• Created a statutory declaration document\n• Embedded signature into your PE3 PDF\n• Prepared form for legal witnessing and court submission\n\n**Your PE3 Declaration is Ready for Final Steps!**\n\n**Immediate Actions:**\n1. **Download** your signed PE3 PDF using the button below\n2. **Review** all details carefully\n3. **Keep** digital copies for your records\n\n**For Court Submission:**\n4. **Take to a qualified witness:**\n   • Solicitor\n   • Commissioner for Oaths\n   • Justice of the Peace\n   • Notary Public\n5. **Have them witness and sign** the printed form\n6. **Submit** to Traffic Enforcement Centre or Magistrates' Court\n\n**Submit to:**\nTraffic Enforcement Centre or\nMagistrates' Court (depending on your case)\n\n**Legal Reminder:** Your digital signature creates the base document, but PE3 forms require qualified witness validation for court acceptance.`,
       timestamp: new Date(),
     }
     setMessages(prev => [...prev, botMessage])
@@ -691,7 +691,7 @@ Vehicle: ${data.vehicleRegistration}`,
     const botMessage: Message = {
       id: messages.length + 1,
       type: "bot",
-      content: `🎉 **Perfect! Your N244 Application Notice is Now Digitally Signed!**\n\n✅ **What I've Accomplished for You:**\n• ✍️ Captured your digital signature\n• 📋 Created a professional court application notice\n• 📄 Embedded signature into your N244 PDF\n• 🏛️ Prepared form for immediate court submission\n\n📋 **Your N244 Application Notice is Complete!**\n\n**Immediate Actions:**\n1. **📥 Download** your signed N244 PDF using the button below\n2. **🔍 Review** all application details carefully\n3. **📁 Keep** digital copies for your records\n\n**For Court Submission:**\n4. **📤 Submit** to the appropriate court along with:\n   • Application fee (if applicable)\n   • Supporting evidence\n   • Any required documents\n5. **📅 Note** any hearing dates if required\n6. **📧 Serve** copies on other parties as required\n\n📍 **Submit to:**\n${appealData.courtName || 'The relevant County Court'}\n\n⚖️ **Legal Reminder:** Ensure you submit within any applicable time limits and serve copies on all parties as required by court rules.`,
+      content: `**Perfect! Your N244 Application Notice is Now Digitally Signed!**\n\n**What I've Accomplished for You:**\n• Captured your digital signature\n• Created a professional court application notice\n• Embedded signature into your N244 PDF\n• Prepared form for immediate court submission\n\n**Your N244 Application Notice is Complete!**\n\n**Immediate Actions:**\n1. **Download** your signed N244 PDF using the button below\n2. **Review** all application details carefully\n3. **Keep** digital copies for your records\n\n**For Court Submission:**\n4. **Submit** to the appropriate court along with:\n   • Application fee (if applicable)\n   • Supporting evidence\n   • Any required documents\n5. **Note** any hearing dates if required\n6. **Serve** copies on other parties as required\n\n**Submit to:**\n${appealData.courtName || 'The relevant County Court'}\n\n**Legal Reminder:** Ensure you submit within any applicable time limits and serve copies on all parties as required by court rules.`,
       timestamp: new Date(),
     }
     setMessages(prev => [...prev, botMessage])
@@ -737,10 +737,10 @@ Vehicle: ${data.vehicleRegistration}`,
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
       
-      toast.success('✅ TE7 PDF with signature downloaded successfully!')
+      toast.success('TE7 PDF with signature downloaded successfully!')
     } catch (error) {
       console.error('Error downloading TE7 with signature:', error)
-      toast.error('❌ Failed to download TE7 PDF. Please try again.')
+      toast.error('Failed to download TE7 PDF. Please try again.')
     }
   }
 
@@ -782,10 +782,10 @@ Vehicle: ${data.vehicleRegistration}`,
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
       
-      toast.success('✅ TE9 PDF with signature downloaded successfully!')
+      toast.success('TE9 PDF with signature downloaded successfully!')
     } catch (error) {
       console.error('Error downloading TE9 with signature:', error)
-      toast.error('❌ Failed to download TE9 PDF. Please try again.')
+      toast.error('Failed to download TE9 PDF. Please try again.')
     }
   }
 
@@ -828,10 +828,10 @@ Vehicle: ${data.vehicleRegistration}`,
       document.body.removeChild(a)
       window.URL.revokeObjectURL(url)
 
-      toast.success('✅ PE2 PDF with signature downloaded successfully!')
+      toast.success('PE2 PDF with signature downloaded successfully!')
     } catch (error) {
       console.error('Error downloading PE2 with signature:', error)
-      toast.error('❌ Failed to download PE2 PDF. Please try again.')
+      toast.error('Failed to download PE2 PDF. Please try again.')
     }
   }
 
@@ -879,10 +879,10 @@ Vehicle: ${data.vehicleRegistration}`,
       document.body.removeChild(a)
       window.URL.revokeObjectURL(url)
 
-      toast.success('✅ PE3 PDF with signature downloaded successfully!')
+      toast.success('PE3 PDF with signature downloaded successfully!')
     } catch (error) {
       console.error('Error downloading PE3 with signature:', error)
-      toast.error('❌ Failed to download PE3 PDF. Please try again.')
+      toast.error('Failed to download PE3 PDF. Please try again.')
     }
   }
 
@@ -937,10 +937,10 @@ Vehicle: ${data.vehicleRegistration}`,
       document.body.removeChild(a)
       window.URL.revokeObjectURL(url)
 
-      toast.success('✅ N244 PDF with signature downloaded successfully!')
+      toast.success('N244 PDF with signature downloaded successfully!')
     } catch (error) {
       console.error('Error downloading N244 with signature:', error)
-      toast.error('❌ Failed to download N244 PDF. Please try again.')
+      toast.error('Failed to download N244 PDF. Please try again.')
     }
   }
   
@@ -968,7 +968,7 @@ Vehicle: ${data.vehicleRegistration}`,
         const botMessage: Message = {
           id: messages.length + 1,
           type: "bot",
-          content: `📋 **TE7 Form Service - AI-Enhanced Court Order Challenge**\n\n🤖 **AI-Powered Form Generation** - Your TE7 will be uniquely crafted using advanced AI\n\n**Form Purpose:** Request more time to challenge a court order ('order of recovery') for traffic enforcement charges\n\n🏛️ **Submission To:** Traffic Enforcement Centre\n📝 **Form Type:** Official court form TE7 (AI-filled with no placeholders)\n✨ **Unique Content:** Every form is generated fresh with case-specific language\n\n**This form is used when:**\n• You need more time to challenge a court order\n• You missed the original deadline to respond\n• You want to apply for an extension\n\n**📝 Required Information to Complete Your AI-Enhanced TE7 Form:**\n\n1️⃣ **Your Full Name**\n2️⃣ **Your Complete Address** \n3️⃣ **Court Reference/Case Number**\n4️⃣ **Vehicle Registration**\n5️⃣ **Reason for requesting extension**\n6️⃣ **Original penalty amount**\n\n**Let's start - please provide your full name:**`,
+          content: `**TE7 Form Service - AI-Enhanced Court Order Challenge**\n\n**AI-Powered Form Generation** - Your TE7 will be uniquely crafted using advanced AI\n\n**Form Purpose:** Request more time to challenge a court order ('order of recovery') for traffic enforcement charges\n\n**Submission To:** Traffic Enforcement Centre\n**Form Type:** Official court form TE7 (AI-filled with no placeholders)\n**Unique Content:** Every form is generated fresh with case-specific language\n\n**This form is used when:**\n• You need more time to challenge a court order\n• You missed the original deadline to respond\n• You want to apply for an extension\n\n**Required Information to Complete Your AI-Enhanced TE7 Form:**\n\n1. **Your Full Name**\n2. **Your Complete Address** \n3. **Court Reference/Case Number**\n4. **Vehicle Registration**\n5. **Reason for requesting extension**\n6. **Original penalty amount**\n\n**Let's start - please provide your full name:**`,
           timestamp: new Date(),
         }
         setMessages(prev => [...prev, botMessage])
@@ -977,7 +977,7 @@ Vehicle: ${data.vehicleRegistration}`,
         const botMessage: Message = {
           id: messages.length + 1,
           type: "bot",
-          content: `⚖️ **TE9 Form Service - AI-Enhanced Witness Statement**\n\n🤖 **AI-Powered Legal Document** - Your TE9 will include unique, case-specific content\n\n**Form Purpose:** Official witness statement for unpaid penalty charges at Traffic Enforcement Centre\n\n🏛️ **Submission To:** Traffic Enforcement Centre, Northampton County Court\n📝 **Form Type:** Official court form TE9 (AI-enhanced with professional legal language)\n✨ **Unique Content:** Every statement is uniquely worded for maximum legal impact\n\n**📋 Required Information (from official TE9 form):**\n\n**BASIC DETAILS:**\n1️⃣ **Penalty Charge Number**\n2️⃣ **Vehicle Registration Number**\n3️⃣ **Your Name** (witness)\n4️⃣ **Your Address** (including postcode)\n5️⃣ **Company Name** (if vehicle owned by company)\n6️⃣ **Date of Contravention**\n7️⃣ **Location of Contravention**\n\n**WITNESS STATEMENT GROUNDS** (AI will optimize your chosen ground):\n• You did not receive the penalty charge notice\n• You made representations but got no reply\n• You appealed but got no response or unfavorable response\n• The penalty charge has been paid in full\n\n**Let's start - please provide your Penalty Charge Number:**`,
+          content: `**TE9 Form Service - AI-Enhanced Witness Statement**\n\n**AI-Powered Legal Document** - Your TE9 will include unique, case-specific content\n\n**Form Purpose:** Official witness statement for unpaid penalty charges at Traffic Enforcement Centre\n\n**Submission To:** Traffic Enforcement Centre, Northampton County Court\n**Form Type:** Official court form TE9 (AI-enhanced with professional legal language)\n**Unique Content:** Every statement is uniquely worded for maximum legal impact\n\n**Required Information (from official TE9 form):**\n\n**BASIC DETAILS:**\n1. **Penalty Charge Number**\n2. **Vehicle Registration Number**\n3. **Your Name** (witness)\n4. **Your Address** (including postcode)\n5. **Company Name** (if vehicle owned by company)\n6. **Date of Contravention**\n7. **Location of Contravention**\n\n**WITNESS STATEMENT GROUNDS** (AI will optimize your chosen ground):\n• You did not receive the penalty charge notice\n• You made representations but got no reply\n• You appealed but got no response or unfavorable response\n• The penalty charge has been paid in full\n\n**Let's start - please provide your Penalty Charge Number:**`,
           timestamp: new Date(),
         }
         setMessages(prev => [...prev, botMessage])
@@ -986,7 +986,7 @@ Vehicle: ${data.vehicleRegistration}`,
         const botMessage: Message = {
           id: messages.length + 1,
           type: "bot",
-          content: `🏛️ **PE2 Form Service - Application for Order**\n\n🤖 **AI-Powered Form Generation** - Your PE2 will be uniquely crafted using advanced AI\n\n**Form Purpose:** Official court application form for requesting orders from the court\n\n🏛️ **Submission To:** County Court\n📝 **Form Type:** Official court form PE2 (AI-filled with no placeholders)\n✨ **Unique Content:** Every form is generated fresh with case-specific language\n\n**This form is used for:**\n• Applications for court orders\n• Requesting specific relief from the court\n• Formal court proceedings\n\n**� Required Information to Complete Your AI-Enhanced PE2 Form:**\n\n1️⃣ **Penalty Charge Number**\n2️⃣ **Vehicle Registration Number**\n3️⃣ **Your Full Name**\n4️⃣ **Your Complete Address (including postcode)**\n5️⃣ **Respondent Name**\n6️⃣ **Respondent Address**\n7️⃣ **Reasons for Late Filing**\n\n**Let's start - please provide your Penalty Charge Number:**`,
+          content: `**PE2 Form Service - Application for Order**\n\n**AI-Powered Form Generation** - Your PE2 will be uniquely crafted using advanced AI\n\n**Form Purpose:** Official court application form for requesting orders from the court\n\n**Submission To:** County Court\n**Form Type:** Official court form PE2 (AI-filled with no placeholders)\n**Unique Content:** Every form is generated fresh with case-specific language\n\n**This form is used for:**\n• Applications for court orders\n• Requesting specific relief from the court\n• Formal court proceedings\n\n**Required Information to Complete Your AI-Enhanced PE2 Form:**\n\n1. **Penalty Charge Number**\n2. **Vehicle Registration Number**\n3. **Your Full Name**\n4. **Your Complete Address (including postcode)**\n5. **Respondent Name**\n6. **Respondent Address**\n7. **Reasons for Late Filing**\n\n**Let's start - please provide your Penalty Charge Number:**`,
           timestamp: new Date(),
         }
         setMessages(prev => [...prev, botMessage])
@@ -995,7 +995,7 @@ Vehicle: ${data.vehicleRegistration}`,
         const botMessage: Message = {
           id: messages.length + 1,
           type: "bot",
-          content: `📋 **PE3 Form Service - Statutory Declaration for Unpaid Penalty Charge**\n\n🤖 **AI-Powered Legal Document** - Your PE3 will include unique, case-specific content\n\n**Form Purpose:** Official statutory declaration for challenging unpaid penalty charges\n\n🏛️ **Submission To:** Traffic Enforcement Centre / Magistrates' Court\n📝 **Form Type:** Official court form PE3 (AI-enhanced with professional legal language)\n✨ **Unique Content:** Every declaration is uniquely worded for maximum legal impact\n\n**This form is used for:**\n• Statutory declarations for unpaid penalty charges\n• Challenging penalty charges you didn't receive notice for\n• Declaring you were not the driver at the time\n• Other valid grounds for challenging penalty charges\n\n**📋 Required Information (from official PE3 form):**\n\n**BASIC DETAILS:**\n1️⃣ **Penalty Charge Number**\n2️⃣ **Vehicle Registration Number**\n3️⃣ **Your Name** (applicant)\n4️⃣ **Your Address** (including postcode)\n5️⃣ **Location of Contravention**\n6️⃣ **Date of Contravention**\n7️⃣ **Respondent Name**\n8️⃣ **Respondent Address**\n\n**DECLARATION GROUNDS** (AI will optimize your chosen ground):\n• You did not receive the penalty charge notice\n• You made representations but got no reply\n• You appealed but got no response\n\n**Let's start - please provide your Penalty Charge Number:**`,
+          content: `**PE3 Form Service - Statutory Declaration for Unpaid Penalty Charge**\n\n**AI-Powered Legal Document** - Your PE3 will include unique, case-specific content\n\n**Form Purpose:** Official statutory declaration for challenging unpaid penalty charges\n\n**Submission To:** Traffic Enforcement Centre / Magistrates' Court\n**Form Type:** Official court form PE3 (AI-enhanced with professional legal language)\n**Unique Content:** Every declaration is uniquely worded for maximum legal impact\n\n**This form is used for:**\n• Statutory declarations for unpaid penalty charges\n• Challenging penalty charges you didn't receive notice for\n• Declaring you were not the driver at the time\n• Other valid grounds for challenging penalty charges\n\n**Required Information (from official PE3 form):**\n\n**BASIC DETAILS:**\n1. **Penalty Charge Number**\n2. **Vehicle Registration Number**\n3. **Your Name** (applicant)\n4. **Your Address** (including postcode)\n5. **Location of Contravention**\n6. **Date of Contravention**\n7. **Respondent Name**\n8. **Respondent Address**\n\n**DECLARATION GROUNDS** (AI will optimize your chosen ground):\n• You did not receive the penalty charge notice\n• You made representations but got no reply\n• You appealed but got no response\n\n**Let's start - please provide your Penalty Charge Number:**`,
           timestamp: new Date(),
         }
         setMessages(prev => [...prev, botMessage])
@@ -1004,7 +1004,7 @@ Vehicle: ${data.vehicleRegistration}`,
         const botMessage: Message = {
           id: messages.length + 1,
           type: "bot",
-          content: `📝 **N244 Form Service - Application Notice**\n\n🤖 **AI-Powered Legal Document** - Your N244 will include unique, case-specific content\n\n**Form Purpose:** Official court application notice for various court applications\n\n🏛️ **Submission To:** County Court\n📝 **Form Type:** Official court form N244 (AI-enhanced with professional legal language)\n✨ **Unique Content:** Every application is uniquely worded for maximum legal impact\n\n**This form is used for:**\n• General court applications\n• Requesting hearings\n• Applications for court orders\n• Procedural applications\n• Extending time limits\n• Setting aside judgments\n\n**📋 Required Information:**\nI'll guide you through the application details including court information, your role in proceedings, and what you're applying for.\n\n**Let's start - please provide the Court Name where you need to make this application:**`,
+          content: `**N244 Form Service - Application Notice**\n\n**AI-Powered Legal Document** - Your N244 will include unique, case-specific content\n\n**Form Purpose:** Official court application notice for various court applications\n\n**Submission To:** County Court\n**Form Type:** Official court form N244 (AI-enhanced with professional legal language)\n**Unique Content:** Every application is uniquely worded for maximum legal impact\n\n**This form is used for:**\n• General court applications\n• Requesting hearings\n• Applications for court orders\n• Procedural applications\n• Extending time limits\n• Setting aside judgments\n\n**Required Information:**\nI'll guide you through the application details including court information, your role in proceedings, and what you're applying for.\n\n**Let's start - please provide the Court Name where you need to make this application:**`,
           timestamp: new Date(),
         }
         setMessages(prev => [...prev, botMessage])
@@ -1026,7 +1026,7 @@ Vehicle: ${data.vehicleRegistration}`,
       const botMessage: Message = {
         id: messages.length + 1,
         type: "bot",
-        content: `✅ **${selectedType.name} Selected!**\n\n🎫 **Appeal Type:** ${selectedType.name}\n📋 **Category:** ${selectedType.category}\n🏛️ **Appeals Route:** ${selectedType.authority}\n\n📝 **Enter Your Ticket Number**\n\n${selectedType.description}\n\n🔍 **Expected Format:** ${selectedType.patterns[0].source}\n📝 **Example:** ${selectedType.examples[0]}\n\n**Please enter your ${selectedType.name.toLowerCase()} number:**`,
+        content: `**${selectedType.name} Selected!**\n\n**Appeal Type:** ${selectedType.name}\n**Category:** ${selectedType.category}\n**Appeals Route:** ${selectedType.authority}\n\n**Enter Your Ticket Number**\n\n${selectedType.description}\n\n**Expected Format:** ${selectedType.patterns[0].source}\n**Example:** ${selectedType.examples[0]}\n\n**Please enter your ${selectedType.name.toLowerCase()} number:**`,
         timestamp: new Date(),
       }
       setMessages(prev => [...prev, botMessage])
@@ -1053,7 +1053,7 @@ Vehicle: ${data.vehicleRegistration}`,
       
       if (userInput.toLowerCase() === "reset" || userInput.toLowerCase() === "restart") {
         resetConversation()
-        botResponse = "🔄 **Fresh Start - Let's Win This Appeal!**\n\n✅ **Chat has been reset** - all previous information cleared\n\n🚀 **Ready to challenge your penalty?** Please select your penalty type using the buttons above."
+        botResponse = "**Fresh Start - Let's Win This Appeal!**\n\n**Chat has been reset** - all previous information cleared\n\n**Ready to challenge your penalty?** Please select your penalty type using the buttons above."
       } else if (!isCreatingAppeal) {
         // Use the expert UK Traffic Law Assistant for general queries
         botResponse = UKTrafficLawAssistant.generateResponse(userInput, {
@@ -1077,9 +1077,9 @@ Vehicle: ${data.vehicleRegistration}`,
               setAppealStep("vehicle_registration")
               
               const guidance = getAppealGuidance(selectedTicketType)
-              botResponse = `✅ **Ticket Number Confirmed: ${ticketNumber}**\n\n🎯 **Ticket Type: ${selectedTicketType.name}**\n📋 **Category:** ${selectedTicketType.category.charAt(0).toUpperCase() + selectedTicketType.category.slice(1)} penalty\n⚖️ **Appeal Route:** ${guidance.appealRoute}\n📅 **Time Limit:** ${guidance.timeLimit}\n💷 **Typical Range:** £${selectedTicketType.fineRange.min}-£${selectedTicketType.fineRange.max}\n\n🚗 **Next Step:** I need your vehicle registration number (e.g., AB12 CDE)`
+              botResponse = `**Ticket Number Confirmed: ${ticketNumber}**\n\n**Ticket Type: ${selectedTicketType.name}**\n**Category:** ${selectedTicketType.category.charAt(0).toUpperCase() + selectedTicketType.category.slice(1)} penalty\n**Appeal Route:** ${guidance.appealRoute}\n**Time Limit:** ${guidance.timeLimit}\n**Typical Range:** £${selectedTicketType.fineRange.min}-£${selectedTicketType.fineRange.max}\n\n**Next Step:** I need your vehicle registration number (e.g., AB12 CDE)`
             } else {
-              botResponse = `❌ **Invalid ${selectedTicketType.name} Format**\n\n🔍 **Expected format for ${selectedTicketType.name}:**\n${selectedTicketType.description}\n\n📝 **Examples:**\n${selectedTicketType.examples.map(ex => `• ${ex}`).join('\n')}\n\n🔢 **Please check your penalty notice and enter the correct ticket number**`
+              botResponse = `**Invalid ${selectedTicketType.name} Format**\n\n**Expected format for ${selectedTicketType.name}:**\n${selectedTicketType.description}\n\n**Examples:**\n${selectedTicketType.examples.map(ex => `• ${ex}`).join('\n')}\n\n**Please check your penalty notice and enter the correct ticket number**`
             }
             break
 
@@ -1104,7 +1104,7 @@ Vehicle: ${data.vehicleRegistration}`,
               const discountedAmount = amount * 0.5
               const totalSavings = amount
               
-              botResponse = `💰 **Perfect! Fine Amount: £${amount.toFixed(2)}**\n\n📊 **Your Potential Savings:**\n• Early payment discount: £${discountedAmount.toFixed(2)} (you still pay £${discountedAmount.toFixed(2)})\n• **Successful appeal: £${totalSavings.toFixed(2)} (you pay nothing!)** ⭐\n\n⏰ **Next: When did this happen?**\nI need the issue date from your penalty notice.\n\n📅 **Please provide the date the fine was issued:**\n• Format: DD/MM/YYYY (e.g., 15/03/2024)`
+              botResponse = `**Perfect! Fine Amount: £${amount.toFixed(2)}**\n\n**Your Potential Savings:**\n• Early payment discount: £${discountedAmount.toFixed(2)} (you still pay £${discountedAmount.toFixed(2)})\n• **Successful appeal: £${totalSavings.toFixed(2)} (you pay nothing!)**\n\n**Next: When did this happen?**\nI need the issue date from your penalty notice.\n\n**Please provide the date the fine was issued:**\n• Format: DD/MM/YYYY (e.g., 15/03/2024)`
             } else {
               botResponse = "💷 **I need the fine amount to calculate your potential savings!**\n\nPlease tell me the amount from your penalty notice (e.g., \"60\" or \"£60.00\")."
             }
@@ -1140,7 +1140,7 @@ Vehicle: ${data.vehicleRegistration}`,
             if (userInput.length >= 5) {
               setAppealData(prev => ({ ...prev, location: userInput }))
               setAppealStep("reason")
-              botResponse = `📍 **Location Recorded: ${userInput}**\n\n🎯 **Now for the crucial part - your appeal reason!**\n\nChoose the reason that best matches your situation:\n\n**1️⃣ Invalid signage** 🚫\n**2️⃣ Permit displayed** 🎫\n**3️⃣ Medical emergency** 🏥\n**4️⃣ Vehicle breakdown** 🔧\n**5️⃣ Loading/unloading** 📦\n**6️⃣ Payment system error** 💳\n**7️⃣ Other reason** 📝\n\n**Type 1-7 or describe your specific situation!**`
+              botResponse = `**Location Recorded: ${userInput}**\n\n**Now for the crucial part - your appeal reason!**\n\nChoose the reason that best matches your situation:\n\n**1. Invalid signage**\n**2. Permit displayed**\n**3. Medical emergency**\n**4. Vehicle breakdown**\n**5. Loading/unloading**\n**6. Payment system error**\n**7. Other reason**\n\n**Type 1-7 or describe your specific situation!**`
             } else {
               botResponse = "Please provide a more specific location (e.g., \"High Street, Birmingham\" or \"Tesco Car Park, Manchester\")."
             }
@@ -1163,7 +1163,7 @@ Vehicle: ${data.vehicleRegistration}`,
             
             setAppealData(prev => ({ ...prev, reason }))
             setAppealStep("description")
-            botResponse = `✅ **Appeal Reason: ${reason}**\n\n📝 **Final Step: Your Appeal Description**\n\nYou have two options:\n\n🤖 **1. AI Professional Writer** (Recommended)\n   • Type **"generate"** and I'll craft a legally-optimized description\n   • Uses UK traffic law precedents and winning arguments\n\n✍️ **2. Write It Yourself**\n   • Provide your own detailed description\n   • Include timeline, circumstances, and why the penalty should be cancelled\n\nWhat's your choice? Type **"generate"** for AI help or write your own description!`
+            botResponse = `**Appeal Reason: ${reason}**\n\n**Final Step: Your Appeal Description**\n\nYou have two options:\n\n**1. AI Professional Writer** (Recommended)\n   • Type **"generate"** and I'll craft a legally-optimized description\n   • Uses UK traffic law precedents and winning arguments\n\n**2. Write It Yourself**\n   • Provide your own detailed description\n   • Include timeline, circumstances, and why the penalty should be cancelled\n\nWhat's your choice? Type **"generate"** for AI help or write your own description!`
             break
 
           case "description":
@@ -1186,19 +1186,19 @@ Vehicle: ${data.vehicleRegistration}`,
                 setAppealData(prev => ({ ...prev, description: generatedDescription }))
                 setAppealStep("complete")
                 
-                botResponse = `🤖 **AI-Generated Unique Appeal Description!**\n\n📋 **Your Personalized Appeal:**\n"${generatedDescription}"\n\n✅ **Appeal Complete!** Your unique AI-powered appeal includes:\n• OpenAI-generated unique content\n• UK traffic law expertise\n• Case-specific legal arguments\n• Professional language optimized for success\n• Zero placeholders or generic terms\n\n📄 **Next Steps:**\n1. Review your unique appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n� **AI Advantage:** This appeal is completely unique and tailored specifically to your case circumstances!`
+                botResponse = `**AI-Generated Unique Appeal Description!**\n\n**Your Personalized Appeal:**\n"${generatedDescription}"\n\n**Appeal Complete!** Your unique AI-powered appeal includes:\n• OpenAI-generated unique content\n• UK traffic law expertise\n• Case-specific legal arguments\n• Professional language optimized for success\n• Zero placeholders or generic terms\n\n**Next Steps:**\n1. Review your unique appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n**AI Advantage:** This appeal is completely unique and tailored specifically to your case circumstances!`
               } catch (error) {
                 // Fallback to sync template generation
                 const generatedDescription = UKTrafficLawAssistant.generateAppealDescriptionSync(appealCaseData)
                 setAppealData(prev => ({ ...prev, description: generatedDescription }))
                 setAppealStep("complete")
                 
-                botResponse = `🏆 **Professional Appeal Description Generated!**\n\n📋 **Your Customized Appeal:**\n"${generatedDescription}"\n\n✅ **Appeal Complete!** Your professional appeal has been generated with:\n• Legal precedents and case law\n• Specific circumstances of your case\n• Professional language that appeals panels respect\n• Strategic arguments for maximum success\n\n📄 **Next Steps:**\n1. Review the generated appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n🎯 **Success Strategy:** This appeal uses proven legal arguments that have helped thousands of drivers successfully challenge their penalties!`
+                botResponse = `**Professional Appeal Description Generated!**\n\n**Your Customized Appeal:**\n"${generatedDescription}"\n\n**Appeal Complete!** Your professional appeal has been generated with:\n• Legal precedents and case law\n• Specific circumstances of your case\n• Professional language that appeals panels respect\n• Strategic arguments for maximum success\n\n**Next Steps:**\n1. Review the generated appeal\n2. Submit to the appropriate authority\n3. Keep copies of all correspondence\n\n**Success Strategy:** This appeal uses proven legal arguments that have helped thousands of drivers successfully challenge their penalties!`
               }
             } else if (userInput.length >= 20) {
               setAppealData(prev => ({ ...prev, description: userInput }))
               setAppealStep("complete")
-              botResponse = `✅ **Your Custom Description Recorded!**\n\n📝 **Description:** "${userInput}"\n\n✅ **Appeal Complete!** Your appeal is ready for submission.\n\n📄 **Next Steps:**\n1. Submit your appeal to the appropriate authority\n2. Keep copies of all correspondence\n3. Follow up if no response within the required timeframe`
+              botResponse = `**Your Custom Description Recorded!**\n\n**Description:** "${userInput}"\n\n**Appeal Complete!** Your appeal is ready for submission.\n\n**Next Steps:**\n1. Submit your appeal to the appropriate authority\n2. Keep copies of all correspondence\n3. Follow up if no response within the required timeframe`
             } else {
               botResponse = "Please provide a more detailed description (at least 20 characters) or type 'generate' for AI assistance."
             }
@@ -1209,7 +1209,7 @@ Vehicle: ${data.vehicleRegistration}`,
             // Store name and start collecting other details
             setAppealData(prev => ({ ...prev, applicantName: userInput }))
             setAppealStep("te7_reason")
-            botResponse = `✅ **Name Recorded: ${userInput}**\n\nNow please provide:\n\n2️⃣ **Your Complete Address** (including postcode)\n3️⃣ **Court Reference/Case Number**\n4️⃣ **Vehicle Registration** \n5️⃣ **Original Penalty Amount** (£)\n6️⃣ **Detailed Reason** for requesting extension\n\nPlease provide all these details (you can use separate lines for each):`
+            botResponse = `**Name Recorded: ${userInput}**\n\nNow please provide:\n\n2. **Your Complete Address** (including postcode)\n3. **Court Reference/Case Number**\n4. **Vehicle Registration** \n5. **Original Penalty Amount** (£)\n6. **Detailed Reason** for requesting extension\n\nPlease provide all these details (you can use separate lines for each):`
             break
 
           case "te7_reason":
@@ -1228,7 +1228,7 @@ Vehicle: ${data.vehicleRegistration}`,
             setAppealData(prev => ({ ...prev, te7Form: te7FormData, ...te7Data }))
             
             // Automatically prompt for signature
-            botResponse = `📋 **TE7 Form Generated Successfully!**\n\n**Your Completed TE7 Application:**\n\n${te7FormData}\n\n✍️ **Now I need your signature to make this form legally valid!**\n\n🖊️ To complete your TE7 application, I'll need you to provide a digital signature. This will:\n• ✅ Make your form legally binding\n• ✅ Allow immediate submission to court\n• ✅ Save time compared to printing and manual signing\n• ✅ Create a professional PDF ready for the Traffic Enforcement Centre\n\n**Please use the signature pad below to sign your TE7 form. Your signature will be automatically embedded in the final PDF.**\n\n👇 **Digital Signature Required Below** 👇`
+            botResponse = `**TE7 Form Generated Successfully!**\n\n**Your Completed TE7 Application:**\n\n${te7FormData}\n\n**Now I need your signature to make this form legally valid!**\n\nTo complete your TE7 application, I'll need you to provide a digital signature. This will:\n• Make your form legally binding\n• Allow immediate submission to court\n• Save time compared to printing and manual signing\n• Create a professional PDF ready for the Traffic Enforcement Centre\n\n**Please use the signature pad below to sign your TE7 form. Your signature will be automatically embedded in the final PDF.**\n\n**Digital Signature Required Below**`
             
             // Automatically move to signature step
             setTimeout(() => {
@@ -1241,7 +1241,7 @@ Vehicle: ${data.vehicleRegistration}`,
             // Store penalty charge number and start collecting other details
             setAppealData(prev => ({ ...prev, ticketNumber: userInput }))
             setAppealStep("te9_ground")
-            botResponse = `✅ **Penalty Charge Number Recorded: ${userInput}**\n\nNow please provide:\n\n2️⃣ **Vehicle Registration Number**\n3️⃣ **Your Full Name** (witness/applicant)\n4️⃣ **Your Complete Address** (including postcode)\n5️⃣ **Company Name** (if applicable, leave blank if personal vehicle)\n6️⃣ **Date of Contravention** (DD/MM/YYYY)\n7️⃣ **Location of Contravention**\n8️⃣ **Which ground applies to you?**\n   • A) I did not receive the penalty charge notice\n   • B) I made representations but did not receive a reply\n   • C) I appealed but got no response or unfavorable response  \n   • D) The penalty charge has been paid in full\n\n**Please provide all details above (use separate lines for each):**`
+            botResponse = `**Penalty Charge Number Recorded: ${userInput}**\n\nNow please provide:\n\n2. **Vehicle Registration Number**\n3. **Your Full Name** (witness/applicant)\n4. **Your Complete Address** (including postcode)\n5. **Company Name** (if applicable, leave blank if personal vehicle)\n6. **Date of Contravention** (DD/MM/YYYY)\n7. **Location of Contravention**\n8. **Which ground applies to you?**\n   • A) I did not receive the penalty charge notice\n   • B) I made representations but did not receive a reply\n   • C) I appealed but got no response or unfavorable response  \n   • D) The penalty charge has been paid in full\n\n**Please provide all details above (use separate lines for each):**`
             break
 
           case "te9_ground":
@@ -1277,7 +1277,7 @@ Vehicle: ${data.vehicleRegistration}`,
             }))
             
             // Automatically prompt for signature  
-            botResponse = `⚖️ **TE9 Form Generated Successfully!**\n\n**Your Completed TE9 Witness Statement:**\n\n${te9FormData}\n\n✍️ **Now I need your signature to make this legal document complete!**\n\n🖊️ To finalize your TE9 witness statement, I'll need you to provide a digital signature. This will:\n• ✅ Create a sworn legal document\n• ✅ Prepare your form for qualified witness validation\n• ✅ Generate a professional PDF for court submission\n• ✅ Ensure compliance with UK traffic law requirements\n\n⚖️ **Important Legal Note:** While you can sign digitally now, TE9 forms must also be witnessed by a qualified person (solicitor, commissioner for oaths, or magistrate) for final court submission.\n\n**Please use the signature pad below to sign your TE9 witness statement.**\n\n👇 **Digital Signature Required Below** 👇`
+            botResponse = `**TE9 Form Generated Successfully!**\n\n**Your Completed TE9 Witness Statement:**\n\n${te9FormData}\n\n**Now I need your signature to make this legal document complete!**\n\nTo finalize your TE9 witness statement, I'll need you to provide a digital signature. This will:\n• Create a sworn legal document\n• Prepare your form for qualified witness validation\n• Generate a professional PDF for court submission\n• Ensure compliance with UK traffic law requirements\n\n**Important Legal Note:** While you can sign digitally now, TE9 forms must also be witnessed by a qualified person (solicitor, commissioner for oaths, or magistrate) for final court submission.\n\n**Please use the signature pad below to sign your TE9 witness statement.**\n\n**Digital Signature Required Below**`
             
             // Automatically move to signature step
             setTimeout(() => {
@@ -1290,7 +1290,7 @@ Vehicle: ${data.vehicleRegistration}`,
             // Store penalty charge number and start collecting other details
             setAppealData(prev => ({ ...prev, ticketNumber: userInput }))
             setAppealStep("pe2_reason")
-            botResponse = `✅ **Penalty Charge Number Recorded: ${userInput}**\n\nNow please provide:\n\n2️⃣ **Vehicle Registration Number**\n3️⃣ **Your Full Name** (applicant)\n4️⃣ **Your Complete Address** (including postcode)\n5️⃣ **Respondent Name** (council/authority name)\n6️⃣ **Respondent Address** (council/authority address)\n7️⃣ **Location of Contravention**\n8️⃣ **Date of Contravention** (DD/MM/YYYY)\n9️⃣ **Detailed Reasons for Late Filing** (why you're applying after the deadline)\n\n**Please provide all details above (use separate lines for each):**`
+            botResponse = `**Penalty Charge Number Recorded: ${userInput}**\n\nNow please provide:\n\n2. **Vehicle Registration Number**\n3. **Your Full Name** (applicant)\n4. **Your Complete Address** (including postcode)\n5. **Respondent Name** (council/authority name)\n6. **Respondent Address** (council/authority address)\n7. **Location of Contravention**\n8. **Date of Contravention** (DD/MM/YYYY)\n9. **Detailed Reasons for Late Filing** (why you're applying after the deadline)\n\n**Please provide all details above (use separate lines for each):**`
             break
 
           case "pe2_reason":
@@ -1321,7 +1321,7 @@ Vehicle: ${data.vehicleRegistration}`,
             }))
             
             // Automatically prompt for signature
-            botResponse = `🏛️ **PE2 Application Generated Successfully!**\n\n**Your Completed PE2 Application:**\n\n${pe2FormData}\n\n✍️ **Now I need your signature to make this application legally valid!**\n\n🖊️ To complete your PE2 application, I'll need you to provide a digital signature. This will:\n• ✅ Make your application legally binding\n• ✅ Allow immediate submission to court\n• ✅ Save time compared to printing and manual signing\n• ✅ Create a professional PDF ready for the County Court\n\n**Please use the signature pad below to sign your PE2 application.**\n\n👇 **Digital Signature Required Below** 👇`
+            botResponse = `**PE2 Application Generated Successfully!**\n\n**Your Completed PE2 Application:**\n\n${pe2FormData}\n\n**Now I need your signature to make this application legally valid!**\n\nTo complete your PE2 application, I'll need you to provide a digital signature. This will:\n• Make your application legally binding\n• Allow immediate submission to court\n• Save time compared to printing and manual signing\n• Create a professional PDF ready for the County Court\n\n**Please use the signature pad below to sign your PE2 application.**\n\n**Digital Signature Required Below**`
             
             // Automatically move to signature step
             setTimeout(() => {
@@ -1334,7 +1334,7 @@ Vehicle: ${data.vehicleRegistration}`,
             // Store penalty charge number and start collecting other details
             setAppealData(prev => ({ ...prev, ticketNumber: userInput }))
             setAppealStep("pe3_ground")
-            botResponse = `✅ **Penalty Charge Number Recorded: ${userInput}**\n\nNow please provide:\n\n2️⃣ **Vehicle Registration Number**\n3️⃣ **Your Full Name** (declarant)\n4️⃣ **Your Complete Address** (including postcode)\n5️⃣ **Location of Contravention**\n6️⃣ **Date of Contravention** (DD/MM/YYYY)\n7️⃣ **Respondent Name** (council/authority name)\n8️⃣ **Respondent Address** (council/authority address)\n9️⃣ **Which ground applies to you?**\n   • A) I did not receive the penalty charge notice\n   • B) I made representations but did not receive a reply\n   • C) I appealed but got no response\n1️⃣0️⃣ **Detailed Reason for Declaration** (explain your circumstances)\n\n**Please provide all details above (use separate lines for each):**`
+            botResponse = `**Penalty Charge Number Recorded: ${userInput}**\n\nNow please provide:\n\n2. **Vehicle Registration Number**\n3. **Your Full Name** (declarant)\n4. **Your Complete Address** (including postcode)\n5. **Location of Contravention**\n6. **Date of Contravention** (DD/MM/YYYY)\n7. **Respondent Name** (council/authority name)\n8. **Respondent Address** (council/authority address)\n9. **Which ground applies to you?**\n   • A) I did not receive the penalty charge notice\n   • B) I made representations but did not receive a reply\n   • C) I appealed but got no response\n10. **Detailed Reason for Declaration** (explain your circumstances)\n\n**Please provide all details above (use separate lines for each):**`
             break
 
           case "pe3_ground":
@@ -1373,7 +1373,7 @@ Vehicle: ${data.vehicleRegistration}`,
             }))
             
             // Automatically prompt for signature
-            botResponse = `📋 **PE3 Statutory Declaration Generated Successfully!**\n\n**Your Completed PE3 Declaration:**\n\n${pe3FormData}\n\n✍️ **Now I need your signature to make this declaration legally valid!**\n\n🖊️ To finalize your PE3 statutory declaration, I'll need you to provide a digital signature. This will:\n• ✅ Create a sworn legal document\n• ✅ Prepare your form for qualified witness validation\n• ✅ Generate a professional PDF for court submission\n• ✅ Ensure compliance with UK statutory declaration requirements\n\n⚖️ **Important Legal Note:** While you can sign digitally now, PE3 forms must also be witnessed by a qualified person (solicitor, commissioner for oaths, or magistrate) for final court submission.\n\n**Please use the signature pad below to sign your PE3 statutory declaration.**\n\n👇 **Digital Signature Required Below** 👇`
+            botResponse = `**PE3 Statutory Declaration Generated Successfully!**\n\n**Your Completed PE3 Declaration:**\n\n${pe3FormData}\n\n**Now I need your signature to make this declaration legally valid!**\n\nTo finalize your PE3 statutory declaration, I'll need you to provide a digital signature. This will:\n• Create a sworn legal document\n• Prepare your form for qualified witness validation\n• Generate a professional PDF for court submission\n• Ensure compliance with UK statutory declaration requirements\n\n**Important Legal Note:** While you can sign digitally now, PE3 forms must also be witnessed by a qualified person (solicitor, commissioner for oaths, or magistrate) for final court submission.\n\n**Please use the signature pad below to sign your PE3 statutory declaration.**\n\n**Digital Signature Required Below**`
             
             // Automatically move to signature step
             setTimeout(() => {
@@ -1385,7 +1385,7 @@ Vehicle: ${data.vehicleRegistration}`,
             // Store court name and collect other application details
             setAppealData(prev => ({ ...prev, courtName: userInput }))
             setAppealStep("n244_application")
-            botResponse = `✅ **Court Name Recorded: ${userInput}**\n\nNow please provide:\n\n2️⃣ **Claim Number** (if any existing claim/case number)\n3️⃣ **Your Full Name** (applicant)\n4️⃣ **Your Complete Address** (including postcode)\n5️⃣ **Your Phone Number** (optional)\n6️⃣ **Your Email Address** (optional)\n7️⃣ **Your Status:** Are you the:\n   • A) Claimant\n   • B) Defendant\n   • C) Both\n8️⃣ **What you are applying for** (brief description)\n9️⃣ **Specific order or direction sought** (what do you want the court to do?)\n1️⃣0️⃣ **Detailed reasons for application** (explain why you need this)\n1️⃣1️⃣ **Do you need a hearing?** (Yes/No)\n1️⃣2️⃣ **If yes, estimated hearing time** (e.g., 30 minutes, 1 hour)\n\n**Please provide all details above (use separate lines for each):**`
+            botResponse = `**Court Name Recorded: ${userInput}**\n\nNow please provide:\n\n2. **Claim Number** (if any existing claim/case number)\n3. **Your Full Name** (applicant)\n4. **Your Complete Address** (including postcode)\n5. **Your Phone Number** (optional)\n6. **Your Email Address** (optional)\n7. **Your Status:** Are you the:\n   • A) Claimant\n   • B) Defendant\n   • C) Both\n8. **What you are applying for** (brief description)\n9. **Specific order or direction sought** (what do you want the court to do?)\n10. **Detailed reasons for application** (explain why you need this)\n11. **Do you need a hearing?** (Yes/No)\n12. **If yes, estimated hearing time** (e.g., 30 minutes, 1 hour)\n\n**Please provide all details above (use separate lines for each):**`
             break
 
           case "n244_application":
@@ -1425,7 +1425,7 @@ Vehicle: ${data.vehicleRegistration}`,
             }))
             
             // Automatically prompt for signature
-            botResponse = `📋 **N244 Application Notice Generated Successfully!**\n\n**Your Completed N244 Application:**\n\n${n244FormData}\n\n✍️ **Now I need your signature to make this application legally valid!**\n\n🖊️ To finalize your N244 application notice, I'll need you to provide a digital signature. This will:\n• ✅ Create a legally binding court application\n• ✅ Prepare your form for immediate court submission\n• ✅ Generate a professional PDF ready for filing\n• ✅ Ensure compliance with court application requirements\n\n⚖️ **Court Application:** Your digital signature creates a valid application notice ready for submission to ${appealData.courtName || 'the court'}.\n\n**Please use the signature pad below to sign your N244 application notice.**\n\n👇 **Digital Signature Required Below** 👇`
+            botResponse = `**N244 Application Notice Generated Successfully!**\n\n**Your Completed N244 Application:**\n\n${n244FormData}\n\n**Now I need your signature to make this application legally valid!**\n\nTo finalize your N244 application notice, I'll need you to provide a digital signature. This will:\n• Create a legally binding court application\n• Prepare your form for immediate court submission\n• Generate a professional PDF ready for filing\n• Ensure compliance with court application requirements\n\n**Court Application:** Your digital signature creates a valid application notice ready for submission to ${appealData.courtName || 'the court'}.\n\n**Please use the signature pad below to sign your N244 application notice.**\n\n**Digital Signature Required Below**`
             
             // Automatically move to signature step
             setTimeout(() => {
@@ -1488,35 +1488,35 @@ Vehicle: ${data.vehicleRegistration}`,
                 onClick={() => handleTicketTypeSelection('bus_lane')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                🚌 <span className="text-xs">Bus Lane</span>
+                <span className="text-xs">Bus Lane</span>
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => handleTicketTypeSelection('red_light')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                🔴 <span className="text-xs">Traffic Light</span>
+                <span className="text-xs">Traffic Light</span>
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => handleTicketTypeSelection('congestion_charge')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                💰 <span className="text-xs">Congestion/ULEZ</span>
+                <span className="text-xs">Congestion/ULEZ</span>
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => handleTicketTypeSelection('tec')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                🚗 <span className="text-xs">TEC Court Fine</span>
+                <span className="text-xs">TEC Court Fine</span>
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => handleTicketTypeSelection('unknown')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                📋 <span className="text-xs">DVLA Fine</span>
+                <span className="text-xs">DVLA Fine</span>
               </Button>
               <Button 
                 variant="outline"
@@ -1530,35 +1530,35 @@ Vehicle: ${data.vehicleRegistration}`,
                 onClick={() => handleTicketTypeSelection('te7')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                📝 <span className="text-xs">TE7 Court Form</span>
+                <span className="text-xs">TE7 Court Form</span>
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => handleTicketTypeSelection('te9')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                ⚖️ <span className="text-xs">TE9 Witness Form</span>
+                <span className="text-xs">TE9 Witness Form</span>
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => handleTicketTypeSelection('pe2')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                🏛️ <span className="text-xs">PE2 Court Application</span>
+                <span className="text-xs">PE2 Court Application</span>
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => handleTicketTypeSelection('pe3')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                📋 <span className="text-xs">PE3 Statutory Declaration</span>
+                <span className="text-xs">PE3 Statutory Declaration</span>
               </Button>
               <Button 
                 variant="outline"
                 onClick={() => handleTicketTypeSelection('n244')}
                 className="h-20 flex flex-col items-center gap-1"
               >
-                📝 <span className="text-xs">N244 Notice Application</span>
+                <span className="text-xs">N244 Notice Application</span>
               </Button>
             </div>
           )}
@@ -1585,9 +1585,9 @@ Vehicle: ${data.vehicleRegistration}`,
                   {/* Add download buttons for completed forms */}
                   {message.type === "bot" && (appealStep === "te7_complete" || appealStep === "te9_complete" || appealStep === "pe2_complete" || appealStep === "pe3_complete" || appealStep === "n244_complete") && (
                     <div className="mt-3 space-y-2">
-                      <div className="text-sm font-semibold text-green-600 mb-2">📥 Download Options Available Below</div>
+                      <div className="text-sm font-semibold text-green-600 mb-2">Download Options Available Below</div>
                       <div className="text-xs text-green-600">
-                        👇 Use the download buttons below the chat for signed PDF forms
+                        Use the download buttons below the chat for signed PDF forms
                       </div>
                     </div>
                   )}
@@ -1603,8 +1603,8 @@ Vehicle: ${data.vehicleRegistration}`,
           {appealStep === "te7_signature" && (
             <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border-2 border-purple-300 rounded-xl p-6 mb-4 shadow-lg">
               <div className="text-center mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-500 text-white rounded-full mb-3">
-                  ✍️
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-500 text-white rounded-full mb-3 text-2xl">
+                  ✍
                 </div>
                 <h3 className="text-xl font-bold text-purple-800 mb-2">Digital Signature Required</h3>
                 <p className="text-purple-700">
@@ -1618,7 +1618,7 @@ Vehicle: ${data.vehicleRegistration}`,
               
               <div className="mt-4 text-center">
                 <p className="text-sm text-purple-600">
-                  🔒 Your signature will be securely embedded in the PDF and is legally valid for court submission.
+                  Your signature will be securely embedded in the PDF and is legally valid for court submission.
                 </p>
               </div>
             </div>
@@ -1627,8 +1627,8 @@ Vehicle: ${data.vehicleRegistration}`,
           {appealStep === "te9_signature" && (
             <div className="bg-gradient-to-r from-indigo-50 to-blue-50 border-2 border-indigo-300 rounded-xl p-6 mb-4 shadow-lg">
               <div className="text-center mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-indigo-500 text-white rounded-full mb-3">
-                  ⚖️
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-indigo-500 text-white rounded-full mb-3 text-2xl">
+                  ⚖
                 </div>
                 <h3 className="text-xl font-bold text-indigo-800 mb-2">Legal Signature Required</h3>
                 <p className="text-indigo-700">
@@ -1642,7 +1642,7 @@ Vehicle: ${data.vehicleRegistration}`,
               
               <div className="mt-4 text-center">
                 <p className="text-sm text-indigo-600">
-                  ⚖️ Your signature creates the base legal document. Final court submission requires qualified witness validation.
+                  Your signature creates the base legal document. Final court submission requires qualified witness validation.
                 </p>
               </div>
             </div>
@@ -1651,8 +1651,8 @@ Vehicle: ${data.vehicleRegistration}`,
           {appealStep === "pe2_signature" && (
             <div className="bg-gradient-to-r from-slate-50 to-gray-50 border-2 border-slate-300 rounded-xl p-6 mb-4 shadow-lg">
               <div className="text-center mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-slate-500 text-white rounded-full mb-3">
-                  🏛️
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-slate-500 text-white rounded-full mb-3 text-2xl">
+                  🏛
                 </div>
                 <h3 className="text-xl font-bold text-slate-800 mb-2">PE2 Application Signature Required</h3>
                 <p className="text-slate-700">
@@ -1666,7 +1666,7 @@ Vehicle: ${data.vehicleRegistration}`,
               
               <div className="mt-4 text-center">
                 <p className="text-sm text-slate-600">
-                  🔒 Your signature will be securely embedded in the PDF and is legally valid for court submission.
+                  Your signature will be securely embedded in the PDF and is legally valid for court submission.
                 </p>
               </div>
             </div>
@@ -1675,7 +1675,7 @@ Vehicle: ${data.vehicleRegistration}`,
           {appealStep === "pe3_signature" && (
             <div className="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-300 rounded-xl p-6 mb-4 shadow-lg">
               <div className="text-center mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-amber-500 text-white rounded-full mb-3">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-amber-500 text-white rounded-full mb-3 text-2xl">
                   📋
                 </div>
                 <h3 className="text-xl font-bold text-amber-800 mb-2">PE3 Declaration Signature Required</h3>
@@ -1690,7 +1690,7 @@ Vehicle: ${data.vehicleRegistration}`,
               
               <div className="mt-4 text-center">
                 <p className="text-sm text-amber-600">
-                  ⚖️ Your signature creates the base legal document. Final court submission requires qualified witness validation.
+                  Your signature creates the base legal document. Final court submission requires qualified witness validation.
                 </p>
               </div>
             </div>
@@ -1699,7 +1699,7 @@ Vehicle: ${data.vehicleRegistration}`,
           {appealStep === "n244_signature" && (
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-300 rounded-xl p-6 mb-4 shadow-lg">
               <div className="text-center mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500 text-white rounded-full mb-3">
+                <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-500 text-white rounded-full mb-3 text-2xl">
                   📝
                 </div>
                 <h3 className="text-xl font-bold text-blue-800 mb-2">N244 Application Signature Required</h3>
@@ -1714,7 +1714,7 @@ Vehicle: ${data.vehicleRegistration}`,
               
               <div className="mt-4 text-center">
                 <p className="text-sm text-blue-600">
-                  ⚖️ Your signature creates a valid court application ready for immediate submission.
+                  Your signature creates a valid court application ready for immediate submission.
                 </p>
               </div>
             </div>
@@ -1760,7 +1760,7 @@ Vehicle: ${data.vehicleRegistration}`,
                   variant="outline"
                   className="border-green-500 text-green-600 hover:bg-green-50"
                 >
-                  📝 Download Text Version
+                  Download Text Version
                 </Button>
               </div>
             </div>
