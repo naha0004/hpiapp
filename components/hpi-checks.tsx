@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -62,6 +63,7 @@ interface HPICheck {
 export default function HPIChecksPage() {
   const { data: session } = useSession()
   const { toast } = useToast()
+  const router = useRouter()
   const [registration, setRegistration] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [hpiChecks, setHpiChecks] = useState<HPICheck[]>([])
@@ -80,6 +82,23 @@ export default function HPIChecksPage() {
       fetchHpiCredits()
     }
   }, [session])
+
+  // Handle browser back/forward navigation
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // If user navigates back while viewing a report, close the report
+      if (showComprehensiveReport && !event.state?.showingReport) {
+        setShowComprehensiveReport(false)
+        setSelectedCheck(null)
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState)
+    }
+  }, [showComprehensiveReport])
 
   // Refresh credits when component becomes visible
   useEffect(() => {
@@ -137,11 +156,28 @@ export default function HPIChecksPage() {
   const handleViewComprehensive = (check: HPICheck) => {
     setSelectedCheck(check)
     setShowComprehensiveReport(true)
+    
+    // Add URL state management to prevent navigation issues
+    if (typeof window !== 'undefined') {
+      // Push a state to handle back navigation properly
+      window.history.pushState(
+        { showingReport: true, checkId: check.id }, 
+        '', 
+        `/hpi?report=${check.id}`
+      )
+    }
   }
 
   const handleBackToChecks = () => {
     setSelectedCheck(null)
     setShowComprehensiveReport(false)
+    
+    // Ensure we stay on the HPI page and don't go back in browser history
+    // This prevents navigation to unexpected pages like Stripe
+    if (typeof window !== 'undefined') {
+      // Replace the current history state to clean up the URL and prevent back button issues
+      window.history.replaceState(null, '', '/hpi')
+    }
   }
 
   const fetchHPIChecks = async () => {

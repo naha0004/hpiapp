@@ -125,6 +125,8 @@ export function IntegratedHPIValuation({ registration, vehicleData }: Integrated
   const [askingPrice, setAskingPrice] = useState("")
   const [buyerMileage, setBuyerMileage] = useState("")
   const [buyerCondition, setBuyerCondition] = useState<'excellent' | 'good' | 'fair' | 'poor'>('good')
+  const [userLocation, setUserLocation] = useState("") // Location for insurance estimates
+  const [userAge, setUserAge] = useState("35") // Age for insurance estimates (default 35)
   const [isLoadingEvaluation, setIsLoadingEvaluation] = useState(false)
   const [evaluationData, setEvaluationData] = useState<PurchaseEvaluation | null>(null)
   const [showPurchaseEval, setShowPurchaseEval] = useState(false)
@@ -434,41 +436,188 @@ export function IntegratedHPIValuation({ registration, vehicleData }: Integrated
   }
 
   // Insurance calculation helper
-  const calculateInsuranceEstimate = (vehicleData?: any, vehiclePrice?: number) => {
+  const calculateInsuranceEstimate = (vehicleData?: any, vehiclePrice?: number, userArea?: string, driverAge?: string) => {
     // Base factors for insurance calculation
     let baseAnnual = 800 // Base annual premium for average driver
     
-    // Vehicle value factor
-    if (vehiclePrice && vehiclePrice > 30000) baseAnnual += 400
-    else if (vehiclePrice && vehiclePrice > 20000) baseAnnual += 200
-    else if (vehiclePrice && vehiclePrice < 5000) baseAnnual -= 200
+    // **IMPROVED: Use insurance group for more accurate estimates**
+    const insuranceGroup = vehicleData?.insuranceGroup || vehicleData?.results?.insuranceGroup
+    if (insuranceGroup) {
+      // Insurance groups range from 1-50, where 1 is cheapest and 50 is most expensive
+      // Apply a more sophisticated calculation based on insurance group
+      if (insuranceGroup <= 10) {
+        baseAnnual = 600 // Low risk groups (1-10)
+      } else if (insuranceGroup <= 20) {
+        baseAnnual = 800 // Medium-low risk groups (11-20)
+      } else if (insuranceGroup <= 30) {
+        baseAnnual = 1100 // Medium-high risk groups (21-30)
+      } else if (insuranceGroup <= 40) {
+        baseAnnual = 1500 // High risk groups (31-40)
+      } else {
+        baseAnnual = 2200 // Very high risk groups (41-50)
+      }
+    }
     
-    // Vehicle age factor
+    // **NEW: Age-based adjustments - major factor in UK insurance**
+    const age = parseInt(driverAge || '35')
+    if (age < 21) {
+      baseAnnual *= 2.5 // Very high risk for under 21
+    } else if (age < 25) {
+      baseAnnual *= 1.8 // High risk for 21-24
+    } else if (age < 30) {
+      baseAnnual *= 1.4 // Medium-high risk for 25-29
+    } else if (age >= 30 && age <= 50) {
+      baseAnnual *= 1.0 // Sweet spot - baseline rates
+    } else if (age > 50 && age <= 65) {
+      baseAnnual *= 0.9 // Slightly lower for experienced drivers
+    } else if (age > 65) {
+      baseAnnual *= 1.1 // Slightly higher for elderly drivers
+    }
+    
+    // Vehicle value factor - more nuanced approach
+    if (vehiclePrice) {
+      if (vehiclePrice > 50000) baseAnnual *= 1.4 // Luxury vehicles
+      else if (vehiclePrice > 30000) baseAnnual *= 1.2 // Premium vehicles
+      else if (vehiclePrice > 20000) baseAnnual *= 1.1 // Mid-range vehicles
+      else if (vehiclePrice < 5000) baseAnnual *= 0.8 // Budget vehicles
+    }
+    
+    // Vehicle age factor - refined calculation
     const vehicleAge = vehicleData?.yearOfManufacture ? 
       new Date().getFullYear() - parseInt(vehicleData.yearOfManufacture) : 5
     
-    if (vehicleAge < 3) baseAnnual += 300 // New cars cost more to insure
-    else if (vehicleAge > 10) baseAnnual -= 150 // Older cars cost less
+    if (vehicleAge < 1) baseAnnual *= 1.5 // Brand new cars
+    else if (vehicleAge < 3) baseAnnual *= 1.3 // Nearly new cars
+    else if (vehicleAge >= 3 && vehicleAge <= 5) baseAnnual *= 1.0 // Sweet spot age
+    else if (vehicleAge > 10) baseAnnual *= 0.85 // Older cars cost less
+    else if (vehicleAge > 15) baseAnnual *= 0.7 // Very old cars
     
-    // Make-specific adjustments
+    // Make-specific adjustments - expanded list
     const make = vehicleData?.make?.toUpperCase() || ''
-    if (['BMW', 'MERCEDES', 'AUDI', 'JAGUAR'].includes(make)) {
-      baseAnnual += 250 // Premium brands
-    } else if (['FORD', 'VAUXHALL', 'VOLKSWAGEN'].includes(make)) {
-      baseAnnual -= 100 // Common makes
+    if (['FERRARI', 'LAMBORGHINI', 'MCLAREN', 'BENTLEY', 'ROLLS-ROYCE'].includes(make)) {
+      baseAnnual *= 1.8 // Supercars
+    } else if (['BMW', 'MERCEDES-BENZ', 'MERCEDES', 'AUDI', 'JAGUAR', 'LEXUS', 'PORSCHE'].includes(make)) {
+      baseAnnual *= 1.3 // Premium brands
+    } else if (['FORD', 'VAUXHALL', 'VOLKSWAGEN', 'TOYOTA', 'HONDA', 'NISSAN'].includes(make)) {
+      baseAnnual *= 0.9 // Common makes
+    } else if (['DACIA', 'SUZUKI', 'HYUNDAI', 'KIA', 'SKODA'].includes(make)) {
+      baseAnnual *= 0.8 // Budget brands
+    }
+    
+    // Engine size factor (if available)
+    const engineSize = vehicleData?.engineSize || vehicleData?.vehicleCheck?.engineSize
+    if (engineSize) {
+      const size = parseFloat(engineSize.toString().replace('L', '').replace('l', ''))
+      if (size >= 3.0) baseAnnual *= 1.4 // Large engines
+      else if (size >= 2.0) baseAnnual *= 1.2 // Medium engines
+      else if (size <= 1.2) baseAnnual *= 0.9 // Small engines
+    }
+    
+    // Fuel type adjustments (if available)
+    const fuelType = vehicleData?.fuelType || vehicleData?.vehicleCheck?.fuelType
+    if (fuelType) {
+      const fuel = fuelType.toUpperCase()
+      if (fuel.includes('ELECTRIC') || fuel.includes('EV')) {
+        baseAnnual *= 0.9 // Electric vehicles often cheaper to insure
+      } else if (fuel.includes('HYBRID')) {
+        baseAnnual *= 0.95 // Hybrid vehicles slightly cheaper
+      } else if (fuel.includes('DIESEL')) {
+        baseAnnual *= 1.05 // Diesel slightly more expensive
+      }
+    }
+    
+    // **NEW: UK Regional adjustments based on typical insurance variations**
+    // Using general area-based multipliers for different UK regions
+    // This provides realistic regional variations without requiring exact postcodes
+    const getLocationMultiplier = (area?: string) => {
+      if (!area) return 1.05 // Default UK average with slight urban bias
+      
+      const location = area.toLowerCase().trim()
+      
+      // Very high risk areas (major urban centers with high crime/traffic)
+      const veryHighRisk = ['london', 'greater london', 'inner london', 'central london']
+      if (veryHighRisk.some(city => location.includes(city))) return 1.4
+      
+      // High risk urban areas
+      const highRisk = ['birmingham', 'manchester', 'liverpool', 'bradford', 'coventry', 
+                       'leicester', 'nottingham', 'wolverhampton', 'stoke-on-trent', 'blackpool']
+      if (highRisk.some(city => location.includes(city))) return 1.2
+      
+      // Medium-high risk areas
+      const mediumHighRisk = ['leeds', 'sheffield', 'bristol', 'glasgow', 'newcastle', 
+                             'cardiff', 'belfast', 'southampton', 'portsmouth', 'hull']
+      if (mediumHighRisk.some(city => location.includes(city))) return 1.1
+      
+      // Medium risk areas
+      const mediumRisk = ['edinburgh', 'brighton', 'plymouth', 'preston', 'luton', 'reading', 
+                         'northampton', 'milton keynes', 'swindon', 'bournemouth']
+      if (mediumRisk.some(city => location.includes(city))) return 1.0
+      
+      // Lower risk areas (smaller cities, towns, rural)
+      const lowerRisk = ['york', 'bath', 'chester', 'oxford', 'cambridge', 'canterbury', 'durham',
+                        'exeter', 'winchester', 'chichester', 'rural', 'countryside', 'village', 'small town']
+      if (lowerRisk.some(area => location.includes(area))) return 0.85
+      
+      // Scottish Highlands, Welsh valleys, rural areas
+      const ruralAreas = ['highlands', 'aberdeenshire', 'dumfries', 'galloway', 'pembrokeshire', 
+                         'powys', 'ceredigion', 'gwynedd', 'isle of', 'cornwall', 'devon', 'cumbria', 'northumberland']
+      if (ruralAreas.some(area => location.includes(area))) return 0.8
+      
+      return 1.0 // Default for unrecognized areas
+    }
+    
+    const locationMultiplier = getLocationMultiplier(userLocation)
+    baseAnnual *= locationMultiplier
+    
+    // Round to reasonable values
+    baseAnnual = Math.round(baseAnnual)
+    
+    // Build comprehensive factors list
+    const factors = [
+      `Driver age: ${age} years old`,
+      `Vehicle age: ${vehicleAge} years`,
+      `Make: ${vehicleData?.make || 'Unknown'}`,
+      `Estimated value: ${vehiclePrice ? formatCurrency(vehiclePrice) : 'Unknown'}`,
+      `Location: ${
+        locationMultiplier >= 1.4 ? 'London/High risk urban' :
+        locationMultiplier >= 1.2 ? 'Major city' :
+        locationMultiplier >= 1.1 ? 'Medium city' :
+        locationMultiplier >= 1.0 ? 'Average UK area' :
+        locationMultiplier >= 0.85 ? 'Small town/suburban' : 'Rural area'
+      } (${locationMultiplier > 1 ? '+' : ''}${Math.round((locationMultiplier - 1) * 100)}%)`
+    ]
+    
+    if (insuranceGroup) {
+      factors.unshift(`Insurance group: ${insuranceGroup}/50 (${
+        insuranceGroup <= 10 ? 'Low risk' :
+        insuranceGroup <= 20 ? 'Medium-low risk' :
+        insuranceGroup <= 30 ? 'Medium-high risk' :
+        insuranceGroup <= 40 ? 'High risk' : 'Very high risk'
+      })`)
+    }
+    
+    if (engineSize) {
+      factors.push(`Engine size: ${engineSize}${typeof engineSize === 'number' ? 'L' : ''}`)
+    }
+    
+    if (fuelType) {
+      factors.push(`Fuel type: ${fuelType}`)
     }
     
     // Different coverage levels
     return {
-      thirdParty: Math.round(baseAnnual * 0.6),
-      thirdPartyFireTheft: Math.round(baseAnnual * 0.75),
+      thirdParty: Math.round(baseAnnual * 0.55),
+      thirdPartyFireTheft: Math.round(baseAnnual * 0.7),
       comprehensive: Math.round(baseAnnual),
       monthly: Math.round(baseAnnual / 12),
-      factors: [
-        `Vehicle age: ${vehicleAge} years`,
-        `Make: ${vehicleData?.make || 'Unknown'}`,
-        `Estimated value: ${vehiclePrice ? formatCurrency(vehiclePrice) : 'Unknown'}`
-      ]
+      factors,
+      insuranceGroup,
+      riskLevel: insuranceGroup ? (
+        insuranceGroup <= 10 ? 'Low' :
+        insuranceGroup <= 20 ? 'Medium-Low' :
+        insuranceGroup <= 30 ? 'Medium-High' :
+        insuranceGroup <= 40 ? 'High' : 'Very High'
+      ) : 'Unknown'
     }
   }
 
@@ -1091,13 +1240,125 @@ export function IntegratedHPIValuation({ registration, vehicleData }: Integrated
                               <Shield className="h-5 w-5" />
                               Insurance Estimates
                             </CardTitle>
-                            <CardDescription>
-                              Annual insurance costs for this vehicle
+                            <CardDescription className="flex items-center justify-between">
+                              <span>Annual insurance costs for this vehicle</span>
+                              {(() => {
+                                const tempEstimate = calculateInsuranceEstimate(vehicleData, evaluationData.negotiationAdvice.suggestedOffer, userLocation, userAge)
+                                if (tempEstimate.insuranceGroup) {
+                                  return (
+                                    <Badge 
+                                      variant={
+                                        tempEstimate.riskLevel === 'Low' ? 'default' :
+                                        tempEstimate.riskLevel === 'Medium-Low' ? 'secondary' :
+                                        tempEstimate.riskLevel === 'Medium-High' ? 'outline' : 'destructive'
+                                      }
+                                      className={
+                                        tempEstimate.riskLevel === 'Low' ? 'bg-green-100 text-green-800 border-green-300' :
+                                        tempEstimate.riskLevel === 'Medium-Low' ? 'bg-blue-100 text-blue-800 border-blue-300' :
+                                        tempEstimate.riskLevel === 'Medium-High' ? 'bg-orange-100 text-orange-800 border-orange-300' :
+                                        'bg-red-100 text-red-800 border-red-300'
+                                      }
+                                    >
+                                      Group {tempEstimate.insuranceGroup}/50 • {tempEstimate.riskLevel} Risk
+                                    </Badge>
+                                  )
+                                }
+                                return null
+                              })()}
                             </CardDescription>
                           </CardHeader>
                           <CardContent>
+                            {/* Location and Age Selectors for Insurance */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                              {/* Location Selector */}
+                              <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                                <label className="block text-sm font-medium text-blue-900 mb-2">
+                                  Your Location
+                                </label>
+                                <select
+                                  value={userLocation}
+                                  onChange={(e) => setUserLocation(e.target.value)}
+                                  className="w-full border border-blue-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                                >
+                                  <option value="">Select area (optional)</option>
+                                  <optgroup label="High Risk Areas">
+                                    <option value="london">London</option>
+                                    <option value="birmingham">Birmingham</option>
+                                    <option value="manchester">Manchester</option>
+                                    <option value="liverpool">Liverpool</option>
+                                    <option value="bradford">Bradford</option>
+                                  </optgroup>
+                                  <optgroup label="Medium-High Risk Areas">
+                                    <option value="leeds">Leeds</option>
+                                    <option value="sheffield">Sheffield</option>
+                                    <option value="bristol">Bristol</option>
+                                    <option value="glasgow">Glasgow</option>
+                                    <option value="newcastle">Newcastle</option>
+                                    <option value="cardiff">Cardiff</option>
+                                    <option value="belfast">Belfast</option>
+                                  </optgroup>
+                                  <optgroup label="Medium Risk Areas">
+                                    <option value="edinburgh">Edinburgh</option>
+                                    <option value="brighton">Brighton</option>
+                                    <option value="plymouth">Plymouth</option>
+                                    <option value="bournemouth">Bournemouth</option>
+                                    <option value="reading">Reading</option>
+                                  </optgroup>
+                                  <optgroup label="Lower Risk Areas">
+                                    <option value="york">York</option>
+                                    <option value="bath">Bath</option>
+                                    <option value="chester">Chester</option>
+                                    <option value="oxford">Oxford</option>
+                                    <option value="cambridge">Cambridge</option>
+                                    <option value="rural">Rural area</option>
+                                    <option value="small town">Small town</option>
+                                  </optgroup>
+                                </select>
+                              </div>
+
+                              {/* Age Selector */}
+                              <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                                <label className="block text-sm font-medium text-purple-900 mb-2">
+                                  Your Age
+                                </label>
+                                <select
+                                  value={userAge}
+                                  onChange={(e) => setUserAge(e.target.value)}
+                                  className="w-full border border-purple-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white"
+                                >
+                                  <optgroup label="Higher Risk Ages">
+                                    <option value="17">17-20 (New drivers)</option>
+                                    <option value="21">21-24 (Young drivers)</option>
+                                    <option value="25">25-29 (Developing experience)</option>
+                                  </optgroup>
+                                  <optgroup label="Lower Risk Ages">
+                                    <option value="30">30-39 (Experienced)</option>
+                                    <option value="35">35-44 (Lowest risk)</option>
+                                    <option value="45">45-54 (Very experienced)</option>
+                                    <option value="55">55-64 (Mature drivers)</option>
+                                  </optgroup>
+                                  <optgroup label="Senior Drivers">
+                                    <option value="65">65-74 (Senior drivers)</option>
+                                    <option value="75">75+ (Elderly drivers)</option>
+                                  </optgroup>
+                                </select>
+                                <div className="mt-2 text-xs text-purple-700">
+                                  Age is a major factor in UK insurance pricing
+                                </div>
+                              </div>
+                            </div>
+
+                            {(userLocation || userAge !== '35') && (
+                              <div className="mb-4 text-sm text-blue-700 bg-blue-50 p-3 rounded border">
+                                Insurance estimate personalized for{' '}
+                                {userAge !== '35' && `${userAge} year old driver`}
+                                {userLocation && userAge !== '35' && ' in '}
+                                {userLocation && `${userLocation} area`}
+                              </div>
+                            )}
+                            
                             {(() => {
-                              const insuranceEstimate = calculateInsuranceEstimate(vehicleData, evaluationData.negotiationAdvice.suggestedOffer)
+                              const insuranceEstimate = calculateInsuranceEstimate(vehicleData, evaluationData.negotiationAdvice.suggestedOffer, userLocation, userAge)
                               return (
                                 <div className="space-y-4">
                                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1141,11 +1402,51 @@ export function IntegratedHPIValuation({ registration, vehicleData }: Integrated
                                     ))}
                                   </div>
 
-                                  <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                                  <div className="mt-4 p-3 bg-gray-50 rounded-lg space-y-2">
                                     <p className="text-xs text-gray-600">
                                       <Info className="h-3 w-3 inline mr-1" />
-                                      Estimates for average 35-year-old driver with clean record. Actual quotes may vary significantly based on personal circumstances, location, and driving history.
+                                      Estimates are personalized for the selected age and location. Actual quotes may vary significantly based on personal circumstances, driving history, and claims record.
                                     </p>
+                                    {insuranceEstimate.insuranceGroup && (
+                                      <p className="text-xs text-gray-600">
+                                        <Shield className="h-3 w-3 inline mr-1" />
+                                        Insurance groups (1-50) are set by the Group Rating Panel and consider factors like car value, repair costs, security features, and safety ratings. Lower groups typically mean lower premiums.
+                                      </p>
+                                    )}
+                                    <p className="text-xs text-gray-600">
+                                      <Target className="h-3 w-3 inline mr-1" />
+                                      Location significantly affects insurance costs in the UK. Prices can vary by up to 40% between regions - London and major cities typically cost more, while rural areas often have lower premiums due to reduced theft and accident rates.
+                                    </p>
+                                    <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                                      <div className="bg-red-50 p-2 rounded border-l-2 border-red-300">
+                                        <div className="font-medium text-red-800">Higher Cost Areas</div>
+                                        <div className="text-red-700">London (+40%), Birmingham/Manchester (+20%)</div>
+                                      </div>
+                                      <div className="bg-green-50 p-2 rounded border-l-2 border-green-300">
+                                        <div className="font-medium text-green-800">Lower Cost Areas</div>
+                                        <div className="text-green-700">Rural areas (-20%), Small towns (-15%)</div>
+                                      </div>
+                                    </div>
+                                    <div className="mt-2 text-xs text-blue-600 bg-blue-50 p-2 rounded">
+                                      <div className="font-medium">Example areas by risk:</div>
+                                      <div className="mt-1 grid grid-cols-1 gap-1">
+                                        <div><strong>Very High:</strong> London, Inner London</div>
+                                        <div><strong>High:</strong> Birmingham, Manchester, Liverpool, Bradford</div>
+                                        <div><strong>Medium:</strong> Edinburgh, Brighton, Plymouth, Cardiff</div>
+                                        <div><strong>Low:</strong> York, Bath, Chester, Rural Scotland/Wales</div>
+                                      </div>
+                                    </div>
+                                    <div className="mt-2 text-xs text-purple-600 bg-purple-50 p-2 rounded">
+                                      <div className="font-medium">Age impact on premiums:</div>
+                                      <div className="mt-1 grid grid-cols-2 gap-1">
+                                        <div><strong>17-20:</strong> +150% (New drivers)</div>
+                                        <div><strong>21-24:</strong> +80% (Young drivers)</div>
+                                        <div><strong>25-29:</strong> +40% (Developing experience)</div>
+                                        <div><strong>30-50:</strong> Baseline (Lowest rates)</div>
+                                        <div><strong>50-65:</strong> -10% (Experience discount)</div>
+                                        <div><strong>65+:</strong> +10% (Slight increase)</div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               )
