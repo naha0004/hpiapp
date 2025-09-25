@@ -25,6 +25,8 @@ import {
 } from "lucide-react"
 import { ComprehensiveHPIReport } from "@/components/comprehensive-hpi-report"
 import { PaymentModal } from "@/components/payment-modal"
+import { VehicleValuationTool } from "@/components/vehicle-valuation-tool"
+import { IntegratedHPIValuation } from "@/components/integrated-hpi-valuation"
 import type { ParsedHPIData } from "@/lib/oneauto-hpi-parser"
 
 interface HPICheck {
@@ -387,205 +389,216 @@ export default function HPIChecksPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-8">
             {hpiChecks.map((check) => (
-              <Card key={check.id} className="hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm overflow-hidden">
-                <CardHeader className="pb-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className={`p-3 rounded-xl shadow-md ${
-                        check.status === "COMPLETED" 
-                          ? "bg-gradient-to-br from-green-400 to-green-500 text-white" 
-                          : check.status === "FAILED"
-                          ? "bg-gradient-to-br from-red-400 to-red-500 text-white"
-                          : "bg-gradient-to-br from-yellow-400 to-yellow-500 text-white"
-                      }`}>
-                        {check.status === "COMPLETED" ? (
-                          <CheckCircle className="w-6 h-6" />
-                        ) : check.status === "FAILED" ? (
-                          <AlertTriangle className="w-6 h-6" />
-                        ) : (
-                          <Clock className="w-6 h-6" />
-                        )}
+              <div key={check.id} className="space-y-6">
+                <Card className="hover:shadow-xl transition-all duration-300 border-0 bg-white/80 backdrop-blur-sm overflow-hidden">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-3 rounded-xl shadow-md ${
+                          check.status === "COMPLETED" 
+                            ? "bg-gradient-to-br from-green-400 to-green-500 text-white" 
+                            : check.status === "FAILED"
+                            ? "bg-gradient-to-br from-red-400 to-red-500 text-white"
+                            : "bg-gradient-to-br from-yellow-400 to-yellow-500 text-white"
+                        }`}>
+                          {check.status === "COMPLETED" ? (
+                            <CheckCircle className="w-6 h-6" />
+                          ) : check.status === "FAILED" ? (
+                            <AlertTriangle className="w-6 h-6" />
+                          ) : (
+                            <Clock className="w-6 h-6" />
+                          )}
+                        </div>
+                        <div>
+                          <CardTitle className="text-xl font-mono tracking-wider bg-gradient-to-r from-gray-900 to-blue-600 bg-clip-text text-transparent">
+                            {check.registration}
+                          </CardTitle>
+                          <CardDescription className="flex items-center gap-2 text-base">
+                            <Calendar className="w-4 h-4" />
+                            {new Date(check.createdAt).toLocaleDateString('en-GB', {
+                              day: '2-digit',
+                              month: 'short',
+                              year: 'numeric'
+                            })}
+                          </CardDescription>
+                        </div>
                       </div>
-                      <div>
-                        <CardTitle className="text-xl font-mono tracking-wider bg-gradient-to-r from-gray-900 to-blue-600 bg-clip-text text-transparent">
-                          {check.registration}
-                        </CardTitle>
-                        <CardDescription className="flex items-center gap-2 text-base">
-                          <Calendar className="w-4 h-4" />
-                          {new Date(check.createdAt).toLocaleDateString('en-GB', {
-                            day: '2-digit',
-                            month: 'short',
-                            year: 'numeric'
-                          })}
-                        </CardDescription>
+                      
+                      <div className="flex flex-col gap-2">
+                        <Badge 
+                          variant={
+                            check.status === "COMPLETED" ? "default" :
+                            check.status === "FAILED" ? "destructive" : "secondary"
+                          }
+                        >
+                          {check.status === "COMPLETED" ? "Complete" : 
+                           check.status === "FAILED" ? "Failed" : "Processing"}
+                        </Badge>
                       </div>
                     </div>
-                    
-                    <div className="flex flex-col gap-2">
-                      <Badge 
-                        variant={
-                          check.status === "COMPLETED" ? "default" :
-                          check.status === "FAILED" ? "destructive" : "secondary"
-                        }
-                      >
-                        {check.status === "COMPLETED" ? "Complete" : 
-                         check.status === "FAILED" ? "Failed" : "Processing"}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardHeader>
+                  </CardHeader>
 
-                <CardContent>
-                  {check.status === "COMPLETED" && check.results ? (
-                    <div className="space-y-4">
-                      {/* Vehicle Basic Info */}
-                      {check.results.vehicleCheck && (
-                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
-                          <div className="font-semibold text-blue-900 mb-4 flex items-center gap-2">
-                            <div className="p-2 bg-blue-500 rounded-lg">
-                              <Car className="w-4 h-4 text-white" />
+                  <CardContent>
+                    {/* ...existing card content... */}
+                    {check.status === "COMPLETED" && check.results ? (
+                      <div className="space-y-4">
+                        {/* Vehicle Basic Info */}
+                        {check.results.vehicleCheck && (
+                          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-100">
+                            <div className="font-semibold text-blue-900 mb-4 flex items-center gap-2">
+                              <div className="p-2 bg-blue-500 rounded-lg">
+                                <Car className="w-4 h-4 text-white" />
+                              </div>
+                              Vehicle Details
                             </div>
-                            Vehicle Details
-                          </div>
-                          
-                          <div className="grid grid-cols-1 gap-3">
-                            <div className="bg-white/70 p-4 rounded-lg">
-                              <div className="grid grid-cols-2 gap-4 text-sm">
-                                <div className="space-y-2">
-                                  <div className="flex justify-between">
-                                    <span className="font-medium text-gray-600">Make:</span> 
-                                    <span className="font-semibold">{check.results.vehicleCheck.make} {check.results.vehicleCheck.model}</span>
+                            
+                            <div className="grid grid-cols-1 gap-3">
+                              <div className="bg-white/70 p-4 rounded-lg">
+                                <div className="grid grid-cols-2 gap-4 text-sm">
+                                  <div className="space-y-2">
+                                    <div className="flex justify-between">
+                                      <span className="font-medium text-gray-600">Make:</span> 
+                                      <span className="font-semibold">{check.results.vehicleCheck.make} {check.results.vehicleCheck.model}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span className="font-medium text-gray-600">Year:</span> 
+                                      <span className="font-semibold">{check.results.vehicleCheck.yearOfManufacture || 'N/A'}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span className="font-medium text-gray-600">Color:</span> 
+                                      <span className="font-semibold">{check.results.vehicleCheck.colour || 'N/A'}</span>
+                                    </div>
                                   </div>
-                                  <div className="flex justify-between">
-                                    <span className="font-medium text-gray-600">Year:</span> 
-                                    <span className="font-semibold">{check.results.vehicleCheck.yearOfManufacture || 'N/A'}</span>
-                                  </div>
-                                  <div className="flex justify-between">
-                                    <span className="font-medium text-gray-600">Color:</span> 
-                                    <span className="font-semibold">{check.results.vehicleCheck.colour || 'N/A'}</span>
-                                  </div>
-                                </div>
-                                <div className="space-y-2">
-                                  <div className="flex justify-between">
-                                    <span className="font-medium text-gray-600">Fuel:</span> 
-                                    <span className="font-semibold">{check.results.vehicleCheck.fuelType || 'N/A'}</span>
-                                  </div>
-                                  <div className="flex justify-between">
-                                    <span className="font-medium text-gray-600">Engine:</span> 
-                                    <span className="font-semibold">{check.results.vehicleCheck.engineSize || 'N/A'}</span>
+                                  <div className="space-y-2">
+                                    <div className="flex justify-between">
+                                      <span className="font-medium text-gray-600">Fuel:</span> 
+                                      <span className="font-semibold">{check.results.vehicleCheck.fuelType || 'N/A'}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                      <span className="font-medium text-gray-600">Engine:</span> 
+                                      <span className="font-semibold">{check.results.vehicleCheck.engineSize || 'N/A'}</span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
-                      {/* Enhanced Safety Checks Summary */}
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className={`p-4 rounded-xl text-center border-2 transition-all duration-300 ${
-                          check.results.stolen 
-                            ? "bg-gradient-to-br from-red-50 to-red-100 text-red-700 border-red-200 shadow-md" 
-                            : "bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-200 shadow-md"
-                        }`}>
-                          <div className="font-semibold text-sm mb-1">Stolen Status</div>
-                          <div className="text-lg font-bold">
-                            {check.results.stolen ? "⚠️ Alert" : "✅ Clear"}
-                          </div>
-                        </div>
-                        <div className={`p-4 rounded-xl text-center border-2 transition-all duration-300 ${
-                          check.results.writeOff 
-                            ? "bg-gradient-to-br from-red-50 to-red-100 text-red-700 border-red-200 shadow-md" 
-                            : "bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-200 shadow-md"
-                        }`}>
-                          <div className="font-semibold text-sm mb-1">Write-off</div>
-                          <div className="text-lg font-bold">
-                            {check.results.writeOff ? "⚠️ Found" : "✅ Clear"}
-                          </div>
-                        </div>
-                        <div className={`p-4 rounded-xl text-center border-2 transition-all duration-300 ${
-                          check.results.outstandingFinance 
-                            ? "bg-gradient-to-br from-red-50 to-red-100 text-red-700 border-red-200 shadow-md" 
-                            : "bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-200 shadow-md"
-                        }`}>
-                          <div className="font-semibold text-sm mb-1">Finance</div>
-                          <div className="text-lg font-bold">
-                            {check.results.outstandingFinance ? "💰 Outstanding" : "✅ Clear"}
-                          </div>
-                        </div>
-                        <div className={`p-4 rounded-xl text-center border-2 transition-all duration-300 ${
-                          check.results.mileageDiscrepancy 
-                            ? "bg-gradient-to-br from-red-50 to-red-100 text-red-700 border-red-200 shadow-md" 
-                            : "bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-200 shadow-md"
-                        }`}>
-                          <div className="font-semibold text-sm mb-1">Mileage</div>
-                          <div className="text-lg font-bold">
-                            {check.results.mileageDiscrepancy ? "📊 Issue" : "✅ Clear"}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Additional Info */}
-                      {check.results.previousOwners && (
-                        <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-200">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <Eye className="w-4 h-4 text-purple-600" />
-                              <span className="text-sm font-semibold text-purple-900">Previous Owners:</span>
+                        {/* Enhanced Safety Checks Summary */}
+                        <div className="grid grid-cols-2 gap-3">
+                          <div className={`p-4 rounded-xl text-center border-2 transition-all duration-300 ${
+                            check.results.stolen 
+                              ? "bg-gradient-to-br from-red-50 to-red-100 text-red-700 border-red-200 shadow-md" 
+                              : "bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-200 shadow-md"
+                          }`}>
+                            <div className="font-semibold text-sm mb-1">Stolen Status</div>
+                            <div className="text-lg font-bold">
+                              {check.results.stolen ? "⚠️ Alert" : "✅ Clear"}
                             </div>
-                            <span className="text-lg font-bold text-purple-700">{check.results.previousOwners}</span>
+                          </div>
+                          <div className={`p-4 rounded-xl text-center border-2 transition-all duration-300 ${
+                            check.results.writeOff 
+                              ? "bg-gradient-to-br from-red-50 to-red-100 text-red-700 border-red-200 shadow-md" 
+                              : "bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-200 shadow-md"
+                          }`}>
+                            <div className="font-semibold text-sm mb-1">Write-off</div>
+                            <div className="text-lg font-bold">
+                              {check.results.writeOff ? "⚠️ Found" : "✅ Clear"}
+                            </div>
+                          </div>
+                          <div className={`p-4 rounded-xl text-center border-2 transition-all duration-300 ${
+                            check.results.outstandingFinance 
+                              ? "bg-gradient-to-br from-red-50 to-red-100 text-red-700 border-red-200 shadow-md" 
+                              : "bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-200 shadow-md"
+                          }`}>
+                            <div className="font-semibold text-sm mb-1">Finance</div>
+                            <div className="text-lg font-bold">
+                              {check.results.outstandingFinance ? "💰 Outstanding" : "✅ Clear"}
+                            </div>
+                          </div>
+                          <div className={`p-4 rounded-xl text-center border-2 transition-all duration-300 ${
+                            check.results.mileageDiscrepancy 
+                              ? "bg-gradient-to-br from-red-50 to-red-100 text-red-700 border-red-200 shadow-md" 
+                              : "bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-200 shadow-md"
+                          }`}>
+                            <div className="font-semibold text-sm mb-1">Mileage</div>
+                            <div className="text-lg font-bold">
+                              {check.results.mileageDiscrepancy ? "📊 Issue" : "✅ Clear"}
+                            </div>
                           </div>
                         </div>
-                      )}
-                    </div>
-                  ) : check.status === "FAILED" ? (
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-                        <AlertTriangle className="w-8 h-8 text-red-500" />
-                      </div>
-                      <div className="text-lg font-semibold text-red-600 mb-2">Check Failed</div>
-                      {check.results?.error && (
-                        <div className="text-sm text-red-500 bg-red-50 p-3 rounded-lg max-w-sm mx-auto">
-                          {check.results.error}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-yellow-100 rounded-full flex items-center justify-center">
-                        <Clock className="w-8 h-8 text-yellow-500 animate-spin" />
-                      </div>
-                      <div className="text-lg font-semibold text-yellow-600 mb-2">Processing...</div>
-                      <div className="text-sm text-yellow-500">This usually takes 30-60 seconds</div>
-                    </div>
-                  )}
-                  
-                  <div className="mt-6 pt-4 border-t border-gray-100">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="text-sm text-gray-500">Report Cost</div>
-                      <div className="text-lg font-bold text-green-600">£{check.cost.toFixed(2)}</div>
-                    </div>
-                    
-                    {/* Action buttons for completed checks */}
-                    {check.status === "COMPLETED" && (
-                      <div className="space-y-2">
-                        {/* Comprehensive Report Button - only show if comprehensive data is available */}
-                        {check.results?.comprehensiveData && (
-                          <Button
-                            onClick={() => handleViewComprehensive(check)}
-                            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white"
-                          >
-                            <FileText className="w-4 h-4 mr-2" />
-                            View Comprehensive Report
-                          </Button>
+
+                        {/* Additional Info */}
+                        {check.results.previousOwners && (
+                          <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl border border-purple-200">
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Eye className="w-4 h-4 text-purple-600" />
+                                <span className="text-sm font-semibold text-purple-900">Previous Owners:</span>
+                              </div>
+                              <span className="text-lg font-bold text-purple-700">{check.results.previousOwners}</span>
+                            </div>
+                          </div>
                         )}
                       </div>
+                    ) : check.status === "FAILED" ? (
+                      <div className="text-center py-8">
+                        <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                          <AlertTriangle className="w-8 h-8 text-red-500" />
+                        </div>
+                        <div className="text-lg font-semibold text-red-600 mb-2">Check Failed</div>
+                        {check.results?.error && (
+                          <div className="text-sm text-red-500 bg-red-50 p-3 rounded-lg max-w-sm mx-auto">
+                            {check.results.error}
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-center py-8">
+                        <div className="w-16 h-16 mx-auto mb-4 bg-yellow-100 rounded-full flex items-center justify-center">
+                          <Clock className="w-8 h-8 text-yellow-500 animate-spin" />
+                        </div>
+                        <div className="text-lg font-semibold text-yellow-600 mb-2">Processing...</div>
+                        <div className="text-sm text-yellow-500">This usually takes 30-60 seconds</div>
+                      </div>
                     )}
-                  </div>
-                </CardContent>
-              </Card>
+                    
+                    <div className="mt-6 pt-4 border-t border-gray-100">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="text-sm text-gray-500">Report Cost</div>
+                        <div className="text-lg font-bold text-green-600">£{check.cost.toFixed(2)}</div>
+                      </div>
+                      
+                      {/* Action buttons for completed checks */}
+                      {check.status === "COMPLETED" && (
+                        <div className="space-y-2">
+                          {/* Comprehensive Report Button - only show if comprehensive data is available */}
+                          {check.results?.comprehensiveData && (
+                            <Button
+                              onClick={() => handleViewComprehensive(check)}
+                              className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white"
+                            >
+                              <FileText className="w-4 h-4 mr-2" />
+                              View Comprehensive Report
+                            </Button>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+                
+                {/* Integrated Valuation - appears after completed HPI checks */}
+                {check.status === "COMPLETED" && check.results && (
+                  <IntegratedHPIValuation
+                    registration={check.registration}
+                    vehicleData={check.results.vehicleCheck}
+                  />
+                )}
+              </div>
             ))}
           </div>
         )}

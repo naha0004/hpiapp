@@ -68,6 +68,29 @@ const MOCK_HPI_DATA: Record<string, OneAutoHpiResult> = {
       registration: "TEST123",
       timestamp: new Date().toISOString()
     }
+  },
+  "SD09UTL": {
+    stolen: false,
+    writeOff: false,
+    mileageDiscrepancy: false,
+    outstandingFinance: false,
+    previousOwners: 2,
+    lastMOT: "2024-01-15T00:00:00.000Z",
+    taxStatus: "Taxed",
+    insuranceGroup: 15,
+    vehicleCheck: {
+      make: "NISSAN",
+      model: "QASHQAI ACENTA PREMIUM DCI",
+      colour: "RED",
+      fuelType: "DIESEL",
+      engineSize: "1234",
+      yearOfManufacture: "2020"
+    },
+    _raw: {
+      message: "Mock data for development with MOT advisories",
+      registration: "SD09UTL",
+      timestamp: new Date().toISOString()
+    }
   }
 }
 
@@ -206,6 +229,47 @@ function getMockHpiData(registration: string): OneAutoHpiResult {
         date_of_search: "2021-08-14",
         time_of_search: "10:56:18",
         business_type_searching: "MOTOR TRADE & OTHER"
+      }],
+      // MOT history data with advisories
+      mot_history_qty: 3,
+      mot_history_items: [{
+        test_date: "2024-01-15",
+        test_result: "PASS",
+        expiry_date: "2025-01-14",
+        odometer_value: 45000,
+        odometer_unit: "mi",
+        mot_test_number: "123456789012",
+        defects_qty: 0,
+        defects: [],
+        advisories_qty: 2,
+        advisories: [
+          "Offside Front Tyre worn close to legal limit/worn on edge (5.2.3 (e))",
+          "Brake disc worn, pitted or scored, but not seriously weakened (1.1.14 (a) (i))"
+        ]
+      }, {
+        test_date: "2023-01-20",
+        test_result: "PASS",
+        expiry_date: "2024-01-19",
+        odometer_value: 32000,
+        odometer_unit: "mi",
+        mot_test_number: "123456789011",
+        defects_qty: 0,
+        defects: [],
+        advisories_qty: 1,
+        advisories: [
+          "Nearside Front Tyre worn close to legal limit/worn on edge (5.2.3 (e))"
+        ]
+      }, {
+        test_date: "2022-01-25",
+        test_result: "PASS",
+        expiry_date: "2023-01-24",
+        odometer_value: 18000,
+        odometer_unit: "mi",
+        mot_test_number: "123456789010",
+        defects_qty: 0,
+        defects: [],
+        advisories_qty: 0,
+        advisories: []
       }],
       indemnity_months: 12,
       indemnity_gbp: 10000

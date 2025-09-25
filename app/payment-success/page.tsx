@@ -123,14 +123,14 @@ export default function PaymentSuccessPage() {
 
                 <div className="space-y-2">
                   {paymentDetails.type === 'HPI_CHECK' && (
-                    <Link href="/hpi-checks">
+                    <Link href="/?section=hpi-checks">
                       <Button className="w-full">
                         Start HPI Check
                       </Button>
                     </Link>
                   )}
                   {(paymentDetails.type === 'SINGLE_APPEAL') && (
-                    <Link href="/appeals">
+                    <Link href="/?section=appeals">
                       <Button className="w-full">
                         Create Appeal
                       </Button>

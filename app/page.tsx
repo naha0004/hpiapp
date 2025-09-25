@@ -31,6 +31,7 @@ export default function Home() {
   useEffect(() => {
     const loginParam = searchParams.get('login')
     const redirectParam = searchParams.get('redirect')
+    const sectionParam = searchParams.get('section')
     
     if (loginParam === 'required') {
       setLoginRequired(true)
@@ -39,7 +40,12 @@ export default function Home() {
       // Clean up URL parameters
       router.replace('/', undefined)
     }
-  }, [searchParams, router])
+
+    // Handle direct section navigation
+    if (sectionParam && session?.user) {
+      setActiveSection(sectionParam)
+    }
+  }, [searchParams, router, session])
 
   // Handle successful login with redirect
   useEffect(() => {
