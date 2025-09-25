@@ -81,15 +81,44 @@ export default function HPIChecksPage() {
     }
   }, [session])
 
+  // Refresh credits when component becomes visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden && session?.user) {
+        fetchHpiCredits()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }, [session])
+
+  // Also refresh credits every 30 seconds when user is active
+  useEffect(() => {
+    if (!session?.user) return
+
+    const interval = setInterval(() => {
+      fetchHpiCredits()
+    }, 30000) // 30 seconds
+
+    return () => clearInterval(interval)
+  }, [session])
+
   const fetchHpiCredits = async () => {
     try {
+      console.log('🔄 Fetching HPI credits...')
       const response = await fetch('/api/user/credits')
+      console.log('📊 Credits response:', response.status, response.ok)
+      
       if (response.ok) {
         const data = await response.json()
+        console.log('💰 Credits data received:', data)
         setHpiCredits(data.hpiCredits || 0)
+      } else {
+        console.error('❌ Credits fetch failed:', response.status)
       }
     } catch (error) {
-      console.error('Error fetching HPI credits:', error)
+      console.error('💥 Error fetching HPI credits:', error)
     }
   }
 
@@ -296,6 +325,17 @@ export default function HPIChecksPage() {
               <span className="text-blue-700 font-medium">
                 {hpiCredits} HPI Credits Available
               </span>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => {
+                  console.log('🔄 Manual credit refresh triggered')
+                  fetchHpiCredits()
+                }}
+                className="text-xs h-6 px-2"
+              >
+                Refresh
+              </Button>
             </div>
             {hpiCredits === 0 && (
               <Button
@@ -622,13 +662,21 @@ export default function HPIChecksPage() {
           onClose={() => setShowPaymentModal(false)}
           service="hpi"
           onPaymentSuccess={() => {
+            console.log('🎉 Payment successful! Refreshing credits...')
             fetchUserUsage()
-            fetchHpiCredits() // Refresh HPI credits after successful payment
+            fetchHpiCredits() // Immediate refresh
+            
+            // Also refresh after a short delay to ensure backend is updated
+            setTimeout(() => {
+              console.log('🔄 Secondary credit refresh after payment')
+              fetchHpiCredits()
+            }, 2000)
+            
             // Retry the HPI check after payment if registration is entered
             if (registration.trim()) {
               setTimeout(() => {
                 handleHPICheck({ preventDefault: () => {} } as React.FormEvent)
-              }, 1000)
+              }, 3000)
             }
           }}
         />
